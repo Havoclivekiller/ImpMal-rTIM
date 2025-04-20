@@ -5,7 +5,7 @@
 
 ![Logo](/src/assets/rtim-logo.webp)
 
-Welcome to Roguish Tradering: Impeccable Moneymaking or rTIM (yes, I know you hate it), a homebrew collection of mine for Imperium Maledictum system. Also, some house rule(s) I rather liked.
+Welcome to Roguish Tradering: Impeccable Moneymaking or rTIM (yes, I know you hate it), a homebrew collection of mine for Imperium Maledictum system.
 For now, this module has (no automation for Homebrew unless stated otherwise):
 
 ## Homebrew (with Journal Entries)
@@ -27,8 +27,7 @@ For now, this module has (no automation for Homebrew unless stated otherwise):
 - rTIM: Power of Change - More Mutations, Malignancies and even Gifts from Gods. Rules, rolltables and items.
  
 ## House Rules
-- Alternative Initiative - Custom field to specify a custom initiative. Default is adding d10 to the initiative to make it more random.
-- Critical/Fumble on All Tests - Not all tests in the system will have Critical/Fumble upon doubles, with this they will have it.
+Were moved to https://github.com/Havoclivekiller/ImpMal-Community
 
 # Homebrew links
 Full List: https://docs.google.com/document/d/1FCE-NabOG85VKmV6yhFtzPs05ZEkaEQw2W97JggvcSQ/edit?usp=sharing
