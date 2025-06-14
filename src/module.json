@@ -1,13 +1,14 @@
 {
     "id": "impmal-rtim",
     "title": "ImpMal - rTIM",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "manifest": "REPLACED BY BUILD",
     "url": "REPLACED BY BUILD",
     "download": "REPLACED BY BUILD",
     "compatibility": {
         "minimum": "12",
-        "verified": "12"
+        "verified": "12",
+        "maximum": "12"
     },
     "relationships": {
         "systems": [
@@ -18,7 +19,7 @@
             }
         ]
     },
-  "esmodules": [ "baseBuilding/baseBuilding.js", "settings/settings.js" ],
+    "esmodules": ["baseBuilding/baseBuilding.js", "settings/settings.js"],
     "styles": [],
     "languages": [
         {
@@ -32,77 +33,84 @@
         {
             "name": "rTIM",
             "sorting": "m",
-          "packs": [ "base-modules", "rtim-rolltables", "rtim-cards", "rtim-journalentries", "rtim-macros", "rtim-actors" ]
+            "packs": [
+                "base-modules",
+                "rtim-rolltables",
+                "rtim-cards",
+                "rtim-journalentries",
+                "rtim-macros",
+                "rtim-actors"
+            ]
         }
     ],
-  "packs": [
-    {
-      "name": "base-modules",
-      "label": "rTIM-Items",
-      "path": "packs/base-modules",
-      "type": "Item",
-      "system": "impmal",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "rtim-rolltables",
-      "label": "rTIM-RollTables",
-      "path": "packs/rtim-rolltables",
-      "type": "RollTable",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "system": "impmal"
-    },
-    {
-      "name": "rtim-cards",
-      "label": "rTIM-Cards",
-      "path": "packs/rtim-cards",
-      "type": "Cards",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "system": "impmal"
-    },
-    {
-      "name": "rtim-journalentries",
-      "label": "rTIM-JournalEntries",
-      "path": "packs/rtim-journalentries",
-      "type": "JournalEntry",
-      "system": "impmal",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "rtim-macros",
-      "label": "rTIM-Macros",
-      "path": "packs/rtim-macros",
-      "type": "Macro",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "system": "impmal"
-    },
-    {
-      "name": "rtim-actors",
-      "label": "rTIM-Actors",
-      "path": "packs/rtim-actors",
-      "type": "Actor",
-      "ownership": {
-        "PLAYER": "OBSERVER",
-        "ASSISTANT": "OWNER"
-      },
-      "system": "impmal"
-    }
-  ],
+    "packs": [
+        {
+            "name": "base-modules",
+            "label": "rTIM-Items",
+            "path": "packs/base-modules",
+            "type": "Item",
+            "system": "impmal",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "rtim-rolltables",
+            "label": "rTIM-RollTables",
+            "path": "packs/rtim-rolltables",
+            "type": "RollTable",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "system": "impmal"
+        },
+        {
+            "name": "rtim-cards",
+            "label": "rTIM-Cards",
+            "path": "packs/rtim-cards",
+            "type": "Cards",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "system": "impmal"
+        },
+        {
+            "name": "rtim-journalentries",
+            "label": "rTIM-JournalEntries",
+            "path": "packs/rtim-journalentries",
+            "type": "JournalEntry",
+            "system": "impmal",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            }
+        },
+        {
+            "name": "rtim-macros",
+            "label": "rTIM-Macros",
+            "path": "packs/rtim-macros",
+            "type": "Macro",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "system": "impmal"
+        },
+        {
+            "name": "rtim-actors",
+            "label": "rTIM-Actors",
+            "path": "packs/rtim-actors",
+            "type": "Actor",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "ASSISTANT": "OWNER"
+            },
+            "system": "impmal"
+        }
+    ],
     "documentTypes": {
         "Actor": {
             "baseBuilding": {}
@@ -112,4 +120,3 @@
         }
     }
 }
-
