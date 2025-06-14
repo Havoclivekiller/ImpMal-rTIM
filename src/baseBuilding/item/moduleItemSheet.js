@@ -1,45 +1,73 @@
-export default class ModuleItemSheet extends ImpMalItemSheet {
-    /** @override */
-    get template() {
-        return `modules/impmal-rtim/baseBuilding/templates/module-sheet.hbs`;
-    }
+export default class ModuleItemSheet extends IMItemSheet {
+    static DEFAULT_OPTIONS = {
+        classes: [this.type]
+    };
 
-    /** @override */
-    async getData() {
-        const data = await super.getData();
+    static PARTS = {
+        header: {
+            scrollable: [''],
+            template: 'modules/impmal-rtim/baseBuilding/templates/module/module-header.hbs',
+            classes: ['sheet-header']
+        },
+        tabs: { scrollable: [''], template: 'templates/generic/tab-navigation.hbs' },
+        main: {
+            scrollable: [''],
+            template: 'modules/impmal-rtim/baseBuilding/templates/module/module-details.hbs'
+        },
+        description: { scrollable: [''], template: 'systems/impmal/templates/item/item-description.hbs' }
+    };
 
-        data.enriched = foundry.utils.expandObject({
-            'notes.player': await TextEditor.enrichHTML(data.item.system.notes?.player, {
+    static TABS = {
+        main: {
+            id: 'main',
+            group: 'primary',
+            label: 'IMPMAL.Description'
+        },
+        description: {
+            id: 'description',
+            group: 'primary',
+            label: 'IMPMAL.Details'
+        }
+    };
+
+    async _prepareContext(options) {
+        let context = await super._prepareContext(options);
+
+        context.enriched = foundry.utils.expandObject({
+            'notes.player': await TextEditor.enrichHTML(context.item.system.notes?.player, {
                 relativeTo: this.item,
                 async: true
             }),
-            'notes.gm': await TextEditor.enrichHTML(data.item.system.notes?.gm, { relativeTo: this.item, async: true }),
-            'levelZeroEffect': await TextEditor.enrichHTML(data.item.system.levelZeroEffect, {
+            'notes.gm': await TextEditor.enrichHTML(context.item.system.notes?.gm, {
                 relativeTo: this.item,
                 async: true
             }),
-            'levelOneEffect': await TextEditor.enrichHTML(data.item.system.levelOneEffect, {
+            'levelZeroEffect': await TextEditor.enrichHTML(context.item.system.levelZeroEffect, {
                 relativeTo: this.item,
                 async: true
             }),
-            'levelTwoEffect': await TextEditor.enrichHTML(data.item.system.levelTwoEffect, {
+            'levelOneEffect': await TextEditor.enrichHTML(context.item.system.levelOneEffect, {
                 relativeTo: this.item,
                 async: true
             }),
-            'levelThreeEffect': await TextEditor.enrichHTML(data.item.system.levelThreeEffect, {
+            'levelTwoEffect': await TextEditor.enrichHTML(context.item.system.levelTwoEffect, {
                 relativeTo: this.item,
                 async: true
             }),
-            'levelFourEffect': await TextEditor.enrichHTML(data.item.system.levelFourEffect, {
+            'levelThreeEffect': await TextEditor.enrichHTML(context.item.system.levelThreeEffect, {
                 relativeTo: this.item,
                 async: true
             }),
-            'levelFiveEffect': await TextEditor.enrichHTML(data.item.system.levelFiveEffect, {
+            'levelFourEffect': await TextEditor.enrichHTML(context.item.system.levelFourEffect, {
+                relativeTo: this.item,
+                async: true
+            }),
+            'levelFiveEffect': await TextEditor.enrichHTML(context.item.system.levelFiveEffect, {
                 relativeTo: this.item,
                 async: true
             })
         });
 
-        return data;
+        return context;
     }
 }

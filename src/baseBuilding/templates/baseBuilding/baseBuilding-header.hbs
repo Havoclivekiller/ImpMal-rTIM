@@ -1,0 +1,42 @@
+<header class="sheet-header">
+    <img class="profile" src="{{actor.img}}" data-edit="img">
+    <div class="header-details">
+        <div class="details-row name">
+            <input type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'Name'}}">
+        </div>
+        <div class="details-row">
+            <div class="detail-group">
+                <div class="input-group">
+                    <input type="number" name="system.levelLimit" value="{{system.levelLimit}}">
+                </div>
+                <label>{{localize "impmal-rtim-base-building.base.levelLimit"}}</label>
+            </div>
+            <div class="detail-group">
+                <div class="input-group">
+                    <input type="number" name="system.totalLevels" value="{{system.totalLevels}}" disabled>
+                </div>
+                <label>{{localize "impmal-rtim-base-building.base.totalLevels"}}</label>
+            </div>
+            <div class="detail-group">
+                <div class="input-group">
+                    <input type="number" name="system.totalLevelsLimit" value="{{system.totalLevelsLimit}}">
+                </div>
+                <label>{{localize "impmal-rtim-base-building.base.totalLevelsLimit"}}</label>
+            </div>
+        </div>
+        <div class="details-row">
+            <div class="detail-group">
+                <div class="input-group">
+                    <input type="number" name="system.availableUpgradePoints" value="{{system.availableUpgradePoints}}">
+                </div>
+                <label>{{localize "impmal-rtim-base-building.base.availableUpgradePoints"}}</label>
+            </div>
+            <div class="detail-group">
+                <div class="input-group">
+                    <input type="number" name="system.spentUpgradePoints" value="{{system.spentUpgradePoints}}">
+                </div>
+                <label>{{localize "impmal-rtim-base-building.base.spentUpgradePoints"}}</label>
+            </div>
+        </div>
+    </div>
+</header>

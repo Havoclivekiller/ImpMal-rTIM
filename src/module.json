@@ -1,14 +1,13 @@
 {
     "id": "impmal-rtim",
     "title": "ImpMal - rTIM",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "manifest": "REPLACED BY BUILD",
     "url": "REPLACED BY BUILD",
     "download": "REPLACED BY BUILD",
     "compatibility": {
-        "minimum": "12",
-        "verified": "12",
-        "maximum": "12"
+        "minimum": "13",
+        "verified": "13"
     },
     "relationships": {
         "systems": [

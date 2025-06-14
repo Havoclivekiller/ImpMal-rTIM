@@ -1,0 +1,29 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+    {{log this}}
+    <div class="item-notes">
+        <div class="editor-section">
+            <div class="header">{{localize "impmal-rtim-base-building.module.levelZeroEffect"}}</div>
+            {{formInput fields.levelZeroEffect value=item.system.levelZeroEffect enriched=enriched.levelZeroEffect toggled=true}}
+        </div>
+        <div class="editor-section">
+            <div class="header">{{localize "impmal-rtim-base-building.module.levelOneEffect"}}</div>
+            {{formInput fields.levelOneEffect value=item.system.levelOneEffect enriched=enriched.levelOneEffect toggled=true}}
+        </div>
+        <div class="editor-section">
+            <div class="header">{{localize "impmal-rtim-base-building.module.levelTwoEffect"}}</div>
+            {{formInput fields.levelTwoEffect value=item.system.levelTwoEffect enriched=enriched.levelTwoEffect toggled=true}}
+        </div>
+        <div class="editor-section">
+            <div class="header">{{localize "impmal-rtim-base-building.module.levelThreeEffect"}}</div>
+            {{formInput fields.levelThreeEffect value=item.system.levelThreeEffect enriched=enriched.levelThreeEffect toggled=true}}
+        </div>
+        <div class="editor-section">
+            <div class="header">{{localize "impmal-rtim-base-building.module.levelFourEffect"}}</div>
+            {{formInput fields.levelFourEffect value=item.system.levelFourEffect enriched=enriched.levelFourEffect toggled=true}}
+        </div>
+        <div class="editor-section">
+            <div class="header">{{localize "impmal-rtim-base-building.module.levelFiveEffect"}}</div>
+            {{formInput fields.levelFiveEffect value=item.system.levelFiveEffect enriched=enriched.levelFiveEffect toggled=true}}
+        </div>
+    </div>
+</section>

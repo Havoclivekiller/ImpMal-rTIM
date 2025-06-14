@@ -1,0 +1,18 @@
+<div class="sheet-header">
+    <img data-action="editImage" data-edit="img" src="{{item.img}}"
+        {{#if (eq item.img "modules/warhammer-lib.assets/blank.png")}}class="img-border" {{/if}}>
+
+    <div class="header-fields">
+        <div class="details-row name">
+            <input type="text" name="name" value="{{item.name}}">
+        </div>
+        <div class="flexrow attribute-row">
+            <div class="attribute-box single">
+                <div class="label" style="grid-column: 1 / span 4"><label
+                        class="centered">{{localize "impmal-rtim-base-building.module.level"}}</label></div>
+                <div class="field" style="grid-column: 5 / span 8"><input type="number" name="system.level"
+                        value="{{system.level}}"></div>
+            </div>
+        </div>
+    </div>
+</div>
