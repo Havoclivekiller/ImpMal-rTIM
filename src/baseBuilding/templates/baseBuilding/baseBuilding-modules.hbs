@@ -1,0 +1,33 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+    <div class="equipment">
+        <section class="sheet-list">
+            <div class="list-header row-content">
+                <div class="list-name">{{localize "impmal-rtim-base-building.module.name"}}</div>
+                <div class="small">{{localize "impmal-rtim-base-building.module.level"}}</div>
+                <div class="list-controls">
+                </div>
+            </div>
+            <div class="list-content">
+                {{#each modules}}
+                    <div class="list-row" data-uuid="{{this.uuid}}" data-item-id="{{this.id}}">
+                        <div class="row-content">
+                            <div class="list-name">
+                                <img src="{{this.img}}">
+                                <a class="list-edit list-summary-context">{{this.name}}</a>
+                            </div>
+                            <div class="small">
+                                <input type="number" name="system.level" value="{{this.system.level}}" disabled>
+                            </div>
+                            <div class="list-controls">
+                                <a class="list-delete"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="summary">
+
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </section>
+    </div>
+</section>
