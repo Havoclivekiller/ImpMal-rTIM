@@ -15,9 +15,9 @@ For now, this module has (no automation for Homebrew unless stated otherwise):
 - rTIM: Loot Gretchin - Loot tables. The items are based on ImpMal Core module, otherwise links will be broken.
 - rTIM: Wealth of Generations - Profit Factor (and Liquid PF). Just the rules.
 - rTIM: Artefact and Item Generator - Generating Items/Artefacts. Rules and rolltables! Have fun generating strange items!
-- rTIM: Group Up! - Squads for low level enemies. Just the rules
+- rTIM: Group Up! - Squads for low level enemies. Has some automation (needs BarBrawl for the best usage)
 - rTIM: Machineguns Akimbo - Dual wield of two-handed weapons. Just the rules and the recoil gloves.
-- rTIM: Peers of the Imperium - Archetypes (for higher lvl of play, Basic only). Just the rules and talents.
+- rTIM: Peers of the Imperium - Archetypes (for higher lvl of play, Basic only). Just the rules and talents (some have automation).
 - rTIM: Patronite - Patrons with unique boons and liabilities. About 44 Boons and Liabilities to use. 
 - rTIM: Warp Charge Bleeding - Rules for Warp Charge to bleed into the surroundings (this was done before change to Warp Charge). Just the rules.
 - rTIM: Resilience & Fate - Rules for adding Resilience (from WFRP4e) to the game. Just the rules.
