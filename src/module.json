@@ -1,7 +1,7 @@
 {
     "id": "impmal-rtim",
     "title": "ImpMal - rTIM",
-    "version": "1.0.6",
+    "version": "1.1.0",
     "manifest": "REPLACED BY BUILD",
     "url": "REPLACED BY BUILD",
     "download": "REPLACED BY BUILD",
@@ -18,8 +18,14 @@
             }
         ]
     },
-    "esmodules": ["baseBuilding/baseBuilding.js", "settings/settings.js"],
-    "styles": [],
+    "esmodules": [
+        "baseBuilding/baseBuilding.js",
+        "voidcombat/voidcombat.js",
+        "settings/settings.js"
+    ],
+    "styles": [
+        "impmal-rtim.css"
+    ],
     "languages": [
         {
             "lang": "en",
@@ -110,12 +116,19 @@
             "system": "impmal"
         }
     ],
+    "socket": true,
     "documentTypes": {
         "Actor": {
-            "baseBuilding": {}
+            "baseBuilding": {},
+            "voidshipSheet": {}
         },
         "Item": {
-            "module": {}
+            "module": {},
+            "voidshipPart": {}
+        },
+        "ChatMessage": {
+            "voidshipMessage": {},
+            "voidshipOpposedMessage": {}
         }
     }
 }

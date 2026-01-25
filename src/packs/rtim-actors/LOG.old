@@ -1,8 +1,5 @@
-2025/04/23-09:31:21.533 1e80 Recovering log #228
-2025/04/23-09:31:21.538 1e80 Delete type=0 #228
-2025/04/23-09:31:21.538 1e80 Delete type=3 #226
-2025/04/23-09:32:25.498 b64 Level-0 table #233: started
-2025/04/23-09:32:25.498 b64 Level-0 table #233: 0 bytes OK
-2025/04/23-09:32:25.500 b64 Delete type=0 #231
-2025/04/23-09:32:25.502 b64 Manual compaction at level-0 from '!actors!c8yov6IoMYLaw5Ea' @ 72057594037927935 : 1 .. '!folders!jLbog1x27SR1dPli' @ 0 : 0; will stop at (end)
-2025/04/23-09:32:25.510 b64 Manual compaction at level-1 from '!actors!c8yov6IoMYLaw5Ea' @ 72057594037927935 : 1 .. '!folders!jLbog1x27SR1dPli' @ 0 : 0; will stop at (end)
+2026/01/24-21:29:42.992 9708 Recovering log #610
+2026/01/24-21:29:42.992 9708 Level-0 table #612: started
+2026/01/24-21:29:42.995 9708 Level-0 table #612: 36544 bytes OK
+2026/01/24-21:29:42.999 9708 Delete type=0 #610
+2026/01/24-21:29:42.999 9708 Delete type=3 #609

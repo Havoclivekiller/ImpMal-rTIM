@@ -1,0 +1,854 @@
+import { VoidshipCharacteristicsModel } from "./tests/voidship-characteristics-model.js";
+import { VoidshipSkillsModel } from "./tests/voidship-skills-model.js";
+import { VoidshipTokenHandler } from "./voidship-token-handler.js";
+import { VoidshipSetupTests } from "./tests/voidship-setup-tests.js";
+
+export class VoidshipModel extends StandardActorModel {
+    static preventItemTypes = ["boonLiability", "corruption", "power", "talent", "duty", "origin", "role", "trait", "critical", "injury", "pack", "weapon", "protection", "equipment"];
+
+    static defineSchema() {
+        const fields = foundry.data.fields;
+        let schema = super.defineSchema();
+        schema.shipMembers = new fields.ArrayField(new fields.StringField({ initial: "" }));
+        schema.shipType = new fields.StringField({ initial: "standard" });
+        schema.faction = new fields.EmbeddedDataField(SingletonItemModel);
+        schema.characteristics = new fields.EmbeddedDataField(VoidshipCharacteristicsModel);
+        schema.skills = new fields.EmbeddedDataField(VoidshipSkillsModel);
+        const createValueSchema = (min=0) => {
+            return new fields.SchemaField({
+            base: new fields.NumberField({ min : min, initial: 0 }),
+            modifier: new fields.NumberField({ initial: 0 }),
+            modifierManual: new fields.NumberField({ initial: 0 }),
+            value: new fields.NumberField({ min : min, initial: 0 }),
+        })
+        };
+        const createMaxSchema = (min=0) => {
+            return new fields.SchemaField({
+            value: new fields.NumberField({ initial: 0 }),
+            base: new fields.NumberField({ min : min, initial: 0 }),
+            modifier: new fields.NumberField({ initial: 0 }),
+            modifierManual: new fields.NumberField({ initial: 0 }),
+            max: new fields.NumberField({ min : min, initial: 0 }),
+        })
+        };
+        schema.fate = createMaxSchema();
+        schema.hull = new fields.SchemaField({
+            value: new fields.NumberField({ initial: 0 }),
+            base: new fields.NumberField({ min : 0, initial: 0 }),
+            modifier: new fields.NumberField({ initial: 0 }),
+            modifierManual: new fields.NumberField({ initial: 0 }),
+            max: new fields.NumberField({ min : 0, initial: 0 }),
+            uuid: new fields.StringField({ initial: "" }),
+        });
+        schema.options = new fields.SchemaField({
+            takeAvgShield : new fields.BooleanField({ initial: false }),
+            takeAvgArmour : new fields.BooleanField({ initial: false }),
+            noFatigue : new fields.BooleanField({ initial: false }),
+            autoTest : new fields.BooleanField({ initial: false }),
+            autoTestSL : new fields.NumberField({ initial: 0 }),
+            fated : new fields.BooleanField({ initial: false }),
+            noActionPoints : new fields.BooleanField({ initial: false }),
+            noExperiencePoints : new fields.BooleanField({ initial: true }),
+            evasiveManeuvers : new fields.SchemaField({
+                value : new fields.BooleanField({ initial: false }),
+                resetOnStart : new fields.BooleanField({ initial: false }),
+                slPenalty : new fields.NumberField({ initial: 0 })
+            }),
+            restartShieldsDifficulty : new fields.StringField({ initial: "routine" }),
+            fireResistance : new fields.NumberField({ initial: 0 }),
+            minionTargetUuid : new fields.StringField({ initial: "" }),
+            boardingRange : new fields.NumberField({ initial: 2 }),
+            rammingRange : new fields.NumberField({ initial: 2 }),
+            rammingCost : new fields.NumberField({ initial: 4 }),
+            rammingDamage : new fields.NumberField({ initial: 0 }),
+        });
+        schema.bonuses = new fields.ArrayField(new fields.SchemaField({
+            SL : new fields.NumberField({ initial: 0 }),
+            modifier : new fields.NumberField({ initial: 0 }),
+            damage : new fields.NumberField({ initial: 0 }),
+            advantage : new fields.BooleanField({ initial: false }),
+            disadvantage : new fields.BooleanField({ initial: false }),
+            removeAfterTurns : new fields.NumberField({ initial: -1 }),
+            removeOnNextTest : new fields.BooleanField({ initial: false }),
+            removeOnStartTurn : new fields.BooleanField({ initial: false }),
+            removeOnEndTurn : new fields.BooleanField({ initial: false }),
+            removeOnNextEndTurn : new fields.BooleanField({ initial: false }),
+            items : new fields.ArrayField(new fields.StringField({ initial: "" })),
+            type : new fields.ArrayField(new fields.StringField({ initial: "" })),
+            comment : new fields.StringField({ initial: "" })
+        }));
+        schema.speedRating = createValueSchema();
+        schema.turnRating = new fields.SchemaField({
+            current: new fields.NumberField({ min : 0, initial: 0 }),
+            base: new fields.NumberField({ initial: 0 }),
+            modifier: new fields.NumberField({ initial: 0 }),
+            modifierManual: new fields.NumberField({ initial: 0 }),
+            value: new fields.NumberField({ initial: 0 }),
+        })
+        schema.detectionRating = createValueSchema();
+        schema.movementMult = new fields.NumberField({ initial: 1 });        
+        schema.size = createValueSchema();
+        schema.supplemental = createValueSchema();
+        schema.evasionRating = createValueSchema();
+        schema.turretRating = createValueSchema();
+        schema.fatigue = createMaxSchema();
+        schema.fire = new fields.NumberField({ min : 0, initial: 0 });
+        schema.crewExperience = new fields.SchemaField({
+            gained: new fields.NumberField({ min : 0, initial: 0 }),
+            spent: new fields.NumberField({ min : 0, initial: 0 }),
+            remaining: new fields.NumberField({ min : 0, initial: 0 })
+        });
+        schema.shields = new fields.SchemaField({
+            prow: createMaxSchema(),
+            average: createMaxSchema(),
+            port: createMaxSchema(),
+            starboard: createMaxSchema(),
+            aft: createMaxSchema()
+        });
+        schema.armour = new fields.SchemaField({
+            prow: createValueSchema(),
+            average: createValueSchema(),
+            port: createValueSchema(),
+            starboard: createValueSchema(),
+            aft: createValueSchema()
+        });
+        const createWeaponSlotSchema = () => {
+            return new fields.SchemaField({
+                base: new fields.NumberField({ min : 0, initial: 0 }),
+                modifier: new fields.NumberField({ initial: 0 }),
+                modifierManual: new fields.NumberField({ initial: 0 }),
+                value: new fields.NumberField({ min : 0, initial: 0 }),
+                assigned: new fields.ArrayField(new fields.StringField({ initial: "" }))
+        })
+        };
+        schema.weaponSlots = new fields.SchemaField({
+            prow: createWeaponSlotSchema(),
+            port: createWeaponSlotSchema(),
+            starboard: createWeaponSlotSchema(),
+            aft: createWeaponSlotSchema(),
+            dorsal: createWeaponSlotSchema(),
+            keel: createWeaponSlotSchema()
+        });
+        schema.actionPoints = createMaxSchema();
+        schema.movementPoints = createMaxSchema();
+
+        schema.autoCalc.fields = {}
+        schema.autoCalc = new fields.SchemaField({
+            endCombat: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcEndCombat"}),
+            movement: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcMovement"}),
+            allowMovement: new fields.BooleanField({initial : false, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowMovement"}),
+            allowNoPoints: new fields.BooleanField({initial : false, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowNoPoints"}),
+            allowOnCooldown: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowOnCooldown"}),
+            allowOutsideRange: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowOutsideRange"}),
+            allowDamagedRoles: new fields.BooleanField({initial : false, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowDeactivatedRoles"}),
+            movementSound: new fields.StringField({initial : "", label : "IMPMAL_RTIM.VoidCombat.MovementSound"}),
+        });
+        
+        return schema;
+    }
+
+    computeDerived() {
+        super.computeDerived();
+        const skills = this.skills || {};
+        Object.keys(skills).forEach((key) => {
+            foundry.utils.setProperty(this, `skills.${key}.characteristic`, "crew");
+        });
+        const updateTotalValue = (path) => {
+            const base = Number(foundry.utils.getProperty(this, `${path}.base`) ?? 0);
+            const modifier = Number(foundry.utils.getProperty(this, `${path}.modifier`) ?? 0);
+            const manual = Number(foundry.utils.getProperty(this, `${path}.modifierManual`) ?? 0);
+            foundry.utils.setProperty(this, `${path}.value`, base + modifier + manual);
+        };
+        const updateTotalMax = (path) => {
+            const base = Number(foundry.utils.getProperty(this, `${path}.base`) ?? 0);
+            const modifier = Number(foundry.utils.getProperty(this, `${path}.modifier`) ?? 0);
+            const manual = Number(foundry.utils.getProperty(this, `${path}.modifierManual`) ?? 0);
+            foundry.utils.setProperty(this, `${path}.max`, base + modifier + manual);
+        };
+        let hull = this.parent?.items?.filter(item => item.system?.partType === "hull")[0];
+        if (hull)
+        {
+            foundry.utils.setProperty(this, "system.hull.base", hull.system.hull.hull);
+            foundry.utils.setProperty(this, "system.speedRating.base", hull.system.hull.speedRating);
+            foundry.utils.setProperty(this, "system.turnRating.base", hull.system.hull.turnRating);
+            foundry.utils.setProperty(this, "system.evasionRating.base", hull.system.hull.evasionRating);
+            foundry.utils.setProperty(this, "system.detectionRating.base", hull.system.hull.detectionRating);
+            foundry.utils.setProperty(this, "system.turretRating.base", hull.system.hull.turretRating);
+            foundry.utils.setProperty(this, "system.supplemental.base", hull.system.hull.supplemental);
+            ["prow", "port", "starboard", "aft", "average"].forEach((key) =>
+            {
+                foundry.utils.setProperty(this, `system.shields.${key}.base`, hull.system.hull.shields[key]);
+                foundry.utils.setProperty(this, `system.armour.${key}.base`, hull.system.hull.armour[key]);
+            });
+            ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) =>
+            {
+                foundry.utils.setProperty(this, `system.weaponSlots.${key}.base`, hull.system.hull.weapons[key]);
+            });
+        }
+
+        const componentItems = this.parent?.items?.filter(item => item.system?.partType === "component") || [];
+        const baseModifierPaths = [
+            "speedRating",
+            "detectionRating",
+            "evasionRating",
+            "turretRating",
+            "hull",
+            "turnRating"
+        ];
+        const applyDelta = (path, delta) => {
+            const current = Number(foundry.utils.getProperty(this, path) ?? 0);
+            foundry.utils.setProperty(this, path, current + delta);
+        };
+        componentItems.forEach((item) => {
+            const changes = item.system?.component?.changes || {};
+            baseModifierPaths.forEach((path) => {
+                const value = Number(changes[path] ?? 0);
+                if (value) {
+                    applyDelta(`${path}.modifier`, value);
+                }
+            });
+            const rammingDamage = Number(changes.rammingDamage ?? 0);
+            if (rammingDamage) {
+                applyDelta(`options.rammingDamage`, rammingDamage);
+            }
+            const shieldChanges = changes.shields || {};
+            const armourChanges = changes.armour || {};
+            const locationKeys = ["prow", "port", "starboard", "aft", "average"];
+            if (Number(shieldChanges.all ?? 0)) {
+                const delta = Number(shieldChanges.all ?? 0);
+                locationKeys.forEach((key) => applyDelta(`shields.${key}.modifier`, delta));
+            }
+            if (Number(armourChanges.all ?? 0)) {
+                const delta = Number(armourChanges.all ?? 0);
+                locationKeys.forEach((key) => applyDelta(`armour.${key}.modifier`, delta));
+            }
+            locationKeys.forEach((key) => {
+                const shieldDelta = Number(shieldChanges[key] ?? 0);
+                if (shieldDelta) {
+                    applyDelta(`shields.${key}.modifier`, shieldDelta);
+                }
+                const armourDelta = Number(armourChanges[key] ?? 0);
+                if (armourDelta) {
+                    applyDelta(`armour.${key}.modifier`, armourDelta);
+                }
+            });
+        });
+
+        updateTotalMax("hull");
+        Object.keys(this.characteristics).forEach((key) => {
+            this.characteristics[key].computeTotal();
+        });
+        foundry.utils.setProperty(this, "fatigue.base", this.characteristics.crew.bonus);
+        updateTotalMax("fatigue");
+        let fatiguePenalty = 0;
+        if (this.fatigue.value > this.fatigue.max)
+        {
+            fatiguePenalty = Math.max(0, this.fatigue.value - this.fatigue.max) * 10;
+        }   
+        foundry.utils.setProperty(this, "characteristics.crew.fatiguePenalty", fatiguePenalty);
+        this.characteristics.crew.computeTotal();
+
+        updateTotalValue("speedRating");
+        foundry.utils.setProperty(this, "movementPoints.base", foundry.utils.getProperty(this, "speedRating.value"));
+        foundry.utils.setProperty(this, "actionPoints.base", this.characteristics.crew.bonus);
+        updateTotalMax("actionPoints");
+        updateTotalMax("movementPoints");
+        foundry.utils.setProperty(this, "combat.speed.land.value", foundry.utils.getProperty(this, "movementPoints.max"));
+        
+
+        updateTotalMax("fate");
+        updateTotalValue("detectionRating");
+        updateTotalValue("size");
+        updateTotalValue("turnRating");
+        updateTotalValue("supplemental");
+        updateTotalValue("evasionRating");
+        updateTotalValue("turretRating");
+        ["prow", "port", "starboard", "aft", "average"].forEach((key) => {
+            updateTotalMax(`shields.${key}`);
+            updateTotalValue(`armour.${key}`);
+        });
+        
+        ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) => {
+            const base = Number(foundry.utils.getProperty(this, `weaponSlots.${key}.base`) ?? 0);
+            const modifier = Number(foundry.utils.getProperty(this, `weaponSlots.${key}.modifier`) ?? 0);
+            const manual = Number(foundry.utils.getProperty(this, `weaponSlots.${key}.modifierManual`) ?? 0);
+            foundry.utils.setProperty(this, `weaponSlots.${key}.value`, base + modifier + manual);
+        });
+
+        const gained = Number(foundry.utils.getProperty(this, "crewExperience.gained") ?? 0);
+        const spent = Number(foundry.utils.getProperty(this, "crewExperience.spent") ?? 0);
+        foundry.utils.setProperty(this, "crewExperience.remaining", gained - spent);
+
+        Object.keys(skills).forEach((key) => {
+            this.skills[key].computeTotal(this.characteristics);
+        });
+
+        this.combat.initiative = this.evasionRating.value + this.detectionRating.value;
+
+        this.runScripts("postPrepareDerivedData", this);
+
+        //Some values can't be below their min.
+        let checkMinValue = (path, min) => {
+            let currentValue = this[path].value;
+            if (currentValue < min)
+                this[path].value = min;
+        };
+        let checkMinValueSubPath = (path, subpath, min) => {
+            let currentValue = this[path][subpath].value;
+            if (currentValue < min)
+                this[path][subpath].value = min;
+        };
+        checkMinValue("turnRating",1);
+        checkMinValue("size",1);
+        checkMinValue("supplemental",0);
+        checkMinValue("movementPoints",0);
+        checkMinValue("actionPoints",0);
+        ["prow", "port", "starboard", "aft", "average"].forEach((key) => {
+            checkMinValue("shields",key,0);
+            checkMinValue("armour",key,0);
+        });
+        ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) => {
+            checkMinValue("weaponSlots",key,0);
+        });
+
+    }
+
+    get displayWeapons() {
+        const capitalizeFirstLetter = (value) =>
+            String(value || "").charAt(0).toUpperCase() + String(value || "").slice(1);
+        const slots = this.weaponSlots || {};
+        return Object.entries(slots)
+            .map(([key, data]) => [key, Number(data?.value ?? 0)])
+            .filter(([_, value]) => value !== 0)
+            .map(([key, value]) => `${game.i18n.localize("IMPMAL_RTIM.VoidCombat." + capitalizeFirstLetter(key))} ${value}`)
+            .join(", ");
+    }
+
+    async _onUpdate(changed, options, userId) {
+        await super._onUpdate(changed, options, userId);
+        const crewChanged = Boolean(foundry.utils.getProperty(changed, "system.characteristics.crew"));
+        if (crewChanged && this.parent?.sheet) {
+            this.parent.sheet.render(false);
+        }
+        const weaponSlotsChanged = Boolean(foundry.utils.getProperty(changed, "system.weaponSlots"));
+        if (weaponSlotsChanged) {
+            const updates = [];
+            const assigned = this.weaponSlots || {};
+            const slotKeys = ["prow", "port", "starboard", "aft", "dorsal", "keel"];
+            const assignedByLoc = Object.fromEntries(slotKeys.map((loc) => {
+                const value = Number(assigned[loc]?.value ?? 0);
+                const current = Array.isArray(assigned[loc]?.assigned) ? assigned[loc].assigned : [];
+                const normalized = current.slice(0, value);
+                while (normalized.length < value) {
+                    normalized.push("");
+                }
+                return [loc, normalized];
+            }));
+            const used = new Map();
+            slotKeys.forEach((loc) => {
+                assignedByLoc[loc] = assignedByLoc[loc].map((id) => {
+                    if (!id) {
+                        return "";
+                    }
+                    if (used.has(id)) {
+                        return "";
+                    }
+                    used.set(id, loc);
+                    return id;
+                });
+            });
+            let needsUpdate = false;
+            slotKeys.forEach((loc) => {
+                const next = assignedByLoc[loc];
+                const current = Array.isArray(assigned[loc]?.assigned) ? assigned[loc].assigned : [];
+                if (next.length !== current.length || next.some((value, idx) => value !== current[idx])) {
+                    updates.push({ [`system.weaponSlots.${loc}.assigned`]: next });
+                    needsUpdate = true;
+                }
+            });
+            const itemUpdates = this.parent?.items
+                ?.filter(item => item.system?.partType === "weapon")
+                .map(item => {
+                    const loc = slotKeys.find((key) => assignedByLoc[key].includes(item.id)) || "";
+                    if (item.system?.weapon?.location === loc) {
+                        return null;
+                    }
+                    needsUpdate = true;
+                    return item.update({ "system.weapon.location": loc });
+                }) || [];
+            const filteredItemUpdates = itemUpdates.filter(Boolean);
+            if (needsUpdate && this.parent) {
+                await this.parent.update(Object.assign({}, ...updates));
+            }
+            if (filteredItemUpdates.length) {
+                await Promise.all(filteredItemUpdates);
+            }
+        }
+    }
+
+    static getCriticalFormula(modifier)
+    {
+        let dice = 1;
+        let criticals = this.parent.items.filter(item => item.system?.partType === "critical");
+        if (criticals)
+        {
+            dice += criticals.length;
+        }
+        return `${dice}d10+${modifier}`;
+    }
+
+    getCriticalFormula(modifier)
+    {
+        let dice = 1;
+        let criticals = this.parent.items.filter(item => item.system?.partType === "critical");
+        if (criticals)
+        {
+            dice += criticals.length;
+        }
+        return `${dice}d10+${modifier}`;
+    }
+
+    getRandomLocation(random)
+    {
+        switch (random)
+        {
+            case 1:
+            case 2:
+                return "prow";
+            case 3:
+            case 4:
+            case 5:
+                return "port";
+            case 6:
+            case 7:
+            case 8:
+                return "starboard";
+            case 9:
+            case 10:
+                return "aft";
+            default:
+                return "prow";
+        }
+    }
+
+    async applyDamageSocket(value, {type, ignoreShields=false, ignoreArmour=false, location="", message=false, opposed, update=true, context={}}={})
+    {
+        game.socket?.emit("module.impmal-rtim", {
+            type: "applyDamage",
+            actorUuid: this.parent.uuid,
+            damage: value,
+            options: {type, ignoreShields, ignoreArmour, location, message, opposed, update, context}
+        });
+    }
+
+    async applyDamage(value, {type, ignoreShields=false, ignoreArmour=false, location="", message=false, opposed, update=true, createCriticalMessage=false, context={}}={})
+    {
+        if (!game.user.isGM || !this.parent.isOwner) return await this.applyDamageSocket(value, {type : type ?? opposed?.attackerTest?.context?.type, ignoreShields, ignoreArmour, location, message, opposed, update, createCriticalMessage, context});
+        if (type === "fire") return await this.applyFire(value);
+        if (type === "fatigue") return await this.applyFatigue(value);
+        return await this.applyDamageByType(value, {type : type ?? opposed?.attackerTest?.context?.type, ignoreShields, ignoreArmour, location, message, opposed, update, createCriticalMessage, context})   
+    }
+
+    async applyFire(value)
+    {
+        await this.parent.update({"system.fire": this.fire + value});
+    }
+
+    async applyFatigue(value)
+    {
+        if (this.options.noFatigue)
+        {
+            ui.notifications.info(`The ship doesn't use Fatigue, dealing ${Number(value)*2} Hull damage.`);
+            await this.applyDamageByType(value*2, {type : "selfDamage", createCriticalMessage : true});
+            return;
+        }
+        await this.parent.update({"system.fatigue.value": this.fatigue.value + value});
+    }
+
+    async applyDamageByType(value, {type="shooting",ignoreShields=false, ignoreArmour=false, location="", message=false, opposed, update=true, createCriticalMessage=false, context={}}={})
+    {
+        let thermalPen = "";
+        switch (type)
+        {
+            case "torpedoSalvo":
+                ignoreShields = true;
+                if (opposed?.result?.SL > 0 && opposed?.attackerTest?.item)
+                {
+                    ignoreArmour = opposed?.result?.SL >= opposed?.attackerTest?.item.system.weapon.torpedo.thermal;
+                    thermalPen += `Thermal Penetration of ${opposed?.attackerTest?.item.system.weapon.torpedo.thermal} is activated! `
+                }
+                break;
+            case "ramming":
+                ignoreShields = true;
+                break;
+            case "bomberRun":
+            case "boarding":
+            case "selfDamage":
+                ignoreShields = true;
+                ignoreArmour = true;
+                break;
+            case "nova":
+                ignoreArmour = true;
+                location = location ?? this.getRandomLocation(Math.ceil(CONFIG.Dice.randomUniform() * 10));
+                break;
+        }
+
+        let traits = {};   
+        let modifiers = []; 
+        traits["armour.mult"] = { value : 1 };
+        traits["armour.change"] = { value : 0 };
+        traits["shield.mult"] = { value : 1 };
+        traits["shield.change"] = { value : 0 };
+        traits["hull.mult"] = { value : 1 };
+        traits["hull.change"] = { value : 0 };
+        if (opposed?.attackerTest?.item)
+        {
+            traits["armour.mult"].value = opposed?.attackerTest?.item.system.weapon.armour.mult;
+            traits["armour.change"].value = opposed?.attackerTest?.item.system.weapon.armour.change;
+            traits["shield.mult"].value = opposed?.attackerTest?.item.system.weapon.shield.mult;
+            traits["shield.change"].value = opposed?.attackerTest?.item.system.weapon.shield.change;
+            traits["hull.mult"].value = opposed?.attackerTest?.item.system.weapon.hull.mult;
+            traits["hull.change"].value = opposed?.attackerTest?.item.system.weapon.hull.change;
+        }
+        let args = {actor : this.parent, type, value, ignoreShields, ignoreArmour, traits, modifiers, location, opposed, context};
+        await Promise.all(opposed?.attackerTest?.actor?.runScripts("preApplyDamage", args) || []);
+        await Promise.all(opposed?.attackerTest?.item?.runScripts?.("preApplyDamage", args) || []);
+        await Promise.all(this.parent.runScripts("preTakeDamage", args)); 
+        let damage = args.value;
+        ignoreShields = args.ignoreShields;
+        ignoreArmour = args.ignoreArmour;
+        traits = args.traits;
+        modifiers = args.modifiers;
+
+
+        let updateObj = {};
+        let shieldOverflow = 0;
+        if (!location)
+        {
+            location = this.getRandomLocation(Math.ceil(CONFIG.Dice.randomUniform() * 10));
+        }
+
+        let shieldMult = traits["shield.mult"]?.value || 0;
+        let shieldChange = traits["shield.change"]?.value || 0;
+
+        let shieldLoc = location;
+        if (this.options.takeAvgShield)
+        {
+            shieldLoc = "average";
+        }
+
+        shieldOverflow = damage;
+        let shieldDamageValue = 0;
+        if (this.shields[shieldLoc].value != 0 && !ignoreShields)
+        {
+            let locationStr = game.i18n.localize(game.impmal.config.RTIM.voidship.hitLocations[shieldLoc].display);
+            shieldOverflow = 0;
+            let toDamage = (damage * shieldMult) + shieldChange;
+            let shieldDamage = this.shields[shieldLoc].value - toDamage;
+            
+            modifiers.push({value : this.shields[shieldLoc].value, 
+                label : `Current Shields (${locationStr})`});
+            modifiers.push({value : -toDamage, 
+                label : `Shields Damage (${locationStr})${damage != toDamage ? " [Modified]" : ""}`});
+
+            shieldDamageValue = toDamage;
+            if (shieldDamage < 0)
+            {
+                shieldDamageValue = this.shields[shieldLoc].value;
+                shieldOverflow = Math.floor((shieldDamage*-1)/2);
+                shieldDamage = 0;
+                modifiers.push({value : -shieldOverflow, 
+                    label : `Shields Overflow`});
+            }
+            updateObj[`system.shields.${shieldLoc}.value`] = shieldDamage;
+        }
+
+        let excess = 0;
+        let critical = false;
+        let hullDamageValue = 0;
+        let text = "";
+        if (shieldOverflow > 0)
+        {
+            let armourLoc = location;
+            if (this.options.takeAvgArmour)
+            {
+                armourLoc = "average";
+            }
+            let locationStr = game.i18n.localize(game.impmal.config.RTIM.voidship.hitLocations[armourLoc].display);
+            let armourMult = traits["armour.mult"]?.value || 0;
+            let armourChange = traits["armour.change"]?.value || 0;
+            let currentArmour = (this.armour[armourLoc].value * armourMult) + armourChange;
+            if (ignoreArmour) currentArmour = 0;
+
+            modifiers.push({value : currentArmour, 
+                label : `Armour (${locationStr})${this.armour[armourLoc].value != currentArmour ? " [Modified]" : ""}`});
+
+            if (currentArmour < shieldOverflow)
+            {
+                let hullMult = traits["hull.mult"]?.value || 0;
+                let hullChange = traits["hull.change"]?.value || 0;
+                let modifiedDamage = (shieldOverflow * hullMult) + hullChange;
+                let toDamage = modifiedDamage - currentArmour;
+
+                let hullDamage = this.hull.value - toDamage;
+                hullDamageValue = toDamage;
+
+                modifiers.push({value : this.hull.value, 
+                    label : `Current Hull`});
+                modifiers.push({value : -toDamage, 
+                    label : `Hull Damage${shieldOverflow != modifiedDamage ? " [Modified]" : ""}`});
+
+                if (hullDamage < 0)
+                {
+                    hullDamageValue = this.hull.value;
+                    excess -= hullDamage;
+                    critical = true;
+                    hullDamage = 0;
+                }
+                updateObj[`system.hull.value`] = hullDamage;
+            }
+            else
+            {
+                text += "No hull damage (Armour). "
+            }
+        }
+        let critModifier = opposed?.attackerTest?.result.critModifier || 0;
+        args = {actor : this.parent, type, hullDamageValue, shieldDamageValue, shieldOverflow, damage, opposed, critModifier, location, excess, critical, text, traits, modifiers, context};
+        await Promise.all(opposed?.attackerTest?.actor?.runScripts("applyDamage", args) || []);
+        await Promise.all(opposed?.attackerTest?.item?.runScripts?.("applyDamage", args) || []);
+        await Promise.all(this.parent.runScripts("takeDamage", args)); 
+        excess = args.excess + args.critModifier;
+        critical = args.critical;
+        text = args.text;
+        modifiers = args.modifiers;
+
+        if (shieldDamageValue > 0)
+        {
+            //modifiers.push({value : shieldDamageValue, label : "Damage Taken (Shields)"});
+            text += `Shields has taken ${shieldDamageValue} damage. `;
+        }
+        if (hullDamageValue > 0)
+        {
+            //modifiers.push({value : hullDamageValue, label : "Damage Taken (Hull)"});
+            text += `Hull has taken ${hullDamageValue} damage. `;
+            text += thermalPen;
+        }
+        
+
+        let critString;
+        if (excess > 0)
+        {
+            text += `Ship has taken ${excess} Critical Damage! `;
+            modifiers.push({value : -excess, label : "Excess Damage (Critical)"});
+            critString = ` <a class="table-roll" data-table="critvoidship" data-formula="${this.getCriticalFormula(excess)}"><i class="fa-solid fa-dice-d10"></i>Critical ${this.getCriticalFormula(excess)}</a>`;
+        }
+
+        if (type === "nova")
+        {
+            let contentNova = `<div class="nova"><div class="chat-message opposed"><span>${text}</span>`;
+            
+            let novaCrit = ""
+            if (hullDamageValue > 0 || excess > 0)
+            {
+                let criticalChance = Math.ceil(CONFIG.Dice.randomUniform() * 10);
+                contentNova += ` Rolled for Nova Critical (1d10, 7+): ${criticalChance}.`
+                if (criticalChance > 6)
+                {
+                    novaCrit += ` <br><div class="opposed opposed-buttons critical"><span class="critical-voidship"><a class="table-roll" data-table="critvoidship" data-formula="1d10"><i class="fa-solid fa-dice-d10"></i>Nova Critical 1d10</a></span></div>`;
+                }
+            }
+            contentNova += `</div>${novaCrit}`
+            if (excess > 0) contentNova += `<br><div class="opposed opposed-buttons"><span class="critical-voidship">${critString}</span></div>`;
+            
+            contentNova += `</div>`
+            ChatMessage.create({
+                    speaker : ChatMessage.getSpeaker({actor : this.parent}),
+                    content : contentNova
+                });            
+        }
+
+        if (createCriticalMessage && excess > 0)
+        {
+            ChatMessage.create({
+                    speaker : ChatMessage.getSpeaker({actor : this.parent}),
+                    content : `${this.parent.name}: ${critString}`
+                });      
+        }
+
+        if (update)
+        {
+            await this.parent.update(updateObj);
+        }
+        let damageData = {
+            damage : value,
+            text, 
+            message : message ? ChatMessage.create({content : (`<p>${text}</p>` + `<p>${(critString ? critString : "")}</p>`), speaker : ChatMessage.getSpeaker({actor : this.parent})}) : null,
+            modifiers,
+            critical : critString,
+            excess,
+            location,
+            updateObj
+        };
+        return damageData;
+    }
+
+    async moveTokenFoward(token, steps, autoRotate=true, blink=false)
+    {
+        if (!token) return null;
+        VoidshipTokenHandler.moveTokenFoward(token, steps, autoRotate, blink);
+    }
+
+    async rotateToken(token, rotation=60) //60 for one side hex, to the right
+    {
+        if (!token) return null;
+        VoidshipTokenHandler.rotateToken(token, rotation);
+    }
+
+    async moveTokenSide(token, side, end, autoRotate=false)
+    {
+        if (!token) return null;
+        VoidshipTokenHandler.moveTokenSide(token, side, end, autoRotate);
+    }
+
+    setupVoidshipTest({itemId, name, key, actor}, context={}, options, roll=true)
+    {
+        return VoidshipSetupTests.setupVoidshipTest({itemId, name, key, actor}, context, options, roll, false);
+    }
+
+
+    async computeStartTurn()
+    {
+        let updateObj = {};
+        updateObj["system.actionPoints.value"] = this.actionPoints.max;
+        updateObj["system.movementPoints.value"] = this.movementPoints.max;
+        updateObj["system.turnRating.current"] = 0;
+        if (this.shipType === "minion") updateObj["system.actionPoints.value"] = 1;
+        updateObj["system.options.minionTargetUuid"] = "";
+
+        let bonuses = this.bonuses.filter((item) => {
+            let remove = !item.removeOnStartTurn;
+            if (item.removeAfterTurns >= 0)
+            {
+                item.removeAfterTurns -= 1;
+                remove = item.removeAfterTurns < 0;
+            }
+            return remove;
+        });
+        updateObj["system.bonuses"] = bonuses;  
+
+        if (this.fire - this.options.fireResistance > 0)
+        {
+            this.hull.value -= this.fire - this.options.fireResistance;
+            let fireResStr = this.options.fireResistance > 0 ? game.i18n.format("IMPMAL_RTIM.VoidCombat.FireResistanceMessage", { value : this.options.fireResistance}) : "";
+            let content = `<i class="fa-solid fa-fire"></i> ${game.i18n.format("IMPMAL_RTIM.VoidCombat.FireDamageMessage", { fire : this.fire})} ${fireResStr}`;
+            
+            if (this.hull.value < 0)
+            {
+                let damage = -this.hull.value;
+                let critString = ` <a class="table-roll" data-table="critvoidship" data-formula="${this.getCriticalFormula(damage)}"><i class="fa-solid fa-dice-d10"></i>Critical ${this.getCriticalFormula(damage)}</a>`;
+                content += `<br><i class="fa-solid fa-fire"></i><i class="fa-solid fa-fire"></i><i class="fa-solid fa-fire"></i> ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.FireCriticalMessage")} <br><div class="criticalButton"><p>${critString}</p></div>`;
+                
+                this.hull.value = 0;
+            }
+            ChatMessage.create({
+                    speaker : ChatMessage.getSpeaker({actor : this.parent}),
+                    content : content
+                });
+            updateObj["system.hull.value"] = this.hull.value;
+        }
+
+        if (this.options.evasiveManeuvers.resetOnStart){
+            updateObj["system.options.evasiveManeuvers.value"] = false;
+            updateObj["system.options.evasiveManeuvers.slPenalty"] = 0;            
+        }        
+        const roleItems = this.parent?.items?.filter(item => item.system?.partType === "role") || [];
+        roleItems.forEach((item) => {
+            let updateItem = {};
+            if (item.system.role.action.cooldown > item.system.role.action.cooldownCount)
+            {
+                updateItem["system.role.action.cooldownCount"] = item.system.role.action.cooldownCount + 1;
+            }
+            if (item.system.role.actionUpgraded.cooldown > item.system.role.actionUpgraded.cooldownCount)
+            {
+                updateItem["system.role.actionUpgraded.cooldownCount"] = item.system.role.action.cooldownCount + 1;
+            }
+            item.update(updateItem);
+        });
+        this.parent.update(updateObj);
+    }
+
+    async computeEndCombat()
+    {
+        if (!this.autoCalc.endCombat) return;
+        let updateObj = {};
+        updateObj["system.actionPoints.value"] = this.actionPoints.max;
+        updateObj["system.movementPoints.value"] = this.movementPoints.max;
+        updateObj["system.turnRating.current"] = 0;
+
+        if (this.options.evasiveManeuvers.resetOnStart){
+            updateObj["system.options.evasiveManeuvers.value"] = false;
+            updateObj["system.options.evasiveManeuvers.slPenalty"] = 0;            
+        }        
+        
+        updateObj["system.options.restartShieldsDifficulty"] = "routine";    
+
+        const roleItems = this.parent?.items?.filter(item => item.system?.partType === "role") || [];
+        roleItems.forEach((item) => {
+            let updateItem = {};
+            updateItem["system.role.action.cooldownCount"] = item.system.role.action.cooldown;
+            updateItem["system.role.actionUpgraded.cooldownCount"] = item.system.role.actionUpgraded.cooldown;
+            item.update(updateItem);
+        });
+        this.parent.update(updateObj);
+    }
+
+    async computeEndTurn()
+    {
+        let updateObj = {};
+
+        let bonuses = this.bonuses.filter((item) => {
+            return !item.removeOnEndTurn;
+        });
+        bonuses = bonuses.map((item) => {
+            if (item.removeOnNextEndTurn)
+            {
+                item.removeOnNextEndTurn = false;
+                item.removeOnEndTurn = true;
+            }
+        });
+        updateObj["system.bonuses"] = bonuses;  
+
+        this.parent.update(updateObj);
+    }
+
+    getBonuses(type, itemId)
+    {
+        if (type == "type") return this.bonuses;
+        let modifiers = this.bonuses.filter((bonus) => {
+            return (bonus.type.includes(type) || bonus.type.includes("all")) || bonus.items.includes(itemId);
+        });
+        return modifiers;
+    }
+    
+    handleMovement({movement, preMove})
+    {
+        if (!this.autoCalc.movement) return preMove;
+        let movementCost = movement?.passed?.cost ?? 0;
+        let movedHexes = movement?.passed?.spaces ?? 0;
+        if (movedHexes > 0)
+        {
+            movementCost = movementCost * this.movementMult;
+            
+            if (movementCost > this.movementPoints.value)
+            {
+                ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughMovement"));
+                if (preMove && !this.autoCalc.allowMovement) return false;
+            }
+            if (preMove) return true;
+            
+            movementCost = this.movementPoints.value - movementCost;
+            if (movementCost < 0) movementCost = 0;
+            this.parent.update({ "system.movementPoints.value": movementCost})
+        }
+    }
+}

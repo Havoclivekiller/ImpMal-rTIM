@@ -1,0 +1,133 @@
+<div class="attack-fields">
+    {{#if fields.hasHitLocation}}
+    <div class="form-group">
+        <label>{{localize "IMPMAL.HitLocation"}}</label>
+        <div class="form-fields">
+            <select name="hitLocation">
+                {{selectOptions data.hitLocations selected=fields.hitLocation localize="true"}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasDetection}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.DetectionRating'}} </label>
+        <div class="form-fields">
+            <label>{{fields.detectionRating}}</label><input type="checkbox" name="useDetection" {{checked fields.useDetection}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasEvasion}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.EvasionRating'}} </label>
+        <div class="form-fields">
+            <label>{{fields.evasionRating}}</label><input type="checkbox" name="useEvasion" {{checked fields.useEvasion}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasTurret}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.TurretRating'}} </label>
+        <div class="form-fields">
+            <label>{{fields.turretRating}}</label><input type="checkbox" name="useTurret" {{checked fields.useTurret}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasEnemyEvasion}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.EnemyEvasionRating'}} </label>
+        <div class="form-fields">
+            <label>{{fields.enemyEvasionRating}}</label><input type="checkbox" name="useEnemyEvasion" {{checked fields.useEnemyEvasion}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasEnemyTurret}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.EnemyTurretRating'}} </label>
+        <div class="form-fields">
+            <label>{{fields.enemyTurretRating}}</label><input type="checkbox" name="useEnemyTurret" {{checked fields.useEnemyTurret}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasEvasiveManeuvers}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.EvasiveManeuvers'}} </label>
+        <div class="form-fields">
+            <label>{{localize "IMPMAL.Disadvantage"}}</label><input type="checkbox" name="useEvasiveManeuvers" {{checked fields.useEvasiveManeuvers}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasEnemyEvasiveManeuvers}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.EnemyEvasiveManeuvers'}} </label>
+        <div class="form-fields">
+            <label>{{localize "IMPMAL.Disadvantage"}}{{#if fields.enemyEvasiveManeuversSL}} ({{fields.enemyEvasiveManeuversSL}}){{/if}}</label><input type="checkbox" name="useEnemyEvasiveManeuvers" {{checked fields.useEnemyEvasiveManeuvers}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasHalfRange}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.HalfRange'}} </label>
+        <div class="form-fields">
+            <label>{{localize "IMPMAL.Advantage"}}</label><input type="checkbox" name="useHalfRange" {{checked fields.useHalfRange}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasWeaponDamaged}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.WeaponDamaged'}} </label>
+        <div class="form-fields">
+            <label>{{localize "IMPMAL.Disadvantage"}}</label><input type="checkbox" name="useWeaponDamaged" {{checked fields.useWeaponDamaged}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasWeaponRating}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.WeaponRating'}} </label>
+        <div class="form-fields">
+            <label>{{fields.weaponRating}}</label><input type="checkbox" name="useWeaponRating" {{checked fields.useWeaponRating}}>
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasDamage}}
+    <div class="form-group" {{#if tooltips.damage}}data-tooltip-direction="LEFT" data-tooltip="{{tooltips.damage}}"
+        {{/if}}>
+        <label>{{localize "IMPMAL.Damage"}} +/-</label>
+        <div class="form-fields">
+            <input type="number" name="damage" value="{{fields.damage}}">
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.hasSelfDamage}}
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.SelfDamage"}} +/-</label>
+        <div class="form-fields">
+            <input type="number" name="selfDamage" value="{{fields.selfDamage}}">
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.dogfight}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.AlliedSquadronsIn2'}} </label>
+        <div class="form-fields">
+            <input type="number" name="alliedSquadrons" value="{{fields.alliedSquadrons}}">
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.dogfightOpposed}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.EscortSquadrons'}} </label>
+        <div class="form-fields">
+            <input type="number" name="escortingSquadrons" value="{{fields.escortingSquadrons}}">
+        </div>
+    </div>
+    {{/if}}
+    {{#if fields.assaultHalfTurret}}
+    <div class="form-group">
+        <label>{{localize 'IMPMAL_RTIM.VoidCombat.AssaultBoatHalvedTurret'}} </label>
+        <div class="form-fields">
+            <label>{{fields.assaultHalfTurret}}</label><input type="checkbox" name="useAssaultHalfTurret" {{checked fields.useAssaultHalfTurret}}>
+        </div>
+    </div>
+    {{/if}}
+</div>

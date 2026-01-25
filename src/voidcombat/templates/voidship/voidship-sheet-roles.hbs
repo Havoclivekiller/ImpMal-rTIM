@@ -1,0 +1,168 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+    <div class="ship-role-list">
+        {{#each roleParts}}
+        <div class="ship-role-card list-row">
+            <div class="ship-role-header">
+                <div class="ship-role-name" data-action="expandRow" data-collapseid="{{this.id}}"><img src="{{this.img}}"> <label>{{this.name}}</label></div>
+                <div class="ship-role-header-actions">
+                    {{#if this.system.role.upgraded}}
+                    <div class="ship-role-tag">{{localize "IMPMAL_RTIM.VoidCombat.Upgraded"}}</div>
+                    {{/if}}     
+                    
+                    <label class="modifiers-bonus-toggle">
+                        <input type="checkbox" data-id="{{this.id}}" data-path="system.active" data-action="editItemProperty" name="system.active" {{checked system.active}}>
+                        <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
+                    </label>            
+                    <div class="ship-role-status">
+                        <input type="radio" id="role-status-default-{{this.id}}" name="system.status.{{this.id}}"
+                            value="default" data-id="{{this.id}}" data-path="system.status"
+                            data-action="editItemProperty" {{checked (eq this.system.status "default")}}>
+                        <label for="role-status-default-{{this.id}}"><i class="fa-solid fa-heart"></i></label>
+                        <input type="radio" id="role-status-damaged-{{this.id}}" name="system.status.{{this.id}}"
+                            value="damaged" data-id="{{this.id}}" data-path="system.status"
+                            data-action="editItemProperty" {{checked (eq this.system.status "damaged")}}>
+                        <label for="role-status-damaged-{{this.id}}"><i class="fa-solid fa-heart-crack"></i></label>
+                        <input type="radio" id="role-status-destroyed-{{this.id}}" name="system.status.{{this.id}}"
+                            value="destroyed" data-id="{{this.id}}" data-path="system.status"
+                            data-action="editItemProperty" {{checked (eq this.system.status "destroyed")}}>
+                        <label for="role-status-destroyed-{{this.id}}"><i class="fa-regular fa-heart"></i></label>
+                    </div>
+                    <button type="button" class="ship-part-action" data-action="makeTest" data-type="role" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.MakeTest"}}">
+                        <i class="fa-solid fa-dice"></i>
+                    </button>
+                    <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="panel dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}} {{#unless system.active}}is-disabled{{/unless}}">
+            <div class="panel-overlay"></div>
+            <div class="panel-content">
+            <div class="ship-role-grid">
+                {{#if this.system.role.upgraded}}
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Action"}}</div>
+                    <div class="ship-role-text">{{this.system.role.actionUpgraded.name}}</div>
+                </div>
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL.Test"}}</div>
+                    <div class="ship-role-text">
+                        {{#if this.system.role.actionUpgraded.opposed}}{{localize "IMPMAL.Opposed" }}{{/if}}
+                        {{#with (configLookup "difficulties" this.system.role.actionUpgraded.difficulty)}}
+                        {{this.name}} ({{numberFormat this.modifier sign=true}})
+                        {{/with}}
+                        {{#with (configLookup "skills" this.system.role.actionUpgraded.skill.key)}}
+                        {{#if ../this.system.role.actionUpgraded.skill.specialisation}}
+                            {{this}} ({{../this.system.role.actionUpgraded.skill.specialisation}})
+                        {{else}}
+                            {{this}}
+                        {{/if}}
+                        {{/with}}
+                    </div>
+                </div>
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Cooldown"}}</div>
+                    <div class="ship-role-cooldown" data-action="advanceRoleCooldown" data-id="{{this.id}}" data-action-path="role.actionUpgraded">
+                        {{#if (gte this.system.role.actionUpgraded.cooldownCount this.system.role.actionUpgraded.cooldown)}}
+                            {{localize "IMPMAL_RTIM.VoidCombat.Ready"}} ({{this.system.role.actionUpgraded.cooldown}})
+                        {{else}}
+                            {{this.system.role.actionUpgraded.cooldownCount}} / {{this.system.role.actionUpgraded.cooldown}}
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="ship-role-block" style="grid-column: span {{#if ../areMembers}}2{{else}}3{{/if}}">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.BonusUpgrade"}}</div>
+                    <div class="ship-role-text">{{this.system.role.bonusUpgraded}}</div>
+                </div>
+                {{else}}
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Action"}}</div>
+                    <div class="ship-role-text">{{this.system.role.action.name}}</div>
+                </div>
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL.Test"}}</div>
+                    <div class="ship-role-text">
+                        {{#if this.system.role.action.opposed}}{{localize "IMPMAL.Opposed" }}{{/if}}
+                        {{#with (configLookup "difficulties" this.system.role.action.difficulty)}}
+                        {{this.name}} ({{numberFormat this.modifier sign=true}})
+                        {{/with}}
+                        {{#with (configLookup "skills" this.system.role.action.skill.key)}}
+                        {{#if ../this.system.role.action.skill.specialisation}}
+                            {{this}} ({{../this.system.role.action.skill.specialisation}})
+                        {{else}}
+                            {{this}}
+                        {{/if}}
+                        {{/with}}
+                    </div>
+                </div>
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Cooldown"}}</div>
+                    <div class="ship-role-cooldown" data-action="advanceRoleCooldown" data-id="{{this.id}}" data-action-path="role.action">
+                        {{#if (gte this.system.role.action.cooldownCount this.system.role.action.cooldown)}}
+                            {{localize "IMPMAL_RTIM.VoidCombat.Ready"}} ({{this.system.role.action.cooldown}})
+                        {{else}}
+                            {{this.system.role.action.cooldownCount}} / {{this.system.role.action.cooldown}}
+                        {{/if}}
+                    </div>
+                </div>
+                <div class="ship-role-block" style="grid-column: span {{#if ../areMembers}}2{{else}}3{{/if}}">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Bonus"}}</div>
+                    <div class="ship-role-text">{{this.system.role.bonus}}</div>
+                </div>
+                {{/if}}
+                {{#if ../areMembers}}
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Assigned"}}</div>
+                    {{#if this.system.role.assignee.uuid}}
+                    <button type="button" class="ship-role-button" data-action="assignRoleMember" data-id="{{id}}">
+                        <img src="{{this.system.role.assignee.img}}" alt="{{this.system.role.assignee.name}}">
+                        <span>{{this.system.role.assignee.name}}</span>
+                    </button>
+                    {{else}}
+                    <button type="button" class="ship-role-button" data-action="assignRoleMember" data-id="{{id}}">
+                        {{localize "IMPMAL_RTIM.VoidCombat.Unassigned"}}
+                    </button>
+                    {{/if}}
+                </div>
+                {{/if}}
+            </div>
+            <div class="ship-role-description">
+                <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Description"}}</div>
+                <div class="ship-role-text">
+                    {{#if this.system.role.upgraded}}
+                        {{#if this.system.role.actionUpgraded.description}}
+                            {{this.system.role.actionUpgraded.description}}
+                        {{else}}
+                            &mdash;
+                        {{/if}}
+                    {{else}}
+                        {{#if this.system.role.action.description}}
+                            {{this.system.role.action.description}}
+                        {{else}}
+                            &mdash;
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>            
+            {{#if this.system.notes.player}}
+            <div class="ship-role-description">
+                <div class="ship-role-label">{{localize "IMPMAL.Notes"}}</div>
+                <div class="ship-role-text">{{{this.system.notes.player}}}</div>
+            </div>
+            {{/if}}
+            {{#if (and this.system.notes.gm (isGM))}}
+            <div class="ship-role-description">
+                <div class="ship-role-label">{{localize "IMPMAL.GMNotes"}}</div>
+                <div class="ship-role-text">{{{this.system.notes.gm}}}</div>
+            </div>
+            {{/if}}
+            {{> sheetButtons document=this}}
+            </div>
+        </div>
+        </div>
+        {{/each}}
+    </div>
+</section>

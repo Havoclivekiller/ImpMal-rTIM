@@ -1,0 +1,127 @@
+<header class="sheet-header voidship-header">
+    <img class="profile" data-action="editImage" src="{{actor.img}}" data-edit="img">
+    <div class="header-details">
+        <div class="details-row name">
+            <input type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'Name'}}">
+        </div>
+        <div class="hull-meta-row">
+            <div class="hull-meta-left">
+                {{#if hullId}}
+                <div class="details-row hull-row">
+                    <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.ShipHull"}}</span>
+                    <button type="button" class="hull-name" data-action="editShipPart" data-id="{{hullId}}">
+                        {{hullName}}
+                    </button>
+                    <button type="button" class="hull-remove" data-action="removeHull" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.RemoveHull"}}">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                {{/if}}
+                <div class="details-row hull-row">
+                    <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.ShipType"}}</span>
+                    <span class="value">{{localize (lookup (lookup (config "RTIM.voidship.shipTypes") system.shipType) "display")}}</span>
+                </div>
+            </div>
+            <div class="hull-meta-right">
+                {{#if system.options.fated}}
+                <div class="details-row fate-points-row">
+                    <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.FatePoints"}}</span>
+                    <div class="ship-input-pair">
+                        <input type="number" name="system.fate.value" value="{{system.fate.value}}">
+                        <span>/</span>
+                        <input type="number" name="system.fate.max" value="{{system.fate.max}}" disabled>
+                    </div>
+                </div>
+                {{/if}}
+                <div class="voidship-faction-group">
+                    <div class="voidship-faction-row">
+                        {{#if system.faction.document}}
+                        <div class="voidship-faction-item" data-id="{{system.faction.document.id}}">
+                            <a data-action="editEmbedded">{{system.faction.name}}</a>
+                        </div>
+                        <a class="voidship-faction-clear" data-action="unset" data-path="system.faction">
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                        {{else}}
+                        <input type="text" name="system.faction.name" value="{{system.faction.name}}" placeholder="{{localize 'IMPMAL.Faction'}}">
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="details-row points-row">
+        <div class="points-block" {{#if system.options.noActionPoints}}style="grid-column: span 2"{{/if}}>
+            <div class="points-main">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.MovementPoints"}}</span>
+                <div class="points-pips" data-action="adjustPoints" data-points="movement">
+                    {{#times (floor system.movementPoints.value)}}
+                    <span class="pip pip-active"></span>
+                    {{/times}}
+                    {{#if (ne (ceil system.movementPoints.value) system.movementPoints.value)}}
+                    <span class="pip pip-half"></span>
+                    {{/if}}
+                    {{#times (calc system.movementPoints.max "-" (ceil system.movementPoints.value))}}
+                    <span class="pip pip-inactive"></span>
+                    {{/times}}
+                </div>
+            </div>
+            <div class="points-buttons">
+                <button type="button" class="ship-combat-action" data-action="toggleMovementPreview" data-tooltip="Preview movement">
+                    <i class="fa-solid fa-route"></i>
+                </button>
+                <button type="button" class="ship-combat-action" data-action="toggleMovementMove" data-tooltip="Click to move">
+                    <i class="fa-solid fa-location-arrow"></i>
+                </button>
+                <button type="button" class="ship-combat-action" data-tooltip="Reset" data-action="fixProperty" data-property="movementPoints">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </div>
+        {{#unless system.options.noActionPoints}}
+        <div class="points-block">
+            <div class="points-main">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.ActionPoints"}}</span>
+                <div class="points-pips" data-action="adjustPoints" data-points="action">
+                    {{#times (floor system.actionPoints.value)}}
+                    <span class="pip pip-active"></span>
+                    {{/times}}
+                    {{#if (ne (ceil system.actionPoints.value) system.actionPoints.value)}}
+                    <span class="pip pip-half"></span>
+                    {{/if}}
+                    {{#times (calc system.actionPoints.max "-" (ceil system.actionPoints.value))}}
+                    <span class="pip pip-inactive"></span>
+                    {{/times}}
+                </div>
+            </div>
+            <div class="points-buttons">
+                <button type="button" class="ship-combat-action"data-tooltip="Reset" data-action="fixProperty" data-property="actionPoints">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </div>
+        {{/unless}}
+    </div>
+    <div class="details-row" style="grid-column: span 2">
+        <div class="ship-skills-grid">
+            {{#each system.skills}}
+            {{#if (or (ne this.total ../system.characteristics.crew.total) (includes ../requiredSkills @key) (gt this.specialisations.length 0))}}
+            <button type="button" class="ship-skill-button" data-action="makeTest" data-type="skill" 
+                data-skill="{{@key}}" data-specialisation="">
+                {{configLookup "skills" @key}} {{this.total}}
+            </button>
+            {{/if}}
+            {{#each this.specialisations}}
+            {{#if (gt this.system.advances 0)}}
+            <button type="button" class="ship-skill-button" data-action="makeTest" data-type="skill" 
+                data-skill="{{@../key}}" data-specialisation="{{this.id}}">
+                {{configLookup "skills" @../key}} ({{this.name}}) {{this.system.total}}
+            </button>
+            {{/if}}
+            {{/each}}
+            {{/each}}
+        </div>
+    </div>
+
+</header>

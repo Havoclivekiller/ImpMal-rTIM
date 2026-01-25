@@ -1,0 +1,374 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+    <div class="modifiers-card">
+        <div class="modifiers-title">Options</div>
+        <div class="modifiers-options">
+            <div class="modifiers-field">
+                <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.ShipType"}}</div>
+                <select name="system.shipType">
+                    {{#select system.shipType}}
+                        {{#each (config "RTIM.voidship.shipTypes")}}
+                    <option value="{{this.key}}">{{this.display}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            <div class="modifiers-buttons">
+                <button type="button" class="modifiers-button" data-action="fixProperty" data-property="hull">
+                    {{localize "IMPMAL_RTIM.VoidCombat.FixHull"}}
+                </button>
+                <button type="button" class="modifiers-button" data-action="fixProperty" data-property="shields">
+                    {{localize "IMPMAL_RTIM.VoidCombat.FixAllShields"}}
+                </button>
+                <button type="button" class="modifiers-button" data-action="goSilent" >
+                    {{localize "IMPMAL_RTIM.VoidCombat.GoSilentRunning"}}
+                </button>
+                <button type="button" class="modifiers-button" data-action="fixProperty" data-property="blocks">
+                    {{localize "IMPMAL_RTIM.VoidCombat.FixBlocks"}}
+                </button>
+            </div>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.takeAvgShield" {{checked system.options.takeAvgShield}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoTakeAvgShield"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.takeAvgArmour" {{checked system.options.takeAvgArmour}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoTakeAvgArmour"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.noFatigue" {{checked system.options.noFatigue}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoNoFatigue"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <div style="width: 50px"><input type="number" name="system.options.autoTestSL" value="{{system.options.autoTestSL}}"></div>
+                <input type="checkbox" name="system.options.autoTest" {{checked system.options.autoTest}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoAutoTests"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.fated" {{checked system.options.fated}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoFated"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.evasiveManeuvers.value" {{checked system.options.evasiveManeuvers.value}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoEvasiveManeuvers"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.noActionPoints" {{checked system.options.noActionPoints}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoNoActionPoints"}}
+            </label>
+            <label class="modifiers-checkbox">
+                <input type="checkbox" name="system.options.noExperiencePoints" {{checked system.options.noExperiencePoints}}>
+                {{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoNoExperiencePoints"}}
+            </label> 
+            <div class="modifiers-field">
+                <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.RestartShieldsActionDifficulty"}}</div>               
+                <select name="system.options.restartShieldsDifficulty">
+                    {{#select system.options.restartShieldsDifficulty}}
+                        {{#each (config "difficulties")}}
+                            <option value="{{@key}}">{{this.name}} ({{numberFormat this.modifier
+                                sign=true}})
+                            </option>
+                        {{/each}}
+                        <option value="disabled">{{localize "IMPMAL_RTIM.VoidCombat.Disabled"}}</option>
+                    {{/select}}
+                </select>
+            </div>
+            <label class="modifiers-checkbox">
+                <label style="text-align: right;">{{localize "IMPMAL_RTIM.VoidCombat.OptionsInfoFireResistance"}}</label>
+                <div style="width: 50px"><input type="number" name="system.options.fireResistance" value="{{system.options.fireResistance}}"></div>
+            </label> 
+        </div>
+    </div>
+    <div class="modifiers-grid">
+        <div class="modifiers-card">
+            <div class="modifiers-title">{{localize "IMPMAL_RTIM.VoidCombat.Modifiers"}}</div>
+            <div class="modifiers-fields">
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.CrewRating"}}</div>
+                    <input type="number" name="system.characteristics.crew.modifierManual" value="{{system.characteristics.crew.modifierManual}}">
+                </div>
+                {{#unless system.options.noFatigue}}
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Fatigue"}}</div>
+                    <input type="number" name="system.fatigue.modifierManual" value="{{system.fatigue.modifierManual}}">
+                </div>
+                {{/unless}}
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Hull"}}</div>
+                    <input type="number" name="system.hull.modifierManual" value="{{system.hull.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.SpeedRating"}}</div>
+                    <input type="number" name="system.speedRating.modifierManual" value="{{system.speedRating.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.TurnRating"}}</div>
+                    <input type="number" name="system.turnRating.modifierManual" value="{{system.turnRating.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.DetectionRating"}}</div>
+                    <input type="number" name="system.detectionRating.modifierManual" value="{{system.detectionRating.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Size"}}</div>
+                    <input type="number" name="system.size.modifierManual" value="{{system.size.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Supplemental"}}</div>
+                    <input type="number" name="system.supplemental.modifierManual" value="{{system.supplemental.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.EvasionRating"}}</div>
+                    <input type="number" name="system.evasionRating.modifierManual" value="{{system.evasionRating.modifierManual}}">
+                </div>
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.TurretRating"}}</div>
+                    <input type="number" name="system.turretRating.modifierManual" value="{{system.turretRating.modifierManual}}">
+                </div>
+                {{#unless system.options.noActionPoints}}
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.ActionPoints"}}</div>
+                    <input type="number" name="system.actionPoints.modifierManual" value="{{system.actionPoints.modifierManual}}">
+                </div>
+                {{/unless}}
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.MovementPoints"}}</div>
+                    <input type="number" name="system.movementPoints.modifierManual" value="{{system.movementPoints.modifierManual}}">
+                </div>
+                {{#if system.options.fated}}
+                <div class="modifiers-field modifiers-field-size">
+                    <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.FatePoints"}}</div>
+                    <input type="number" name="system.fate.modifierManual" value="{{system.fate.modifierManual}}">
+                </div>
+                {{/if}}    
+            </div>
+        </div>
+        <div class="modifiers-row-3">
+            <div class="modifiers-card">
+                <div class="modifiers-title">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
+                <div class="modifiers-fields modifiers-column">                
+                    {{#unless system.options.takeAvgShield}}
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Prow"}}</div>
+                        <input type="number" name="system.shields.prow.modifierManual" value="{{system.shields.prow.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</div>
+                        <input type="number" name="system.shields.port.modifierManual" value="{{system.shields.port.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</div>
+                        <input type="number" name="system.shields.starboard.modifierManual" value="{{system.shields.starboard.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</div>
+                        <input type="number" name="system.shields.aft.modifierManual" value="{{system.shields.aft.modifierManual}}">
+                    </div>
+                    {{else}}
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</div>
+                        <input type="number" name="system.shields.average.modifierManual" value="{{system.shields.average.modifierManual}}">
+                    </div>
+                    {{/unless}}    
+                </div>
+            </div>
+            <div class="modifiers-card">
+                <div class="modifiers-title">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
+                <div class="modifiers-fields modifiers-column">            
+                    {{#unless system.options.takeAvgArmour}}
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Prow"}}</div>
+                        <input type="number" name="system.armour.prow.modifierManual" value="{{system.armour.prow.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</div>
+                        <input type="number" name="system.armour.port.modifierManual" value="{{system.armour.port.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</div>
+                        <input type="number" name="system.armour.starboard.modifierManual" value="{{system.armour.starboard.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</div>
+                        <input type="number" name="system.armour.aft.modifierManual" value="{{system.armour.aft.modifierManual}}">
+                    </div>
+                    {{else}}
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</div>
+                        <input type="number" name="system.armour.average.modifierManual" value="{{system.armour.average.modifierManual}}">
+                    </div>
+                    {{/unless}}
+                </div>
+            </div>
+            <div class="modifiers-card" style="grid-column: span 2">
+                <div class="modifiers-title">{{localize "IMPMAL_RTIM.VoidCombat.WeaponSlots"}}</div>
+                <div class="modifiers-fields modifiers-grid-2x3">
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Prow"}}</div>
+                        <input type="number" name="system.weaponSlots.prow.modifierManual" value="{{system.weaponSlots.prow.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</div>
+                        <input type="number" name="system.weaponSlots.port.modifierManual" value="{{system.weaponSlots.port.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</div>
+                        <input type="number" name="system.weaponSlots.starboard.modifierManual" value="{{system.weaponSlots.starboard.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</div>
+                        <input type="number" name="system.weaponSlots.aft.modifierManual" value="{{system.weaponSlots.aft.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Dorsal"}}</div>
+                        <input type="number" name="system.weaponSlots.dorsal.modifierManual" value="{{system.weaponSlots.dorsal.modifierManual}}">
+                    </div>
+                    <div class="modifiers-field">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Keel"}}</div>
+                        <input type="number" name="system.weaponSlots.keel.modifierManual" value="{{system.weaponSlots.keel.modifierManual}}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sheet-list skills">
+            <div class="list-header row-content">
+                <div class="list-name">{{localize "IMPMAL.Skill"}}</div>
+                <div class="small">{{localize "IMPMAL_RTIM.VoidCombat.Manual"}}</div>
+                <div class="small">{{localize "IMPMAL.Adv"}}</div>
+                <div class="small">{{localize "IMPMAL.Total"}}</div>
+                <div class="list-controls"></div>
+            </div>
+            <div class="list-content">
+                {{#each system.skills}}
+                    <div class="list-row nocontext" data-key="{{@key}}">
+                        <div class="row-content">
+                            <div class="list-name">{{configLookup "skills" @key}}</div>
+                            <div class="small"><input name="system.skills.{{@key}}.modifierManual" type="number" value="{{this.modifierManual}}"></div>
+                            <div class="small"><input name="system.skills.{{@key}}.advances" type="number" value="{{this.advances}}"></div>
+                            <div class="small"><a data-action="rollTest" data-type="skill">{{this.total}}</a></div>
+                            <div class="list-controls">
+                                    <a class="list-control" data-action="createSpecialisation" data-tooltip="IMPMAL.CreateSpecialisation"><i class="fa-solid fa-plus"></i></a>
+                            </div>
+                        </div>
+                        {{#each this.specialisations}}
+                        <div class="row-content context-menu-alt specialisation {{#if (eq @key 0)}}first{{/if}}" data-uuid="{{this.uuid}}" data-id="{{this.id}}">
+                            <div class="list-name">{{configLookup "skills" @../key}} ({{this.name}})</div>
+                            <div class="small"></div>
+                            <div class="small"></div>
+                            <div class="small"><input data-action="editProperty" data-path="system.advances" type="number" value="{{this.system.advances}}"></div>
+                            <div class="small"><a class="roll" data-type="skill">{{this.system.total}}</a></div>
+                            <div class="list-controls">
+                                <a class="list-control" data-action="deleteEmbedded"><i class="fa-solid fa-xmark"></i></a>
+                            </div>
+                        </div>
+                    {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        
+        <div class="modifiers-card">
+            <div class="modifiers-title modifiers-bonuses-header">
+                <span>{{localize "IMPMAL_RTIM.VoidCombat.Bonuses"}}</span>
+                <button type="button" class="ship-part-action" data-action="addBonus" title="{{localize "IMPMAL_RTIM.VoidCombat.AddBonus"}}">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+            <div class="modifiers-bonuses">
+                {{#each system.bonuses}}
+                <div class="modifiers-bonus-row">
+                    <div class="modifiers-bonus-actions">
+                        <button type="button" class="ship-part-action danger" data-action="removeBonus" data-index="{{@index}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemoveBonus"}}">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="modifiers-bonus-group modifiers-bonus-group-numbers">
+                        <div class="modifiers-bonus-field">
+                            <div class="modifiers-label">{{localize "IMPMAL.SL"}}</div>
+                            <input type="number" name="system.bonuses.{{@index}}.SL" value="{{this.SL}}">
+                        </div>
+                        <div class="modifiers-bonus-field">
+                            <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Modifier"}}</div>
+                            <input type="number" name="system.bonuses.{{@index}}.modifier" value="{{this.modifier}}">
+                        </div>
+                        <div class="modifiers-bonus-field">
+                            <div class="modifiers-label">{{localize "IMPMAL.Damage"}}</div>
+                            <input type="number" name="system.bonuses.{{@index}}.damage" value="{{this.damage}}">
+                        </div>
+                    </div>
+                    <div class="modifiers-bonus-group modifiers-bonus-group-flags">
+                        <label class="modifiers-checkbox">
+                            <input type="checkbox" name="system.bonuses.{{@index}}.advantage" {{checked this.advantage}}>
+                            {{localize "IMPMAL.Advantage"}}
+                        </label>
+                        <label class="modifiers-checkbox">
+                            <input type="checkbox" name="system.bonuses.{{@index}}.disadvantage" {{checked this.disadvantage}}>
+                            {{localize "IMPMAL.Disadvantage"}}
+                        </label>
+                    </div>
+                    <div class="modifiers-bonus-group modifiers-bonus-group-remove">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.RemoveRules"}}</div>
+                        <div class="modifiers-bonus-inline">
+                            <input class="modifiers-bonus-turns" type="number" name="system.bonuses.{{@index}}.removeAfterTurns" value="{{this.removeAfterTurns}}">
+                            <span class="modifiers-bonus-inline-label {{#if (gte this.removeAfterTurns 0)}}modifiers-bonus-inline-label-checked{{/if}}">{{localize "IMPMAL_RTIM.VoidCombat.Turns"}} (&lt;0 disabled)</span>
+                        </div>
+                        <div class="modifiers-bonus-toggle-list">
+                            <label class="modifiers-bonus-toggle">
+                                <input type="checkbox" name="system.bonuses.{{@index}}.removeOnStartTurn" {{checked this.removeOnStartTurn}}>
+                                <span>{{localize "IMPMAL_RTIM.VoidCombat.StartTurn"}}</span>
+                            </label>
+                            <label class="modifiers-bonus-toggle">
+                                <input type="checkbox" name="system.bonuses.{{@index}}.removeOnEndTurn" {{checked this.removeOnEndTurn}}>
+                                <span>{{localize "IMPMAL_RTIM.VoidCombat.EndTurn"}}</span>
+                            </label>
+                            <label class="modifiers-bonus-toggle">
+                                <input type="checkbox" name="system.bonuses.{{@index}}.removeOnNextEndTurn" {{checked this.removeOnNextEndTurn}}>
+                                <span>{{localize "IMPMAL_RTIM.VoidCombat.NextEndTurn"}}</span>
+                            </label>
+                            <label class="modifiers-bonus-toggle">
+                                <input type="checkbox" name="system.bonuses.{{@index}}.removeOnNextTest" {{checked this.removeOnNextTest}}>
+                                <span>{{localize "IMPMAL_RTIM.VoidCombat.NextTest"}}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modifiers-bonus-group modifiers-bonus-group-types">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Type"}}</div>
+                        <div class="modifiers-bonus-types">
+                            {{#each this.type}}
+                            <div class="modifiers-bonus-type">
+                                <input type="text" name="system.bonuses.{{@../index}}.type.{{@index}}" value="{{this}}">
+                                <button type="button" class="ship-part-action danger" data-action="removeBonusType" data-type="type" data-bonus-index="{{@../index}}" data-type-index="{{@index}}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            {{/each}}
+                            <button type="button" class="ship-part-action" data-action="addBonusType" data-type="type" data-bonus-index="{{@index}}">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modifiers-bonus-group modifiers-bonus-group-comment">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.Comment"}}</div>
+                        <input type="text" name="system.bonuses.{{@index}}.comment" value="{{this.comment}}">
+                    </div>
+                    <div class="modifiers-bonus-group modifiers-bonus-group-types">
+                        <div class="modifiers-label">{{localize "IMPMAL_RTIM.VoidCombat.ItemIds"}}</div>
+                        <div class="modifiers-bonus-types">
+                            {{#each this.items}}
+                            <div class="modifiers-bonus-type">
+                                <input type="text" name="system.bonuses.{{@../index}}.type.{{@index}}" value="{{this}}">
+                                <button type="button" class="ship-part-action danger" data-action="removeBonusType" data-type="items" data-bonus-index="{{@../index}}" data-type-index="{{@index}}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                            {{/each}}
+                            <button type="button" class="ship-part-action" data-action="addBonusType" data-type="items" data-bonus-index="{{@index}}">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,20 @@
+<div class="sheet-header">
+    <img data-action="editImage" data-edit="img" src="{{item.img}}" {{#if (eq item.img "modules/warhammer-lib.assets/blank.png")}}class="img-border"{{/if}}>
+    <div class="header-fields">
+        <div class="details-row name">
+            <input  type="text" name="name" value="{{source.name}}">
+        </div>
+                <div class="attribute-box single">
+                    <div class="label" style="grid-column: 1 / span 4"><label class="centered">{{localize "IMPMAL_RTIM.VoidCombat.ShipPoints"}}</label></div>
+                    <div class="field" style="grid-column: 5 / span 8"><input type="number" name="system.shipPoints" value="{{system.shipPoints}}"></div>
+                </div>
+
+                <select name="system.partType" data-action="changeShipType" {{#if this.actor}}disabled{{/if}}>
+                    {{#select system.partType}}
+                        {{#each (config "RTIM.voidship.partTypes")}}
+                        <option value="{{this.key}}">{{this.display}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+    </div>
+</div>

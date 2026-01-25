@@ -1,0 +1,166 @@
+<div class="opposed">
+
+    <div class="opposed-message">
+        <p>{{attacker.name}} is targeting {{defender.name}}</p>
+    </div>
+
+    <div class="opposed-details {{#if result}}{{result.winner}}-winner{{/if}}">
+
+        <img class="token" data-id="{{attacker.id}}" src="{{attacker.texture.src}}">
+
+
+
+        <div class="center">
+
+            {{#if attackerTest.item}}
+                <img src="{{attackerTest.item.img}}">
+            {{else}}
+                <i class="fa-light fa-crosshairs"></i>
+            {{/if}}
+
+                    
+            {{#if result}}
+            <span class="SL">
+                {{numberFormat result.SL sign=true}}
+            </span>
+            {{/if}}
+        </div>
+
+{{!-- 
+        <span class="SL">
+            {{#if (eq result.winner "defender")}}
+                {{numberFormat result.SL sign=true}}
+            {{/if}}
+        </span> --}}
+
+        <img class="token" data-id="{{defender.id}}" src="{{defender.texture.src}}">
+
+    </div>
+    <div class="opposed-buttons" {{#if applied}}data-tooltip-direction="LEFT" data-tooltip="{{applied.text}}
+                        {{#if (gt applied.multiple 1)}} 
+                            x{{applied.multiple}} 
+                        {{/if}}
+                        <ul>
+                            {{#each applied.modifiers}}
+                            <p>{{this.label}} ({{#if (gt this.value 0)}}+{{/if}}{{this.value}})</p>
+                            {{/each}}
+                        </ul>
+                            {{#if applied.armourRoll}}
+                            <p>{{localize "IMPMAL.ArmourRoll"}}: {{applied.armourRoll.total}}</p>
+                            {{/if}}"{{/if}}>
+
+        {{#unless (eq this.attackerTest.context.type "ramming")}}
+        {{#if (eq result.winner "attacker")}}
+            {{#if this.attackerTest.data.hasDamage}}
+            <div class="applied-details">
+            <span> <a class="damage-breakdown"  data-tooltip="{{result.tooltips.damage}}" data-tooltip-direction="LEFT"><i class="fa-regular fa-circle-info"></i></a> {{localize "IMPMAL.DamageDisplay" damage=result.damage}} {{#if result.damageFormula}} ({{result.damageFormula}}){{/if}} {{#if applied}} (Applied){{/if}}</span>
+            
+            {{#if applied.critical}}
+            <span class="critical">{{{applied.critical}}}</span>
+            {{/if}}
+
+            </div>
+            {{#if applied}}
+            <button data-action="applyDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
+            {{else}}
+                <button data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
+            {{/if}}
+            {{/if}}
+            {{#if (eq this.attackerTest.context.type "boarding")}}
+                {{#unless voidshipApplied}}
+                <button data-action="applyBoarding" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Boarding'}}" data-type="boarding"><i class="fa-solid fa-person-rifle"></i> </button>
+                {{/unless}}
+            {{/if}}
+            {{#if (eq this.attackerTest.context.type "assaultBoarding")}}
+                {{#unless voidshipApplied}}
+                <button data-action="applyAssaultBoarding" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.AssaultBoarding'}}" data-type="assaultBoarding"><i class="fa-solid fa-person-rifle"></i> </button>
+                {{/unless}}
+            {{/if}}
+            {{#if (eq this.attackerTest.context.type "dogfight")}}
+                {{#unless voidshipApplied}}
+                <button data-action="applyDogfight" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Dogfight'}}" data-type="dogfight"><i class="fa-solid fa-jet-fighter"></i> </button>
+                {{/unless}}
+            {{/if}}
+        {{else}}
+                <div class="response-buttons">
+            {{#if (eq result.winner "defender")}}
+                {{#if (and (eq this.attackerTest.context.type "bomberRun") (lte result.SL -3))}}
+                    <button data-action="applySquadronFail" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.FailedSquadronAction'}}" data-type="squadronFail"><i class="fa-solid fa-plane-circle-exclamation"></i> </button>
+               
+                {{/if}}
+            {{/if}}
+            {{#unless result}}
+                {{#if (eq this.attackerTest.context.type "seek")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.SilentRunning'}}" data-type="silentRunning"><i class="fa-solid user-ninja"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "silentRunning")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Seek'}}" data-type="seek"><i class="fa-brands fa-cloudscale"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "boarding")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Boarding'}}" data-type="boarding"><i class="fa-solid fa-person-rifle"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "ramming")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Ramming'}}" data-type="ramming"><i class="fa-solid fa-car-burst"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "torpedoSalvo")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.TorpedoSalvo'}}" data-type="torpedoSalvo"><i class="fa-solid fa-car-burst"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "dogfight")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Dogfight'}}" data-type="dogfight"><i class="fa-solid fa-jet-fighter"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "bomberRun")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.BomberRun'}}" data-type="bomberRun"><i class="fa-solid fa-bomb"></i> </button>
+                {{/if}}
+                {{#if (eq this.attackerTest.context.type "assaultBoarding")}}
+                    <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.AssaultBoarding'}}" data-type="assaultBoarding"><i class="fa-solid fa-person-rifle"></i> </button>
+                {{/if}}
+                {{#unless (eq this.attackerTest.context.type "shooting")}}
+                    <button data-action="clickResponse" type="button" data-type="unopposed" data-tooltip="{{localize 'IMPMAL.Unopposed'}}"><i class="fa-solid fa-arrow-down"></i></button>                
+                {{else}}
+                    <button data-action="clickResponse" type="button" data-type="unopposed" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Shoot'}} ({{localize 'IMPMAL.Unopposed'}})"><i class="fa-solid fa-crosshairs"></i></button>
+                {{/unless}}
+            {{/unless}}
+                </div>
+        {{/if}}
+        {{else}}
+
+        {{#if result}}
+        <div class="self-damage">
+            <div class="flexrow">
+                <div class="applied-details">
+                    <span> <a class="damage-breakdown"  data-tooltip="{{result.tooltips.damage}}" data-tooltip-direction="LEFT"><i class="fa-regular fa-circle-info"></i></a> {{localize "IMPMAL.DamageDisplay" damage=result.damage}} {{#if result.damageFormula}} ({{result.damageFormula}}){{/if}} {{#if applied}} (Applied){{/if}}</span>
+                    
+                    {{#if applied.critical}}
+                    <span class="critical">{{{applied.critical}}}</span>
+                    {{/if}}
+                </div>
+                {{#if applied}}
+                <button data-action="applyDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
+                {{else}}
+                <button data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
+                {{/if}}
+            </div>
+            <div class="flexrow">
+                <div class="applied-details">
+                    <span> <a class="damage-breakdown"  data-tooltip="{{result.tooltips.selfDamage}}" ><i class="fa-regular fa-circle-info"></i></a> {{localize "IMPMAL_RTIM.VoidCombat.SelfDamageFormat" damage=selfDamage}} {{#if appliedSelf}} (Applied){{/if}}</span>
+                    {{#if appliedSelf.critical}}
+                    <span class="critical">{{{appliedSelf.critical}}}</span>
+                    {{/if}}
+                </div>
+                {{#if appliedSelf}}
+                <button data-action="applySelfDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
+                {{else}}
+                <button data-action="applySelfDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.ApplySelfDamage'}}"><i class="fa-solid fa-bandage"></i></button>
+                {{/if}}
+            </div>            
+        </div>
+        {{else}}
+            <div class="response-buttons">
+                <button data-action="clickResponse" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Ramming'}}" data-type="ramming"><i class="fa-solid fa-car-burst"></i> </button>
+                <button data-action="clickResponse" type="button" data-type="unopposed" data-tooltip="{{localize 'IMPMAL.Unopposed'}}"><i class="fa-solid fa-arrow-down"></i></button>   
+            </div>
+        {{/if}}
+
+        {{/unless}}
+    </div>
+</div>
