@@ -24,7 +24,7 @@
         "settings/settings.js"
     ],
     "styles": [
-        "impmal-rtim.css"
+        "styles/impmal-rtim.css"
     ],
     "languages": [
         {
