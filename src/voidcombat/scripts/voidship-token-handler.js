@@ -730,7 +730,7 @@ export class VoidshipTokenHandler
         let sector = Math.floor((normalized + (sectorSize / 2)) / sectorSize) % 6;
         let boundary = (normalized + (sectorSize / 2)) % sectorSize;
         let epsilon = 2 * (Math.PI / 180);
-        let sides = ["prow", "starboard", "starboard", "aft", "port", "port"];
+        let sides = ["fore", "starboard", "starboard", "aft", "port", "port"];
         return {
             side: sides[sector],
             ambiguous: boundary <= epsilon || boundary >= (sectorSize - epsilon),

@@ -79,14 +79,14 @@ export class VoidShipPartModel extends StandardItemModel {
                 hull : new fields.NumberField({ initial: 0 }),
                 rammingDamage : new fields.NumberField({ initial: 0 }),
                 shields : new fields.SchemaField({
-                    prow : new fields.NumberField({ initial: 0 }),
+                    fore : new fields.NumberField({ initial: 0 }),
                     aft : new fields.NumberField({ initial: 0 }),
                     port : new fields.NumberField({ initial: 0 }),
                     starboard : new fields.NumberField({ initial: 0 }),
                     all : new fields.NumberField({ initial: 0 })
                 }),
                 armour : new fields.SchemaField({
-                    prow : new fields.NumberField({ initial: 0 }),
+                    fore : new fields.NumberField({ initial: 0 }),
                     aft : new fields.NumberField({ initial: 0 }),
                     port : new fields.NumberField({ initial: 0 }),
                     starboard : new fields.NumberField({ initial: 0 }),
@@ -126,7 +126,15 @@ export class VoidShipPartModel extends StandardItemModel {
             assignee: new fields.SchemaField({
                 uuid: new fields.StringField({ initial: "" }),
                 name: new fields.StringField({ initial: "" }),
-                img: new fields.StringField({ initial: "" })
+                img: new fields.StringField({ initial: "" }),
+                skillOne: new fields.SchemaField({
+                    key: new fields.StringField({ initial: "" }),
+                    specialisation: new fields.StringField({ initial: "" })
+                }),
+                skillTwo: new fields.SchemaField({
+                    key: new fields.StringField({ initial: "" }),
+                    specialisation: new fields.StringField({ initial: "" })
+                }),
             })
         });
 
@@ -141,14 +149,14 @@ export class VoidShipPartModel extends StandardItemModel {
             supplemental : new fields.NumberField({ initial: 0 }),
             value : new fields.NumberField({ initial: 0 }),
             shields : new fields.SchemaField({
-                prow : new fields.NumberField({ initial: 0 }),
+                fore : new fields.NumberField({ initial: 0 }),
                 aft : new fields.NumberField({ initial: 0 }),
                 port : new fields.NumberField({ initial: 0 }),
                 starboard : new fields.NumberField({ initial: 0 }),
                 average : new fields.NumberField({ initial: 0 })
             }),
             armour : new fields.SchemaField({
-                prow : new fields.NumberField({ initial: 0 }),
+                fore : new fields.NumberField({ initial: 0 }),
                 aft : new fields.NumberField({ initial: 0 }),
                 port : new fields.NumberField({ initial: 0 }),
                 starboard : new fields.NumberField({ initial: 0 }),
@@ -207,14 +215,14 @@ export class VoidShipPartModel extends StandardItemModel {
 
     get displayChangeSummary()
     {
-        const locationLabels = {
-            prow: "IMPMAL_RTIM.VoidCombat.Prow",
+        let locationLabels = {
+            fore: "IMPMAL_RTIM.VoidCombat.Fore",
             aft: "IMPMAL_RTIM.VoidCombat.Aft",
             port: "IMPMAL_RTIM.VoidCombat.Port",
             starboard: "IMPMAL_RTIM.VoidCombat.Starboard",
             all: "IMPMAL_RTIM.VoidCombat.All"
         };
-        const changeLabels = {
+        let changeLabels = {
             speedRating: "IMPMAL_RTIM.VoidCombat.SpeedRating",
             detectionRating: "IMPMAL_RTIM.VoidCombat.DetectionRating",
             evasionRating: "IMPMAL_RTIM.VoidCombat.EvasionRating",
@@ -227,15 +235,15 @@ export class VoidShipPartModel extends StandardItemModel {
         let entries = [];
 
         for (let [key, labelKey] of Object.entries(changeLabels)) {
-            const value = Number(this.component.changes[key] || 0);
+            let value = Number(this.component.changes[key] || 0);
             if (value != 0) {
                 entries.push(`${game.i18n.localize(labelKey)} ${value>0?"+":""}${value}`);
             }
         }
         const addNested = (groupKey, groupLabelKey) => {
-            const group = this.component.changes[groupKey] || {};
-            for (const [locKey, locLabelKey] of Object.entries(locationLabels)) {
-                const value = Number(group[locKey] || 0);
+            let group = this.component.changes[groupKey] || {};
+            for (let [locKey, locLabelKey] of Object.entries(locationLabels)) {
+                let value = Number(group[locKey] || 0);
                 if (value != 0) {
                     entries.push(`${game.i18n.localize(groupLabelKey)} ${game.i18n.localize(locLabelKey)} ${value>0?"+":""}${value}`);
                 }
@@ -252,8 +260,8 @@ export class VoidShipPartModel extends StandardItemModel {
 
         if (this.partType === "hull" && this.parent.parent)
         {
-            const hullData = this.hull || {};
-            const updates = { "system.hull.uuid": this.id };
+            let hullData = this.hull || {};
+            let updates = { "system.hull.uuid": this.id };
             const updateBase = (path, baseValue) => {
                 updates[`system.${path}.base`] = Number(baseValue ?? 0);
             };
@@ -272,7 +280,7 @@ export class VoidShipPartModel extends StandardItemModel {
             };
             updateDirectional("shields", hullData.shields);
             updateDirectional("armour", hullData.armour);
-            const weaponSlots = hullData.weapons || {};
+            let weaponSlots = hullData.weapons || {};
             Object.entries(weaponSlots).forEach(([key, value]) => {
                 updateBase(`weaponSlots.${key}`, value);
             });
@@ -284,6 +292,25 @@ export class VoidShipPartModel extends StandardItemModel {
             {
                 let updateData = {};
                 if (this.status !== "default" && this.active)
+                {
+                    foundry.utils.setProperty(updateData, "system.active", false);
+                }
+                if (this.status === "default" && !this.active)
+                {
+                    foundry.utils.setProperty(updateData, "system.active", true);
+                }
+                if (!foundry.utils.isEmpty(updateData))
+                {
+                    this.parent.update(updateData);
+                }
+            }
+        }
+        if (this.partType === "weapon" || this.partType === "component") 
+        {
+            if (changed.system?.status !== undefined)
+            {
+                let updateData = {};
+                if (this.status === "destroyed" && this.active)
                 {
                     foundry.utils.setProperty(updateData, "system.active", false);
                 }

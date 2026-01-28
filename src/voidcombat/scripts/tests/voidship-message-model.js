@@ -410,10 +410,30 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         }
         else
         {
-            let items = (await ItemDialog.create(weaponItems, Number(value === "all" ? roleItems.length : value), {title : "Damage Component (Role)", text: `Choose ${value === "all" ? roleItems.length : value}`}));
-            if (!items || items.length == 0) return;
-            items.forEach(item => {
-                item.update({"system.status": item.system.status === "default" ? "damaged" : "destroyed"});
+            let chosenItems = roleItems;
+            if (value !== "all")
+            {
+                let copied = roleItems;
+                chosenItems = [];
+                for (let i = 0; i < value; i++) {
+                    let random = Math.floor(CONFIG.Dice.randomUniform() * copied.length);
+                    chosenItems.push(copied[random]);
+                    copied.splice(random, 1);
+                }
+            }
+
+            if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+            {
+                let resultItems = (await ItemDialog.create(roleItems, Number(value === "all" ? roleItems.length : value), 
+                    {title : "Damage Component (Role)", text: `Choose ${value === "all" ? roleItems.length : value}`}));
+                if (resultItems && resultItems.length > 0) chosenItems = resultItems;
+            }
+            
+            if (!chosenItems || chosenItems.length == 0) return;
+            chosenItems.forEach(item => {
+                let newStatus = item.system.status === "default" ? "damaged" : "destroyed";
+                item.update({"system.status": newStatus});
+                ui.notifications.info(`${item.name} was ${newStatus}`);
             });
         }
 
@@ -440,19 +460,41 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         let actor = await fromUuid(this.targetUuid);
         if (!actor) return;
 
-        let weaponItems = actor.items
+        let items = actor.items
             .filter(item => item.type === "impmal-rtim.voidshipPart")
-            .filter(item => item.system?.partType === "weapon");
-        if (!weaponItems.length)
+            .filter(item => item.system?.partType === "weapon")
+            .filter(item => item.system.status !== "destroyed");
+        if (!items.length)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoWeapons"));
             return;
         }
 
-        let items = (await ItemDialog.create(weaponItems, Number(value === "all" ? weaponItems.length : value), {title : "Damage Weapon", text: `Choose ${value === "all" ? weaponItems.length : value}`}));
-        if (!items || items.length == 0) return;
-        items.forEach(item => {
-            item.update({"system.status": item.system.status === "default" ? "damaged" : "destroyed"});
+        let chosenItems = items;
+        if (value !== "all")
+        {
+            let copied = items;
+            chosenItems = [];
+            for (let i = 0; i < value; i++) {
+                let random = Math.floor(CONFIG.Dice.randomUniform() * copied.length);
+                chosenItems.push(copied[random]);
+                copied.splice(random, 1);
+            }
+        }
+
+        if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+        {
+            let resultItems = (await ItemDialog.create(items, Number(value === "all" ? items.length : value), 
+                {title : "Damage Weapon", text: `Choose ${value === "all" ? items.length : value}`}));
+            if (resultItems && resultItems.length > 0) chosenItems = resultItems;
+        }
+        
+        if (!chosenItems || chosenItems.length == 0) return;
+
+        chosenItems.forEach(item => {
+            let newStatus = item.system.status === "default" ? "damaged" : "destroyed";
+            item.update({"system.status": newStatus});
+            ui.notifications.info(`${item.name} was ${newStatus}`)
         }); 
 
         this.usages -= 1;
@@ -603,7 +645,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         let locations = []
         if (value === "all")
         {
-            ["prow", "aft", "starboard", "port", "average"].map((key) => {
+            ["fore", "aft", "starboard", "port", "average"].map((key) => {
                 locations.push(key);
             }) 
         }
@@ -613,7 +655,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         }
         else
         {
-            let sides = ["prow", "aft", "starboard", "port"].filter((key) => {
+            let sides = ["fore", "aft", "starboard", "port"].filter((key) => {
                 return actor.system.shields[key].value !== actor.system.shields[key].max;
             });
             if (sides.length === 0)
@@ -624,7 +666,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             let btns = [];
             sides.map((key) => {
                 btns.push({action : key,
-                    label : game.impmal.config.RTIM.voidship.shipLocations[key].display});
+                    label : game.impmal.config.RTIM.voidship.hitLocations[key].display});
             })      
             locations.push(await foundry.applications.api.Dialog.wait({
                 window : {title : "Shield Location"},
@@ -890,7 +932,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
 
         let takeAvgShield = actor.system.options.takeAvgShield;
 
-        let location = "prow";
+        let location = "fore";
         let btns = [];
         if (takeAvgShield)
         {
@@ -909,12 +951,12 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         else
         {
             let noShields = true;
-            ["prow", "aft", "starboard", "prow"].map((key) => {
+            ["fore", "aft", "starboard", "port"].map((key) => {
                 if (actor.system.shields[key].value < actor.system.shields[key].max)
                 {
                     noShields = false;
                     btns.push({action : key,
-                        label : game.impmal.config.RTIM.voidship.shipLocations[key].display});
+                        label : game.impmal.config.RTIM.voidship.hitLocations[key].display});
                 }
             })            
             if (noShields)

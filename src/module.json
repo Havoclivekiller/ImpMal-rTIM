@@ -45,7 +45,9 @@
                 "rtim-journalentries",
                 "rtim-macros",
                 "rtim-actors"
-            ]
+            ],
+            "color": null,
+            "folders": []
         }
     ],
     "packs": [
@@ -58,7 +60,8 @@
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
-            }
+            },
+            "flags": {}
         },
         {
             "name": "rtim-rolltables",
@@ -69,7 +72,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         },
         {
             "name": "rtim-cards",
@@ -80,7 +84,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         },
         {
             "name": "rtim-journalentries",
@@ -91,7 +96,8 @@
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
-            }
+            },
+            "flags": {}
         },
         {
             "name": "rtim-macros",
@@ -102,7 +108,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         },
         {
             "name": "rtim-actors",
@@ -113,7 +120,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         }
     ],
     "socket": true,
@@ -130,5 +138,7 @@
             "voidshipMessage": {},
             "voidshipOpposedMessage": {}
         }
-    }
+    },
+    "description": "",
+    "flags": {}
 }

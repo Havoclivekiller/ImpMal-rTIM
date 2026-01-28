@@ -6,54 +6,61 @@
         <div class="ship-combat-actions-group">
             <div class="ship-combat-actions-buttons">
                 {{#if notMinion}}
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="repair"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.Repair"}} (1 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="rally"><i class="fa-solid fa-person-harassing"></i>{{localize "IMPMAL_RTIM.VoidCombat.Rally"}} (1 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="scan"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.Scan"}} (1 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="boarding"><i class="fa-solid fa-person-rifle"></i>{{localize "IMPMAL_RTIM.VoidCombat.Boarding"}} (2 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="reloadSpecial"><i class="fa-solid fa-rotate-right"></i>{{localize "IMPMAL_RTIM.VoidCombat.ReloadSpecial"}} (2 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="restartShields"><i class="fa-solid fa-shield-virus"></i>{{localize "IMPMAL_RTIM.VoidCombat.RestartShields"}} (2 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="seek"><i class="fa-brands fa-cloudscale"></i>{{localize "IMPMAL_RTIM.VoidCombat.Seek"}} (1 {{localize "IMPMAL_RTIM.VoidCombat.AP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="evasiveManeuvers"><i class="fa-solid fa-arrows-turn-to-dots"></i>{{localize "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers"}} ({{system.movementPoints.max}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="ramming"><i class="fa-solid fa-car-burst"></i>{{localize "IMPMAL_RTIM.VoidCombat.Ramming"}} (4 {{localize "IMPMAL_RTIM.VoidCombat.MP"}})</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="silentRunning"><i class="fa-solid fa-user-ninja"></i>{{localize "IMPMAL_RTIM.VoidCombat.SilentRunning"}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="repair" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Repair"}}"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.Repair"}} 
+                {{#if system.actionCosts.repair.value}}({{system.actionCosts.repair.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="rally" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Rally"}}"><i class="fa-solid fa-person-harassing"></i>{{localize "IMPMAL_RTIM.VoidCombat.Rally"}} 
+                {{#if system.actionCosts.rally.value}}({{system.actionCosts.rally.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="scan" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Scan"}}"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.Scan"}} 
+                {{#if system.actionCosts.scan.value}}({{system.actionCosts.scan.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="boarding" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Boarding"}}"><i class="fa-solid fa-person-rifle"></i>{{localize "IMPMAL_RTIM.VoidCombat.Boarding"}} 
+                {{#if system.actionCosts.boarding.value}}({{system.actionCosts.boarding.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="reloadSpecial" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadSpecial"}}"><i class="fa-solid fa-rotate-right"></i>{{localize "IMPMAL_RTIM.VoidCombat.ReloadSpecial"}} 
+                {{#if system.actionCosts.reloadSpecial.value}}({{system.actionCosts.reloadSpecial.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="restartShields" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RestartShields"}}"><i class="fa-solid fa-shield-virus"></i>{{localize "IMPMAL_RTIM.VoidCombat.RestartShields"}} 
+                {{#if system.actionCosts.restartShields.value}}({{system.actionCosts.restartShields.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="seek" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Seek"}}"><i class="fa-brands fa-cloudscale"></i>{{localize "IMPMAL_RTIM.VoidCombat.Seek"}} 
+                {{#if system.actionCosts.seek.value}}({{system.actionCosts.seek.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="evasiveManeuvers" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.EvasiveManeuvers"}}"><i class="fa-solid fa-arrows-turn-to-dots"></i>{{localize "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers"}} 
+                {{#if system.actionCosts.evasiveManeuvers.value}}({{system.actionCosts.evasiveManeuvers.value}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="ramming" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Ramming"}}"><i class="fa-solid fa-car-burst"></i>{{localize "IMPMAL_RTIM.VoidCombat.Ramming"}} 
+                {{#if system.actionCosts.ramming.value}}(+{{system.actionCosts.ramming.value}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}}){{/if}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="silentRunning" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.SilentRunning"}}"><i class="fa-solid fa-user-ninja"></i>{{localize "IMPMAL_RTIM.VoidCombat.SilentRunning"}} 
+                {{#if system.actionCosts.silentRunning.value}}({{system.actionCosts.silentRunning.value}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}}){{/if}}</button>
                 {{else}}
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="repairMinion"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.RepairMinion"}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="scanMinion"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.ScanMinion"}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="repairMinion" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RepairMinion"}}"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.RepairMinion"}}</button>
+                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="scanMinion" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ScanMinion"}}"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.ScanMinion"}}</button>
                 {{/if}}
             </div>
         </div>
     </div>
-    {{#if hasCriticalParts}}
+    {{#if criticalParts}}
     <div class="voidship-table-wrap">
-        <div class="voidship-table" style="--voidship-table-cols: 2fr 1.2fr 0.6fr 3fr auto;">
+        <div class="voidship-table" style="--voidship-table-cols: 1fr 1fr 0.2fr 3fr auto;">
             <div class="voidship-table-head">
                 <div class="voidship-table-cell">{{localize "IMPMAL_RTIM.VoidCombat.Name"}}</div>
-                <div class="voidship-table-cell">{{localize "IMPMAL_RTIM.VoidCombat.CriticalType"}}</div>
-                <div class="voidship-table-cell">{{localize "IMPMAL_RTIM.VoidCombat.Level"}}</div>
-                <div class="voidship-table-cell">{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</div>
-                <div class="voidship-table-cell">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.CriticalType"}}</div>
+                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Level"}}</div>
+                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</div>
+                    <div style="width:25px"></div>
             </div>
             {{#each criticalParts}}
-            <div class="voidship-table-row">
-                <div class="voidship-table-cell">
+            <div class="voidship-table-row-border voidship-table-row" data-uuid="{{this.uuid}}">
+                <div class="voidship-table-cell voidship-text-left">
                     <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
                 </div>
-                <div class="voidship-table-cell">
+                <div class="voidship-table-cell voidship-table-center">
                     {{localize (lookup (lookup (config "RTIM.voidship.criticalTypes") this.system.critical.type) "display")}}
                 </div>
-                <div class="voidship-table-cell">{{this.system.critical.level}}</div>
-                <div class="voidship-table-cell">
+                <div class="voidship-table-cell voidship-table-center">{{this.system.critical.level}}</div>
+                <div class="voidship-table-cell voidship-text-left">
                     {{this.system.effect}}
-                    {{> sheetButtons document=this}}
                 </div>
-                <div class="voidship-table-cell ship-weapon-actions">
-                    <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                    <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
+                    <div class="list-controls">
+                        <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                    </div>
                 </div>
+                {{> sheetButtons document=this}}
             </div>
             {{/each}}
         </div>
@@ -63,31 +70,36 @@
         <div class="ship-combat-card">
             <div class="ship-combat-header">
                 <div class="ship-stat-block">
-                    <div class="ship-stat-label">{{localize "IMPMAL_RTIM.VoidCombat.Hull"}}</div>
+                    <div class="ship-stat-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Hull"}}">{{localize "IMPMAL_RTIM.VoidCombat.Hull"}}</div>
                     <div class="ship-input-pair">
                         <input type="number" name="system.hull.value" value="{{system.hull.value}}">
                         <span>/</span>
                         <div>{{system.hull.max}}</div>
+                        {{#if system.options.defyDeath.has}}
+                        <button type="button" class="ship-part-action {{#if system.options.defyDeath.used}}danger{{/if}}" data-action="defyDeath" title="{{localize "IMPMAL_RTIM.VoidCombat.DefyDeath"}}" style="margin-left: 5px;">
+                            <i class="fa-solid fa-hand-fist"></i>
+                        </button>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="ship-stat-block">
-                    <div class="ship-stat-label">{{localize "IMPMAL_RTIM.VoidCombat.onFire"}}</div>
+                    <div class="ship-stat-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.OnFire"}}">{{localize "IMPMAL_RTIM.VoidCombat.onFire"}}</div>
                     <div class="ship-input-pair">
                         <input type="number" name="system.fire" value="{{system.fire}}">
                     </div>
                 </div>
                 {{#unless system.options.noFatigue}}
                 <div class="ship-stat-block">
-                    <div class="ship-stat-label">{{localize "IMPMAL_RTIM.VoidCombat.Fatigue"}}</div>
+                    <div class="ship-stat-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Fatigue"}}">{{localize "IMPMAL_RTIM.VoidCombat.Fatigue"}}</div>
                     <div class="ship-input-pair">
                         <input type="number" name="system.fatigue.value" value="{{system.fatigue.value}}" min="0">
                         <span>/</span>
                         <div>{{system.fatigue.max}}</div>
                     </div>
                     {{#if isCrewRiots}}
-                    <div class="ship-crew-riots">{{localize "IMPMAL_RTIM.VoidCombat.CrewRiots"}}</div>
+                    <div class="ship-crew-riots" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CrewRiots"}}">{{localize "IMPMAL_RTIM.VoidCombat.CrewRiots"}}</div>
                     {{else if isFatigued}}
-                    <div class="ship-fatigued">{{localize "IMPMAL_RTIM.VoidCombat.Fatigued"}}</div>
+                    <div class="ship-fatigued" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Fatigued"}}">{{localize "IMPMAL_RTIM.VoidCombat.Fatigued"}}</div>
                     {{/if}}
                 </div>
                 {{/unless}}        
@@ -95,21 +107,21 @@
             <div class="ship-diagram">
                 {{#unless (and system.options.takeAvgShield system.options.takeAvgArmour)}}
                 <div class="ship-side ship-side-front">
-                    <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Prow"}}</div>
+                    <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Fore"}}</div>
                     {{#unless system.options.takeAvgShield}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Shields"}}">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
                         <div class="ship-input-pair">
-                            <input type="number" name="system.shields.prow.value" value="{{system.shields.prow.value}}" >
+                            <input type="number" name="system.shields.fore.value" value="{{system.shields.fore.value}}" >
                             <span>/</span>
-                            <div>{{system.shields.prow.max}}</div>
+                            <div>{{system.shields.fore.max}}</div>
                         </div>
                     </div>
                     {{/unless}}
                     {{#unless system.options.takeAvgArmour}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
-                        <div class="ship-input-pair">{{system.armour.prow.value}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Armour"}}">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
+                        <div class="ship-input-pair">{{system.armour.fore.value}}</div>
                     </div>
                     {{/unless}}
                 </div>
@@ -117,7 +129,7 @@
                     <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</div>
                     {{#unless system.options.takeAvgShield}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Shields"}}">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
                         <div class="ship-input-pair">
                             <input type="number" name="system.shields.port.value" value="{{system.shields.port.value}}" >
                             <span>/</span>
@@ -127,7 +139,7 @@
                     {{/unless}}
                     {{#unless system.options.takeAvgArmour}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Armour"}}">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
                         <div class="ship-input-pair">{{system.armour.port.value}}</div>
                     </div>
                     {{/unless}}
@@ -136,7 +148,7 @@
                     <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</div>
                     {{#unless system.options.takeAvgShield}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Shields"}}">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
                         <div class="ship-input-pair">
                             <input type="number" name="system.shields.starboard.value" value="{{system.shields.starboard.value}}" >
                             <span>/</span>
@@ -146,7 +158,7 @@
                     {{/unless}}
                     {{#unless system.options.takeAvgArmour}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Armour"}}">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
                         <div class="ship-input-pair">{{system.armour.starboard.value}}</div>
                     </div>
                     {{/unless}}
@@ -155,7 +167,7 @@
                     <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</div>
                     {{#unless system.options.takeAvgShield}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Shields"}}">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
                         <div class="ship-input-pair">
                             <input type="number" name="system.shields.aft.value" value="{{system.shields.aft.value}}" >
                             <span>/</span>
@@ -165,7 +177,7 @@
                     {{/unless}}
                     {{#unless system.options.takeAvgArmour}}
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Armour"}}">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
                         <div class="ship-input-pair">{{system.armour.aft.value}}</div>
                     </div>
                     {{/unless}}
@@ -175,7 +187,7 @@
                 <div class="ship-side ship-side-average-shields">
                     <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</div>
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ShieldsAverage"}}">{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</div>
                         <div class="ship-input-pair">
                             <input type="number" name="system.shields.average.value" value="{{system.shields.average.value}}">
                             <span>/</span>
@@ -188,7 +200,7 @@
                 <div class="ship-side ship-side-average-armour">
                     <div class="ship-side-label">{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</div>
                     <div class="ship-input-group">
-                        <div class="ship-input-label">{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</div>
+                        <div class="ship-input-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ArmourAverage"}}">{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</div>
                         <div class="ship-input-pair">{{system.armour.average.value}}</div>
                     </div>
                 </div>
@@ -197,7 +209,7 @@
         </div>
         <div class="ship-combat-card">
             <div class="ship-weapon-locations-header">
-                <div class="ship-stat-label">{{localize "IMPMAL_RTIM.VoidCombat.WeaponLocations"}}</div>
+                <div class="ship-stat-label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.WeaponLocations"}}">{{localize "IMPMAL_RTIM.VoidCombat.WeaponLocations"}}</div>
             </div>
             <div>
                 {{#if hasWeaponSlots}}
@@ -347,10 +359,10 @@
             </div>
         </div>
     </div>
-    {{#unless hasAnyWeapons}}
+    {{#unless hasWeapons}}
     <div class="ship-component-empty">{{localize "IMPMAL_RTIM.VoidCombat.DragShipWeapon"}}</div>
     {{/unless}}
-    {{#if hasMacroWeapons}}
+    {{#if macroWeapons}}
     <div class="voidship-table-wrap">
         <div class="ship-components-title">{{localize "IMPMAL_RTIM.VoidCombat.Macrobatteries"}}</div>
         <div class="voidship-table" style="--voidship-table-cols: 2fr 1fr 0.8fr 0.8fr 1fr auto;">
@@ -360,10 +372,10 @@
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.WideArc"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Range"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Multipliers"}}</div>
-                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div style="width:25px"></div>
             </div>
             {{#each macroWeapons}}
-            <div class="voidship-table-row-border list-row">
+            <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-row">
                     <div class="voidship-table-cell ship-weapon-name" data-action="expandRow" data-collapseid="{{this.id}}">
                         <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
@@ -385,12 +397,9 @@
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.range}}</div>
                     <div class="voidship-table-cell voidship-table-center">{{this.system.getWeaponMultipliers}}</div>
                     <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -419,7 +428,7 @@
         </div>
     </div>
     {{/if}}
-    {{#if hasLanceWeapons}}
+    {{#if lanceWeapons}}
     <div class="voidship-table-wrap">
         <div class="ship-components-title">{{localize "IMPMAL_RTIM.VoidCombat.Lances"}}</div>
         <div class="voidship-table" style="--voidship-table-cols: 2fr 1fr 0.8fr 0.8fr 1fr auto;">
@@ -429,10 +438,10 @@
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.WideArc"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Range"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Multipliers"}}</div>
-                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div style="width:25px"></div>
             </div>
             {{#each lanceWeapons}}
-            <div class="voidship-table-row-border list-row">
+            <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-row">
                     <div class="voidship-table-cell ship-weapon-name" data-action="expandRow" data-collapseid="{{this.id}}">
                         <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
@@ -455,12 +464,9 @@
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.range}}</div>
                     <div class="voidship-table-cell voidship-table-center">{{this.system.getWeaponMultipliers}}</div>
                     <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -488,7 +494,7 @@
         </div>
     </div>
     {{/if}}
-    {{#if hasTorpedoWeapons}}
+    {{#if torpedoWeapons}}
     <div class="voidship-table-wrap">
         <div class="ship-components-title">{{localize "IMPMAL_RTIM.VoidCombat.TorpedoBays"}}</div>
         <div class="voidship-table" style="--voidship-table-cols: 2fr 1.2fr 1fr 0.8fr 0.8fr 0.8fr 1fr auto;">
@@ -500,10 +506,10 @@
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Speed"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Turn"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.ThermalPenetration"}}</div>
-                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div style="width:25px"></div>
             </div>
             {{#each torpedoWeapons}}
-            <div class="voidship-table-row-border list-row">
+            <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-row">
                     <div class="voidship-table-cell ship-weapon-name" data-action="expandRow" data-collapseid="{{this.id}}">
                         <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
@@ -534,12 +540,9 @@
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.torpedo.turnRating}}</div>
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.torpedo.thermal}}</div>
                     <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -567,7 +570,7 @@
         </div>
     </div>
     {{/if}}
-    {{#if hasLandingWeapons}}
+    {{#if landingWeapons}}
     <div class="voidship-table-wrap">
         <div class="ship-components-title">{{localize "IMPMAL_RTIM.VoidCombat.LandingBays"}}</div>
         <div class="voidship-table" style="--voidship-table-cols: 2fr 2.2fr 1fr 0.8fr 0.8fr auto;">
@@ -577,10 +580,10 @@
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.BomberDamage"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Speed"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Rating"}}</div>
-                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div style="width:25px"></div>
             </div>
             {{#each landingWeapons}}
-            <div class="voidship-table-row-border list-row">
+            <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-row">
                     <div class="voidship-table-cell ship-weapon-name" data-action="expandRow" data-collapseid="{{this.id}}">
                         <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
@@ -638,12 +641,9 @@
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.landing.speedRating}}</div>
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.rating}}</div>
                     <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -671,7 +671,7 @@
         </div>
     </div>
     {{/if}}
-    {{#if hasNovaWeapons}}
+    {{#if novaWeapons}}
     <div class="voidship-table-wrap">
         <div class="ship-components-title">{{localize "IMPMAL_RTIM.VoidCombat.NovaCannons"}}</div>
         <div class="voidship-table" style="--voidship-table-cols: 2fr 1fr 0.8fr 0.8fr 1fr auto;">
@@ -681,10 +681,10 @@
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.WideArc"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Range"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Multipliers"}}</div>
-                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div style="width:25px"></div>
             </div>
             {{#each novaWeapons}}
-            <div class="voidship-table-row-border list-row">
+            <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-row">
                     <div class="voidship-table-cell ship-weapon-name" data-action="expandRow" data-collapseid="{{this.id}}">
                         <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
@@ -707,12 +707,9 @@
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.range}}</div>
                     <div class="voidship-table-cell voidship-table-center">{{this.system.getWeaponMultipliers}}</div>
                     <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -740,7 +737,7 @@
         </div>
     </div>
     {{/if}}
-    {{#if hasOtherWeapons}}
+    {{#if otherWeapons}}
     <div class="voidship-table-wrap">
         <div class="ship-components-title">{{localize "IMPMAL_RTIM.VoidCombat.OtherWeapons"}}</div>
         <div class="voidship-table" style="--voidship-table-cols: 2fr 1fr 0.8fr 0.8fr 1fr auto;">
@@ -750,10 +747,10 @@
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.WideArc"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Range"}}</div>
                 <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Multipliers"}}</div>
-                <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Actions"}}</div>
+                <div style="width:25px"></div>
             </div>
             {{#each otherWeapons}}
-            <div class="voidship-table-row-border list-row">
+            <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-row">
                     <div class="voidship-table-cell ship-weapon-name" data-action="expandRow" data-collapseid="{{this.id}}">
                         <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
@@ -776,12 +773,9 @@
                     <div class="voidship-table-cell voidship-table-center">{{this.system.weapon.range}}</div>
                     <div class="voidship-table-cell voidship-table-center">{{this.system.getWeaponMultipliers}}</div>
                     <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">

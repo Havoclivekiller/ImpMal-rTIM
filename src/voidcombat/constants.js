@@ -4,45 +4,55 @@ export const VOIDSHIP_CONFIG = {
             actions : {
                 repair : {
                     key: "repair",
-                    display: "IMPMAL_RTIM.VoidCombat.Repair"
+                    display: "IMPMAL_RTIM.VoidCombat.Repair",
+                    defaultCost: 1,
                 },
                 rally : {
                     key: "rally",
-                    display: "IMPMAL_RTIM.VoidCombat.Rally"
+                    display: "IMPMAL_RTIM.VoidCombat.Rally",
+                    defaultCost: 1,
                 },
                 scan : {
                     key: "scan",
-                    display: "IMPMAL_RTIM.VoidCombat.Scan"
+                    display: "IMPMAL_RTIM.VoidCombat.Scan",
+                    defaultCost: 1,
                 },
                 boarding : {
                     key: "boarding",
-                    display: "IMPMAL_RTIM.VoidCombat.Boarding"
+                    display: "IMPMAL_RTIM.VoidCombat.Boarding",
+                    defaultCost: 2,
                 },
                 reload : {
                     key: "reload",
-                    display: "IMPMAL_RTIM.VoidCombat.Reload"
+                    display: "IMPMAL_RTIM.VoidCombat.Reload",
+                    defaultCost: 2,
                 },
                 restartShields : {
                     key: "restartShields",
-                    display: "IMPMAL_RTIM.VoidCombat.RestartShields"
+                    display: "IMPMAL_RTIM.VoidCombat.RestartShields",
+                    defaultCost: 2,
                 },
                 seek : {
                     key: "seek",
-                    display: "IMPMAL_RTIM.VoidCombat.Seek"
+                    display: "IMPMAL_RTIM.VoidCombat.Seek",
+                    defaultCost: 1,
                 },
             },
             maneuvers : {
                 evasiveManeuvers : {
                     key: "evasiveManeuvers",
-                    display: "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers"
+                    display: "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers",
+                    defaultCost: 0,
                 },
                 ramming : {
                     key: "ramming",
-                    display: "IMPMAL_RTIM.VoidCombat.Ramming"
+                    display: "IMPMAL_RTIM.VoidCombat.Ramming",
+                    defaultCost: 4,
                 },
                 silentRunning : {
                     key: "silentRunning",
-                    display: "IMPMAL_RTIM.VoidCombat.SilentRunning"
+                    display: "IMPMAL_RTIM.VoidCombat.SilentRunning",
+                    defaultCost: 0,
                 },
             },
             partTypes : {
@@ -209,9 +219,9 @@ export const VOIDSHIP_CONFIG = {
                     key: "aft",
                     display: "IMPMAL_RTIM.VoidCombat.Aft",
                 },
-                prow: {
-                    key: "prow",
-                    display: "IMPMAL_RTIM.VoidCombat.Prow",
+                fore: {
+                    key: "fore",
+                    display: "IMPMAL_RTIM.VoidCombat.Fore",
                 },
                 port: {
                     key: "port",

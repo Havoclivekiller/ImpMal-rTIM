@@ -38,6 +38,7 @@ export class VoidshipAttackEvaluator extends BaseTestEvaluator
         }
         data.result.roll = data.result.roll || roll.total;
         data.result.rollObject = roll;
+        data.computeDoubles = true;
         this.computeResult(data);
     }
 

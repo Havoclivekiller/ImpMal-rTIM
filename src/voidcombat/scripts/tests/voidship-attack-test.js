@@ -4,6 +4,19 @@ import { VoidshipAttackEvaluator } from "./voidship-attack-evaluator.js";
 export class VoidshipAttackTest extends VoidshipTest
 {
     static evaluatorClass = VoidshipAttackEvaluator;
+    testDetailsTemplate = "modules/impmal-rtim/voidcombat/templates/tests/voidship-attack-test.hbs";
+
+    static get actions() 
+    { 
+        return {
+            testButton :  this._onDealFatigueToTarget,
+        };
+    }
+
+    static async _onDealFatigueToTarget(ev, target)
+    {
+        console.log(this.system.test.targetTokens);
+    }
 
     static _getDialogTestData(data)
     {
@@ -19,7 +32,7 @@ export class VoidshipAttackTest extends VoidshipTest
     _defaultData() 
     {
         let data = super._defaultData();
-        data.hitLocation = "prow";
+        data.hitLocation = "fore";
         data.hasDamage = true;
         data.additionalDamage = 0;
         data.damageFormula = "";
@@ -40,4 +53,25 @@ export class VoidshipAttackTest extends VoidshipTest
         if(this.item) await Promise.all(this.item.runScripts("rollWeaponTest", this));
     }
 
+    onChatAction(event, target)
+    {
+        let action = target.dataset.action;
+        let actionFn = this.constructor?.actions?.[action]?.bind(this.message);
+        if (actionFn)
+        {
+            actionFn(event, target);
+        }
+    }
+
+    listeners(html)
+    {
+        html.addEventListener("click", event => 
+        {
+            const target = event.target.closest("[data-action]");
+            if ( target ) 
+            {
+                this.onChatAction(event, target);
+            }
+        });
+    }
 }

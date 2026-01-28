@@ -1,5 +1,5 @@
 <header class="sheet-header voidship-header">
-    <img class="profile" data-action="editImage" src="{{actor.img}}" data-edit="img">
+    <img class="profile voidship-img" data-action="editImage" src="{{actor.img}}" data-edit="img">
     <div class="header-details">
         <div class="details-row name">
             <input type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'Name'}}">
@@ -17,23 +17,12 @@
                     </button>
                 </div>
                 {{/if}}
-                <div class="details-row hull-row">
+                <div class="details-row hull-row" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ShipType"}}">
                     <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.ShipType"}}</span>
                     <span class="value">{{localize (lookup (lookup (config "RTIM.voidship.shipTypes") system.shipType) "display")}}</span>
                 </div>
-            </div>
-            <div class="hull-meta-right">
-                {{#if system.options.fated}}
-                <div class="details-row fate-points-row">
-                    <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.FatePoints"}}</span>
-                    <div class="ship-input-pair">
-                        <input type="number" name="system.fate.value" value="{{system.fate.value}}">
-                        <span>/</span>
-                        <input type="number" name="system.fate.max" value="{{system.fate.max}}" disabled>
-                    </div>
-                </div>
-                {{/if}}
-                <div class="voidship-faction-group">
+                <div class="details-row hull-row">
+                    <span class="label">{{localize "IMPMAL.Faction"}}</span>
                     <div class="voidship-faction-row">
                         {{#if system.faction.document}}
                         <div class="voidship-faction-item" data-id="{{system.faction.document.id}}">
@@ -48,13 +37,28 @@
                     </div>
                 </div>
             </div>
+            <div class="hull-meta-right">
+                {{#if system.options.fated}}
+                <div class="details-row fate-points-row points-main" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.FatePoints"}}">
+                    <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.FatePoints"}}</span>
+                     <div class="points-pips" data-action="adjustPoints" data-points="fatePoints">
+                        {{#times (floor system.fate.value)}}
+                        <span class="pip pip-active"></span>
+                        {{/times}}
+                        {{#times (calc system.fate.max "-" (ceil system.fate.value))}}
+                        <span class="pip pip-inactive"></span>
+                        {{/times}}
+                    </div>
+                </div>
+                {{/if}}
+            </div>
         </div>
     </div>
 
     <div class="details-row points-row">
         <div class="points-block" {{#if system.options.noActionPoints}}style="grid-column: span 2"{{/if}}>
             <div class="points-main">
-                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.MovementPoints"}}</span>
+                <span class="label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementPoints"}}">{{localize "IMPMAL_RTIM.VoidCombat.MovementPoints"}}</span>
                 <div class="points-pips" data-action="adjustPoints" data-points="movement">
                     {{#times (floor system.movementPoints.value)}}
                     <span class="pip pip-active"></span>
@@ -68,13 +72,13 @@
                 </div>
             </div>
             <div class="points-buttons">
-                <button type="button" class="ship-combat-action" data-action="toggleMovementPreview" data-tooltip="Preview movement">
+                <button type="button" class="ship-combat-action" data-action="toggleMovementPreview" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.FatePoints"}}">
                     <i class="fa-solid fa-route"></i>
                 </button>
-                <button type="button" class="ship-combat-action" data-action="toggleMovementMove" data-tooltip="Click to move">
+                <button type="button" class="ship-combat-action" data-action="toggleMovementMove" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.FatePoints"}}">
                     <i class="fa-solid fa-location-arrow"></i>
                 </button>
-                <button type="button" class="ship-combat-action" data-tooltip="Reset" data-action="fixProperty" data-property="movementPoints">
+                <button type="button" class="ship-combat-action" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementReset"}}" data-action="fixProperty" data-property="movementPoints">
                     <i class="fa-solid fa-rotate-right"></i>
                 </button>
             </div>
@@ -82,7 +86,7 @@
         {{#unless system.options.noActionPoints}}
         <div class="points-block">
             <div class="points-main">
-                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.ActionPoints"}}</span>
+                <span class="label" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ActionPoints"}}">{{localize "IMPMAL_RTIM.VoidCombat.ActionPoints"}}</span>
                 <div class="points-pips" data-action="adjustPoints" data-points="action">
                     {{#times (floor system.actionPoints.value)}}
                     <span class="pip pip-active"></span>
@@ -96,7 +100,7 @@
                 </div>
             </div>
             <div class="points-buttons">
-                <button type="button" class="ship-combat-action"data-tooltip="Reset" data-action="fixProperty" data-property="actionPoints">
+                <button type="button" class="ship-combat-action"data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ActionReset"}}" data-action="fixProperty" data-property="actionPoints">
                     <i class="fa-solid fa-rotate-right"></i>
                 </button>
             </div>

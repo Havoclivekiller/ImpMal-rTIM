@@ -6,7 +6,6 @@ export class VoidshipTest extends CharacteristicTest
 {
 
     static contextClass = VoidshipTestContext;
-
     /**
      * Compute the target value for this test
      * 
@@ -54,36 +53,6 @@ export class VoidshipTest extends CharacteristicTest
     get tags() 
     {
         let tags = super.tags;
-
-        // if (this.context.useEvasiveManeuvers)
-        // {
-        //     tags.push(game.i18n.localize("IMPMAL_RTIM.VoidCombat.EvasiveManeuvers"));
-        // }
-
-        // if (this.context.useDetection)
-        // {
-        //     tags.push(game.i18n.localize("IMPMAL_RTIM.VoidCombat.DetectionRating"));
-        // }
-
-        // if (this.context.useEvasion)
-        // {
-        //     tags.push(game.i18n.localize("IMPMAL_RTIM.VoidCombat.EvasionRating"));
-        // }
-
-        // if (this.context.useTurret)
-        // {
-        //     tags.push(game.i18n.localize("IMPMAL_RTIM.VoidCombat.TurretRating"));
-        // }
-
-        // if (this.context.useEnemyEvasion)
-        // {
-        //     tags.push(game.i18n.localize("IMPMAL_RTIM.VoidCombat.EnemyEvasionRating"));
-        // }
-
-        // if (this.context.useEnemyTurret)
-        // {
-        //     tags.push(game.i18n.localize("IMPMAL_RTIM.VoidCombat.EnemyTurretRating"));
-        // }
 
         return tags;
     }
@@ -134,6 +103,8 @@ export class VoidshipTest extends CharacteristicTest
             else
                 apCost = -1;
 
+            if (this.context.targetCriticalFatigue && apCost < 0) apCost = 0;
+
             this.context.criticalComputed = true;
         }
         
@@ -144,37 +115,20 @@ export class VoidshipTest extends CharacteristicTest
             await message.system.renderContent();
         }
 
-        let computed = false;
         if (!this.context.executionComputed && this.result.outcome === "success")
         {   
             this.context.voidshipMessage = await this.computeActionExecution({apCost, type : this.context.type, result : this.result, actor : this.actor, item : this.item});
             
-            computed = true;
-
             this.context.executionComputed = true;
         }
         
-        if (computed && apCost < 0)
+        if (this.result.outcome === "success" && apCost < 0)
         {
-            apCost = 0;
-            switch (this.context.type)
-            {
-                case "repair":
-                case "rally":
-                case "scan":
-                case "seek":
-                case "boarding":
-                case "reloadSpecial":
-                case "reloadTorpedoes":
-                case "reloadSquadrons":
-                case "restartShields":
-                    apCost = 1;
-                    break;
-            }
-            if (apCost > 0) 
+            apCost = this.actor.system.getActionCost(this.context.type) ?? 0;
+            if (apCost > 1) 
             {
                 this.actor.update({"system.actionPoints.value" : 
-                    Math.min(this.actor.system.actionPoints.value + apCost, 
+                    Math.min(this.actor.system.actionPoints.value + 1, 
                         this.actor.system.actionPoints.max)});
             }
         }    
@@ -239,36 +193,28 @@ export class VoidshipTest extends CharacteristicTest
     {
         if (!data) return;
 
-        let apCost = data.apCost ?? 0;
-        switch (data.type){
-            case "repair":
-            case "rally":
-            case "scan":
-            case "seek":
-                apCost = 1;
-                break;
-            case "boarding":
-            case "reloadSpecial":
-            case "reloadTorpedoes":
-            case "reloadSquadrons":
-            case "restartShields":
-                apCost = 2;
-                break;
-        }
+        let apCost = data.actor.system.getActionCost(data.type) ?? 0;
+        
         if (apCost > 0)
         {
-            data.actor.update({"system.actionPoints.value" : Math.max(data.actor.system.actionPoints.value - apCost, 0)});
+            await data.actor.update({"system.actionPoints.value" : Math.max(data.actor.system.actionPoints.value - apCost, 0)});
+        }
+        
+        if (data.type !== "silentRunning" && data.type !== "ramming" && data.type !== "evasiveManeuvers" &&
+            data.actor.system.actionCosts[data.type])
+        {
+            await data.actor.update({[`system.actionCosts.${data.type}.byTurn`] : data.actor.system.actionCosts[data.type].byTurn + 1});
         }
 
-        let movementCost = 0;
-        switch (data.type){
-            case "ramming":
-                movementCost = 4;
-                break;
-        }
-        if (movementCost > 0)
+        let movementCost = data.actor.system.getMovementCost(data.type) ?? 0;
+        
+        if (data.type === "ramming")
         {
-            data.actor.update({"system.movementPoints.value" : Math.max(data.actor.system.movementPoints.value - movementCost, 0)});
+            await data.actor.update({"system.movementPoints.value" : 0});
+        }
+        else if (movementCost > 0)
+        {
+            await data.actor.update({"system.movementPoints.value" : Math.max(data.actor.system.movementPoints.value - movementCost, 0)});
         }
     }
 

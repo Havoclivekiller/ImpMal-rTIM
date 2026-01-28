@@ -9,9 +9,27 @@ import { VoidshipMessageModel } from "./scripts/tests/voidship-message-model.js"
 import { VoidshipOpposedTestMessageModel } from "./scripts/tests/voidship-opposed-test-message-model.js";
 import { registerHooks } from "./hooks.js";
 import { registerOverride } from "./override.js";
+import { VoidcombatSettings } from "./scripts/voidcombat-settings.js";
 
 Hooks.on('init', () => {
     const socketName = "module.impmal-rtim";
+
+    game.settings.registerMenu("impmal-rtim", "voidcombatSettingsMenu", {
+        name : game.i18n.localize("IMPMAL_RTIM.VoidCombat.Settings.Name"),
+        label : game.i18n.localize("IMPMAL_RTIM.VoidCombat.Settings.Label"),
+        hint : game.i18n.localize("IMPMAL_RTIM.VoidCombat.Settings.Hint"),
+        icon : "fa-solid fa-list",
+        type : VoidcombatSettings,
+        restricted : true
+    });
+
+    game.settings.register("impmal-rtim", "voidcombatSettings", {
+        name: "IMPMAL_RTIM.VoidCombat.Settings.Settings",
+        scope: "world",
+        config: false,
+        type: VoidcombatSettings.schema
+    });
+
     registerOverride();
     registerHooks();
 

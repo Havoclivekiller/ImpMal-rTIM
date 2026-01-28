@@ -18,42 +18,13 @@ export class VoidshipSetupTests
     {
         if (actor) this.actor = actor;
         return this.actor._setupTest(VoidshipTestDialog, VoidshipAttackTest, {itemId, name, key}, context, options, roll, false);
-    }
-    
-    static getMovementCost(type) {        
-        switch (type){
-            case "ramming":
-                return 4;
-        }
-        return 0;
-    }
-
-    static getActionCost(type) {        
-        switch (type)
-        {
-            case "repair":
-            case "repairMinion":
-            case "rally":
-            case "scan":
-            case "scanMinion":
-            case "seek":
-                return 1;
-            case "boarding":
-            case "reloadSpecial":
-            case "reloadTorpedoes":
-            case "reloadNovaCannon":
-            case "reloadSquadrons":
-            case "restartShields":
-                return 2;
-        }
-        return 0;
-    }    
+    }   
 
     static computeActionCost(type)
     {
         if (this.actor.system.noActionPoints) return;
 
-        if (this.actor.system.actionPoints.value < this.getActionCost(type)){
+        if (this.actor.system.actionPoints.value < this.actor.system.getActionCost(type)){
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughActionPoints"));
             return false;
         }
@@ -63,8 +34,8 @@ export class VoidshipSetupTests
 
     static computeMovementCost(type)
     {
-        if (this.actor.system.movementPoints.value < this.getMovementCost(type)){
-            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughtMovementPoints"));
+        if (this.actor.system.movementPoints.value < this.actor.system.getMovementCost(type)){
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughMovementPoints"));
             return false;
         }
         return true;
@@ -130,8 +101,8 @@ export class VoidshipSetupTests
         let key = "piloting";
         let spec = this.actor.system.skills.piloting.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.MajorVoidship")?.slugify());;  
         
-        if (this.actor.system.movementPoints.value < this.actor.system.movementPoints.max){
-            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughtMovementPoints"));
+        if (!this.computeMovementCost("evasiveManeuvers") && !this.actor.system.autoCalc.allowNoPoints) {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughMovementPoints"));
             return;
         }
 
@@ -230,6 +201,7 @@ export class VoidshipSetupTests
             hasDamage: true,
             damage: this.actor.system.options.rammingDamage,
             moveTo,
+            leftoverMovement : Math.max(this.actor.system.movementPoints.value - this.actor.system.actionCosts.ramming.value, 0),
             distanceToTarget : distance
         };
         
@@ -462,6 +434,12 @@ export class VoidshipSetupTests
         let key = "ranged";
         let spec = this.actor.system.skills.ranged.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Voidship")?.slugify());
         
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+        
         if (item.system.status === "destroyed")
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponDestroyed"));
@@ -487,6 +465,7 @@ export class VoidshipSetupTests
             hasDetection: true, 
             useDetection: true, 
             difficulty: "hard",
+            targetCriticalFatigue: true,
             hasWeaponDamaged: item.system.status === "damaged", 
             useWeaponDamaged: item.system.status === "damaged"
         };
@@ -502,6 +481,12 @@ export class VoidshipSetupTests
         let key = "rapport";
         let spec = this.actor.system.skills.rapport.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Rallying")?.slugify());;  
         
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         if (fromAction && !this.computeActionCost("reloadNovaCannon") && !this.actor.system.autoCalc.allowNoPoints) {
             return;
         }
@@ -524,7 +509,13 @@ export class VoidshipSetupTests
 
         let key = "rapport";
         let spec = this.actor.system.skills.rapport.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Rallying")?.slugify());;  
-                
+            
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         if (fromAction && !this.computeActionCost("reloadTorpedoes") && !this.actor.system.autoCalc.allowNoPoints) {
             return;
         }
@@ -554,6 +545,7 @@ export class VoidshipSetupTests
             hasTurret: true, 
             useTurret: true, 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedTorpedoSalvoTest")}`, 
+            targetCriticalFatigue: true,
         };
         
         return this.setupVoidshipTest({itemId : spec?.id, key}, context);
@@ -565,7 +557,13 @@ export class VoidshipSetupTests
 
         let key = "navigation";
         let spec = this.actor.system.skills.navigation.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Void")?.slugify());;  
-               
+            
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         let targetToken = game?.user?.targets?.first();
         if (targetToken?.actor?.type !== "impmal-rtim.voidshipSheet"){
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NeedTarget"));
@@ -594,7 +592,8 @@ export class VoidshipSetupTests
             hasWeaponRating: true,
             hasWeaponDamaged: item.system.status === "damaged", 
             useWeaponDamaged: item.system.status === "damaged", 
-            hitLocation: "prow",
+            hitLocation: "fore",
+            targetCriticalFatigue: true,
             targetActorId : targetToken?.actor?.uuid };
         
         return this.setupVoidshipAttackTest({itemId : spec?.id, key}, context);
@@ -607,9 +606,15 @@ export class VoidshipSetupTests
         let key = "rapport";
         let spec = this.actor.system.skills.rapport.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Rallying")?.slugify());;  
         
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         if (fromAction && !this.computeActionCost("reloadSquadrons") && !this.actor.system.autoCalc.allowNoPoints) {
             return;
-        }
+        }  
 
         canvas.tokens.setTargets(game.user.targets.ids, {mode: "release"});
 
@@ -636,6 +641,7 @@ export class VoidshipSetupTests
             hasTurret: true, 
             useTurret: true, 
             useHalfTurret: true,
+            targetCriticalFatigue: true,
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedAssaultBoardingTest")}`, 
         };
         
@@ -648,7 +654,13 @@ export class VoidshipSetupTests
 
         let key = "presence";
         let spec = this.actor.system.skills.presence.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Boarding")?.slugify());;  
-        
+          
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         let targetToken = game?.user?.targets?.first();
         if (targetToken?.actor?.type !== "impmal-rtim.voidshipSheet"){
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NeedTarget"));
@@ -665,6 +677,7 @@ export class VoidshipSetupTests
             hasWeaponRating: true,
             weaponId: item.id, 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.AssaultBoardingTest")}`, 
+            targetCriticalFatigue: true,
             targetActorId : targetToken?.actor?.uuid 
         };
         
@@ -678,6 +691,12 @@ export class VoidshipSetupTests
         let key = "navigation";
         let spec = this.actor.system.skills.navigation.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Void")?.slugify());
         
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         if (item.system.status === "destroyed")
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponDestroyed"));
@@ -698,6 +717,7 @@ export class VoidshipSetupTests
             weaponId: item.id, 
             hasWeaponRating: true,
             hasDamage: true,
+            targetCriticalFatigue: true,
             hasWeaponDamaged: item.system.status === "damaged", 
             useWeaponDamaged: item.system.status === "damaged", 
             targetActorId : targetToken?.actor?.uuid };
@@ -718,6 +738,7 @@ export class VoidshipSetupTests
             type: "bomberRunOpposed", 
             hasTurret: true, 
             useTurret: true, 
+            targetCriticalFatigue: true,
          };
         
         return this.setupVoidshipTest({itemId : spec?.id, key : skill}, context);    
@@ -731,6 +752,12 @@ export class VoidshipSetupTests
         let skill = "navigation";
         let spec = this.actor.system.skills.navigation.specialisations.find(i => i.name.slugify() == game.i18n.localize("IMPMAL_RTIM.VoidCombat.Void")?.slugify());
         
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
+        }
+
         if (item.system.status === "destroyed")
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponDestroyed"));
@@ -750,6 +777,7 @@ export class VoidshipSetupTests
             dogfight : true,
             hasWeaponRating: true,
             weaponId: item.id, 
+            targetCriticalFatigue: true,
             hasWeaponDamaged: item.system.status === "damaged", 
             useWeaponDamaged: item.system.status === "damaged", 
             targetActorId : targetToken?.actor?.uuid };
@@ -770,6 +798,7 @@ export class VoidshipSetupTests
             type: "dogfightOpposed", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedDogfightTest")}`,
             dogfight : true,
+            targetCriticalFatigue: true,
             dogfightOpposed : true };
         
         return this.setupVoidshipTest({itemId : spec?.id, key : skill}, context); 
@@ -791,6 +820,12 @@ export class VoidshipSetupTests
                 ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoToken"));
                 return;
             }
+        }
+
+        if (!item.system.active)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated"));
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
         }
 
         if (item.system.status === "destroyed")
@@ -832,6 +867,7 @@ export class VoidshipSetupTests
             useDetection: true, 
             hasEnemyEvasion: true, 
             useEnemyEvasion: true, 
+            targetCriticalFatigue: true,
             hasWeaponDamaged: item.system.status === "damaged", 
             useWeaponDamaged: item.system.status === "damaged", 
             hitLocation: hitSide?.side,
@@ -874,7 +910,7 @@ export class VoidshipSetupTests
         if (!roleItem.system.active)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.RoleIsDeactivated"));
-            if (!this.actor.system.autoCalc.allowDeactivatedRoles) return;
+            if (!this.actor.system.autoCalc.allowDeactivated) return;
         }
 
         let actionPath = roleItem.system.role.upgraded ? "actionUpgraded" : "action";

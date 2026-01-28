@@ -423,7 +423,7 @@ ui.notifications.info("You reset Part of the Vehicle. It is now: " + flag.value 
 	//// VOID COMBAT ITEMS
 	// Deep Void Auger Arrays - Prepare Base Data
 	"qAFsSQNvVgUk71S3": `this.actor.system.shields.aft.modifier -= 10;
-this.actor.system.shields.prow.modifier -= 10;
+this.actor.system.shields.fore.modifier -= 10;
 this.actor.system.shields.starboard.modifier -= 10;
 this.actor.system.shields.port.modifier -= 10;
 this.actor.system.shields.average.modifier -= 10;`,
@@ -485,15 +485,15 @@ this.actor.system.shields.average.modifier -= 10;`,
 	"l0hv3OEFBQlRat3g": `return !this.item.getFlag("impmal-rtim", "fatigue")`,
 	// Plasma Slave Clans 
 	"SALQnRsV9Ccc8vm4": `this.actor.system.speed.modifier += 1;`,
-	// Prow Thruster Clans - Dialog
+	// Fore Thruster Clans - Dialog
 	"GXYPfacUpQ9YATSx": `args.fields.SL += 2;`,
-	// Prow Thruster Clans - Dialog Hide
+	// Fore Thruster Clans - Dialog Hide
 	"JVfkCNJbbeP9Hqol": `return args.context?.type !== "ramming";`,
-	// Prow Thruster Clans - Dialog Activate
+	// Fore Thruster Clans - Dialog Activate
 	"KFzIEfzorf3MAbC9": `return args.context?.type === "ramming";`,
 	// Reactive Shield Doctrine - Manual
 	"l55QWcRsxQZkT6a6": `
-let sides = ["prow", "aft", "starboard", "port"]
+let sides = ["fore", "aft", "starboard", "port"]
 if (this.actor.system.options.takeAvgShield) sides = ["average"];
 
 let noShields = true;
@@ -503,7 +503,7 @@ sides.map((key) => {
 	{
 		noShields = false;
 		btns.push({action : key,
-	   label : game.impmal.config.RTIM.voidship.shipLocations[key].display});
+	   label : game.impmal.config.RTIM.voidship.hitLocations[key].display});
 	}
 }); 
        
@@ -555,7 +555,7 @@ if (item)
 this.actor.system.speedRating.modifier += 2;`,
 	// Xeno Ghost Field - Activate Xeno Ghost Shield - Manual
 	"COg1C0kxyWNnorIs": `this.effect.update({"disabled": false})
-  let sides = ["aft", "prow", "starboard","port"];
+  let sides = ["aft", "fore", "starboard","port"];
 sides.forEach((key) =>
   {
     this.actor.update({[\`system.shields.\${key}.value\`]: 0})
@@ -567,7 +567,7 @@ sides.forEach((key) =>
 	// Xeno Ghost Field - Deactivate Xeno Ghost Shield - Manual Hide
 	"o5Wx0C8I1sm3r7Lb": `return this.effect.disabled;`,
 	// Xeno Ghost Field - Prepare Derived
-	"fgSwM3hN5Tx5V715": `let sides = ["aft", "prow", "starboard","port","average"];
+	"fgSwM3hN5Tx5V715": `let sides = ["aft", "fore", "starboard","port","average"];
 sides.forEach((key) =>
   {
     this.actor.system.shields[key].max = 0;
@@ -632,19 +632,19 @@ if (item.system.weapon.type == "torpedo")
 	"oAq61SbewMILb6n7": `this.actor.system.hull.modifier += 5;`,
 	// Boosted Shield Array - PrePrepare Derived
 	"mPIrQxO3bmwIj7GE": `this.actor.system.shields.aft.modifier += 10;
-this.actor.system.shields.prow.modifier += 10;
+this.actor.system.shields.fore.modifier += 10;
 this.actor.system.shields.starboard.modifier += 10;
 this.actor.system.shields.port.modifier += 10;
 this.actor.system.shields.average.modifier += 10;`,
 	// Armoured Prow - PostPrepare Derived
 	"djQW4RyN8GoWAeXl": `let value = this.actor.system.size.value < 4 ? 2 : 4
-this.actor.system.armour.prow.value += value;
+this.actor.system.armour.fore.value += value;
 this.actor.system.options.rammingDamage += 5;
 this.actor.system.weaponSlots.prow.value = 0;`,
 	// Armoured Plating - PostPrepare Derived
 	"Otg9rHooQqU747Og": `let value = this.actor.system.size.value < 4 ? 1 : 2
 this.actor.system.armour.aft.value += value;
-this.actor.system.armour.prow.value += value;
+this.actor.system.armour.fore.value += value;
 this.actor.system.armour.starboard.value += value;
 this.actor.system.armour.port.value += value;
 this.actor.system.armour.average.value += value;`,
@@ -659,7 +659,7 @@ if (this.actor.system.hull.value < half)
 }`,
 	// Archeo Regenerative Hull - PostPrepare Derived
 	"NvGkmDbzoseYFNWR": `let value = this.actor.system.size.value < 4 ? 2 : 4
-this.actor.system.armour.prow.value += value;
+this.actor.system.armour.fore.value += value;
 this.actor.system.options.rammingDamage += 10;
 this.actor.system.weaponSlots.prow.value = 0;`,
 	// Archeo Regenerative Hull - Dialog
@@ -670,7 +670,7 @@ this.actor.system.weaponSlots.prow.value = 0;`,
 	"f3gF2cFExwy7g5TU": `return args.context?.type === "ramming"`,
 	// Archeo Castellan Shield Array - PrePrepare Derived
 	"nNf9lFUKo2tHEXkX": `this.actor.system.shields.aft.modifier += 20;
-this.actor.system.shields.prow.modifier += 20;
+this.actor.system.shields.fore.modifier += 20;
 this.actor.system.shields.starboard.modifier += 20;
 this.actor.system.shields.port.modifier += 20;
 this.actor.system.shields.average.modifier += 20;`,
@@ -701,12 +701,8 @@ this.item.setFlag("impmal-rtim", "action", items);`,
 	// Specialized Ship's Bridge - Dialog Activate
 	"c7ZXz4bUksdqB0tQ": `return this.item.getFlag("impmal-rtim", "action") === args.context.type`,
 	//// VOIDCOMBAT CREW
-	// Aegis Maintainers - Dialog Submission
-	"VDLrPSfeJm9NNipQ": `this.actor.update({"system.actionPoints.value": this.actor.system.actionPoints.value + 1});`,
-	// Aegis Maintainers - Dialog Hide
-	"sEK5ZT0ed02RIVke": `return args.context?.type !== "restartShields"`,
-	// Aegis Maintainers - Dialog Activate
-	"lqx7cBxgXWiXPm5G": `return args.context?.type === "restartShields"`,
+	// Aegis Maintainers - Pre-Prepare Derived
+	"VDLrPSfeJm9NNipQ": `this.actor.system.actionCosts.restartShields.modifier -= 1;`,
 	// Deck-Gang Backstabbers - Dialog
 	"WO12LY26RMCAbjLT": `args.fields.SL--;`,
 	// Deck-Gang Backstabbers - Dialog Hide
@@ -859,7 +855,7 @@ this.item.setFlag("impmal-rtim", "roleId", items[0].id);`,
 	"MJWtNledcnfAj0tG": `return args.context?.type === "boarding" || args.context?.type === "rally"`,
 	// Voidshull Packed Clans - Pre-Prepare Derived
 	"XNpAS2aQjFXfuIOD": `this.actor.system.armour.aft.modifier += 1;
-this.actor.system.armour.prow.modifier += 1;
+this.actor.system.armour.fore.modifier += 1;
 this.actor.system.armour.starboard.modifier += 1;
 this.actor.system.armour.port.modifier += 1;
 this.actor.system.armour.average.modifier += 1;`,
@@ -933,7 +929,7 @@ args.options.comment += "Augur Master Bonus ";`,
   if (!args.context.effectFlags) args.context.effectFlags = [];
 if (args.context.effectFlags.includes(this.effect.id)) return;
   	let isUpgraded = this.item.system.role.upgraded;
-	let sides = ["prow","aft","starboard","starboard","port","port"];
+	let sides = ["fore","aft","starboard","starboard","port","port"];
 	let chosenSides = [];
 	if (isUpgraded && args.result.SL >= 5)
 	{
@@ -1003,7 +999,7 @@ targetUuid : targetToken.actor.uuid})
 	// Aegis Enginseer - Aegis Enginseer Bonus - Pre-Prepare Derived
 	"pPeesVuNHaYp7ghv": `let value = this.item.system.role.upgraded ? 10 : 5;
 this.actor.system.shields.aft.modifier += value;
-this.actor.system.shields.prow.modifier += value;
+this.actor.system.shields.fore.modifier += value;
 this.actor.system.shields.starboard.modifier += value;
 this.actor.system.shields.port.modifier += value;
 this.actor.system.shields.average.modifier += value;`,
@@ -1016,7 +1012,7 @@ if (!flag)
 }
 
 
-let sides = ["prow", "aft", "starboard", "port"]
+let sides = ["fore", "aft", "starboard", "port"]
 if (this.actor.system.options.takeAvgShield) sides = ["average"];
 
 let noShields = true;
@@ -1026,7 +1022,7 @@ sides.map((key) => {
 	{
 		noShields = false;
 		btns.push({action : key,
-	   label : game.impmal.config.RTIM.voidship.shipLocations[key].display});
+	   label : game.impmal.config.RTIM.voidship.hitLocations[key].display});
 	}
 }); 
        
@@ -1517,7 +1513,7 @@ this.actor.system.options.rammingDamage += value;`,
 	"vyLSxOxHaCdxBb7B": `let SL = this.effect.sourceTest?.result?.SL || 0;
 let armour = 1 + Math.floor(SL/2);
 
-let locations = ["prow","aft","port","starboard"];
+let locations = ["fore","aft","port","starboard"];
 if (this.actor.system.options.takeAvgArmour) locations = ["average"];
 
 locations.forEach((key) => {
@@ -1532,7 +1528,7 @@ locations.forEach((key) => {
 let isUpgraded = this.effect.sourceItem?.system.role.upgraded || false;
 let armour = 1 + Math.floor(SL/2);
 
-let locations = ["prow","aft","port","starboard"];
+let locations = ["fore","aft","port","starboard"];
 if (this.actor.system.options.takeAvgArmour) locations = ["average"];
 
 let hullDamage = 0;
@@ -1803,7 +1799,7 @@ if (args.context.effectFlags.includes(this.effect.id)) return;
 	
 	if (this.actor.system.movementPoints.value < 4)
 	{
-        ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughtMovementPoints"));
+        ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NotEnoughMovementPoints"));
 		return;
 	}
 	
@@ -2399,7 +2395,7 @@ if (item.system.weapon.type == "landing")
 	
 	let side  = await foundry.applications.api.Dialog.wait({
 		window : {title : "Which side you move?"},
-		content : "<p>The ship will move to the side and end on chosen hex. Side is based where the ship Prow/Fore is located, while Upper/Lower is based on the your view.</p>",
+		content : "<p>The ship will move to the side and end on chosen hex. Side is based where the ship Fore is located, while Upper/Lower is based on the your view.</p>",
 		buttons : btns
 	});
 	
@@ -2496,7 +2492,7 @@ if (item.system.weapon.type == "landing")
 	let value = 1 + Math.floor(args.result.SL/3);
 	let armour = 2;
 	
-	let sides = ["prow", "aft", "starboard", "port"]
+	let sides = ["fore", "aft", "starboard", "port"]
 	if (this.actor.system.options.takeAvgArmour) sides = ["average"];
 	
 	let checks = [];
@@ -2506,9 +2502,9 @@ if (item.system.weapon.type == "landing")
 
 		checks.push({
 			action : key,
-			label : game.impmal.config.RTIM.voidship.shipLocations[key].display
+			label : game.impmal.config.RTIM.voidship.hitLocations[key].display
 		});
-		contentDialog += \`<input type="checkbox" name="\${key}"><label style="margin-right:10px">\${game.impmal.config.RTIM.voidship.shipLocations[key].display}</label>\`;
+		contentDialog += \`<input type="checkbox" name="\${key}"><label style="margin-right:10px">\${game.impmal.config.RTIM.voidship.hitLocations[key].display}</label>\`;
 	}); 
     contentDialog += "</div>"
 	
@@ -2549,9 +2545,9 @@ if (item.system.weapon.type == "landing")
 	
 	let chosenSides = [];
 	let amount = value;
-	if (data.prow && amount > 0) {
+	if (data.fore && amount > 0) {
 		amount--;
-		chosenSides.push("prow");
+		chosenSides.push("fore");
 	}
 	if (data.starboard && amount > 0) {
 		amount--;
@@ -2566,7 +2562,7 @@ if (item.system.weapon.type == "landing")
 		chosenSides.push("aft");
 	}
 	
-	let chosenSidesStr = chosenSides.map((key) => game.impmal.config.RTIM.voidship.shipLocations[key].display).join(", ");
+	let chosenSidesStr = chosenSides.map((key) => game.impmal.config.RTIM.voidship.hitLocations[key].display).join(", ");
 	let content = \`The ship's armour was increased by \${armour} on sides: \${chosenSidesStr}\`;
 	
 	this.item.setFlag("impmal-rtim", "sides", {
@@ -2988,10 +2984,20 @@ args.context.effectFlags.push(this.effect.id);
 		return;
 	}
 	
-	let items = (await ItemDialog.create(roleItems, 1, {title : "Destroy Component", text: "Choose 1"}));
-	if (!items || items.length == 0) return;  
-	items[0].update({"system.status":"destroyed"})
-	ui.notifications.info(\`\${items[0].name} was destroyed.\`);
+	let random = Math.floor(CONFIG.Dice.randomUniform() * roleItems.length);
+	let chosenItems = roleItems[random];
+
+	if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+	{
+		let resultItems = (await ItemDialog.create(roleItems, 1, 
+			{title : "Destroy Component", text: "Choose 1"}));
+		if (resultItems && resultItems.length > 0) chosenItems = resultItems;
+	}
+	
+	if (!chosenItems || chosenItems.length == 0) return;
+
+	chosenItems[0].update({"system.status":"destroyed"})
+	ui.notifications.info(\`\${chosenItems[0].name} was destroyed.\`);
 }
 else
 {  
@@ -3084,14 +3090,22 @@ if (!roleItems.length)
 	ui.notifications.warn("No roles to damage, increase Critical Damage by 2");		
 	return;
 }		
-	
-let items = (await ItemDialog.create(roleItems, 1, 
-{title : "List of Roles", text: "Choose 1"}));	
 
-if (!items || items.length == 0) return;  
-let newStatus = items[0].system.status === "default" ? "damaged" : "destroyed";
-await items[0].update({"system.status": newStatus });
-ui.notifications.info(\`\${items[0].name} was \${newStatus}.\`);`,
+let random = Math.floor(CONFIG.Dice.randomUniform() * roleItems.length);
+let chosenItems = roleItems[random];
+
+if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+{
+	let resultItems = (await ItemDialog.create(roleItems, 1, 
+		{title : "List of Roles", text: "Choose 1"}));
+	if (resultItems && resultItems.length > 0) chosenItems = resultItems;
+}
+
+if (!chosenItems || chosenItems.length == 0) return;
+
+let newStatus = chosenItems[0].system.status === "default" ? "damaged" : "destroyed";
+await chosenItems[0].update({"system.status": newStatus });
+ui.notifications.info(\`\${chosenItems[0].name} was \${newStatus}.\`);`,
 	// Life Leak - Immediate
 	"zRZMu6AYlFMMt5eB": `let timer = Math.ceil(Math.ceil(CONFIG.Dice.randomUniform() * 10)/2);
 	this.actor.setFlag("impmal-rtim", "lifelessTimer", timer);
@@ -3148,12 +3162,22 @@ if (!weaponItems.length)
 	return;
 }
 	
-let items = (await ItemDialog.create(weaponItems, 1, {title : "Damaged Weapons", text: "Choose 1"}));
-if (!items || items.length == 0) return;
-item[0].update({"system.status": "destroyed"});
-ui.notifications.info(\`\${item[0].name} was destroyed!\`);
+let random = Math.floor(CONFIG.Dice.randomUniform() * weaponItems.length);
+let chosenItems = weaponItems[random];
 
-if (item[0].system.weapon.type === "torpedo")
+if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+{
+	let resultItems = (await ItemDialog.create(weaponItems, 1, 
+		{title : "Damaged Weapons", text: "Choose 1"}));
+	if (resultItems && resultItems.length > 0) chosenItems = resultItems;
+}
+
+if (!chosenItems || chosenItems.length == 0) return;
+
+chosenItems[0].update({"system.status": "destroyed"});
+ui.notifications.info(\`\${chosenItems[0].name} was destroyed!\`);
+
+if (chosenItems[0].system.weapon.type === "torpedo")
 {
 	let critString = \`Torpedo Bay explodes: <a class="table-roll" data-table="catastrophicvoidship" data-formula="1d10"><i class="fa-solid fa-dice-d10">
 	</i>Critical Damage</a>\`
@@ -3165,7 +3189,7 @@ ChatMessage.create({
 `,
 	// Shield Flicker - Immediate
 	"f0KHccbwhaJ0xUrA": `let updates = {}
-	let sides = ["prow","aft","starboard","port","average"];
+	let sides = ["fore","aft","starboard","port","average"];
 	sides.forEach((key) => 
 	{
 		updates[\`system.shields.\${key}.value\`] = Math.max(this.actor.system.shields[key].value - Math.ceil(this.actor.system.shields[key].max/2),0);
@@ -3256,13 +3280,13 @@ if (targetToken?.actor?.type !== "impmal-rtim.voidshipSheet"){
     return;
 }
 
-let sides = ["prow", "aft", "starboard", "port"]
+let sides = ["fore", "aft", "starboard", "port"]
 if (this.actor.system.options.takeAvgShield) sides = ["average"];
 
 let btns = [];
 sides.map((key) => {
 	btns.push({action : key,
-	label : game.impmal.config.RTIM.voidship.shipLocations[key].display});
+	label : game.impmal.config.RTIM.voidship.hitLocations[key].display});
 }); 
        
 
@@ -3585,7 +3609,7 @@ if (args.context.effectFlags.includes(this.effect.id)) return;
 		return;
 	}
 	
-	let sides = ["prow", "aft", "starboard", "port"]
+	let sides = ["fore", "aft", "starboard", "port"]
 	if (this.actor.system.options.takeAvgShield) sides = ["average"];
 
 	let noShields = true;
@@ -3596,7 +3620,7 @@ if (args.context.effectFlags.includes(this.effect.id)) return;
 		{
 			noShields = false;
 			btns.push({action : key,
-		   label : game.impmal.config.RTIM.voidship.shipLocations[key].display});
+		   label : game.impmal.config.RTIM.voidship.hitLocations[key].display});
 		   chosenSides.push(key);
 		}
 	}); 
@@ -3635,7 +3659,7 @@ if (args.context.effectFlags.includes(this.effect.id)) return;
 		shieldValue = 0;
 		updateObj[\`system.shields.\${chosenSide}.value\`] = 0;
 	}
-	content += \`Shields at \${game.impmal.config.RTIM.voidship.shipLocations[chosenSide].display} went from \${this.actor.system.shields[chosenSide].value} to \${shieldValue}.\`
+	content += \`Shields at \${game.impmal.config.RTIM.voidship.hitLocations[chosenSide].display} went from \${this.actor.system.shields[chosenSide].value} to \${shieldValue}.\`
 	if (leftover > 0)
 	{
 		content += \` There was leftover \${leftover} damage.\`;
@@ -4200,21 +4224,23 @@ let items = targetToken.actor.items
 		targetToken.actor.applyDamage(2, {type: "selfDamage"});
 		return;
 	}
-	
-	let damaged = (await ItemDialog.create(items, 1, {title : "Destroy Component", text: "Choose 1"}));
-	if (!damaged || damaged.length == 0) return;  
-	
-	let status = damaged[0].system.status === "default" ? "damaged" : "destroyed";
-	
-	damaged[0].update({"system.status":status})
-	if (status === "damaged")
+
+	let random = Math.floor(CONFIG.Dice.randomUniform() * items.length);
+	let chosenItems = items[random];
+
+	if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
 	{
-	ui.notifications.info(\`\${damaged[0].name} was damaged.\`);
+		let resultItems = (await ItemDialog.create(items, 1, 
+			{title : "Destroy Component", text: "Choose 1"}));
+		if (resultItems && resultItems.length > 0) chosenItems = resultItems;
 	}
-	else
-	{
-	ui.notifications.info(\`\${damaged[0].name} was destroyed.\`);
-	}
+
+	if (!chosenItems || chosenItems.length == 0) return;
+	
+	let status = chosenItems[0].system.status === "default" ? "damaged" : "destroyed";
+	
+	chosenItems[0].update({"system.status":status})
+	ui.notifications.info(\`\${damaged[0].name} was \${status}.\`);
 	this.item.setFlag("impmal-rtim", "value", false);`,
 	// Sslyth Mercenary Commander - Reset
 	"T6Px8c59sQxrMFeL": `this.item.setFlag("impmal-rtim", "value", false);`,
@@ -4257,7 +4283,7 @@ await this.actor.update({"system.shields.average.value": Math.min(this.actor.sys
 	"AqsrBLOsiKxNow6M": `return args.context.type !== "shooting";`,
 	// Jury Rigged - PrePrepare Derived
 	"I4bZDC6PEOjptr05": `this.actor.system.armour.aft.modifier += 2;
-this.actor.system.armour.prow.modifier += 2;
+this.actor.system.armour.fore.modifier += 2;
 this.actor.system.armour.starboard.modifier += 2;
 this.actor.system.armour.port.modifier += 2;
 this.actor.system.armour.average.modifier += 2;

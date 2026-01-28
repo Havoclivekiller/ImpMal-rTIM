@@ -1,22 +1,22 @@
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
     <div class="ship-components-section">
         <div class="ship-components-summary">
-            <div class="ship-components-space">
+            <div class="ship-components-space" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ShipPoints"}}">
                 <label class="ship-components-label">{{localize "IMPMAL_RTIM.VoidCombat.ShipPoints"}}</label>
                 <span class="ship-components-value">{{shipPointsTotal}}</span>
             </div>
         </div>
         <div class="ship-components-summary">
-            <div class="ship-components-space">
+            <div class="ship-components-space" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.SpaceUsed"}}">
                 <label class="ship-components-label">{{localize "IMPMAL_RTIM.VoidCombat.SpaceUsed"}}</label>
                 <span class="ship-components-value">{{componentSpaceUsed}} / {{system.supplemental.value}}</span>
             </div>
         </div>
         <div class="ship-components-list">
-        <h5 class="ship-components-subtitle">{{localize "IMPMAL_RTIM.VoidCombat.EssentialComponents"}}</h5>
+        <h5 class="ship-components-subtitle" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.EssentialComponents"}}">{{localize "IMPMAL_RTIM.VoidCombat.EssentialComponents"}}</h5>
             {{#if essentialComponents.length}}
             {{#each essentialComponents}}
-            <div class="ship-component-card list-row">
+            <div class="ship-component-card list-row" data-uuid="{{this.uuid}}">
                 <div class="ship-component-header">
                     <div class="ship-component-name" data-action="expandRow" data-collapseid="{{this.id}}"><img src="{{this.img}}"> <label>{{this.name}}</label></div>
                         {{#if (eq this.system.status "damaged")}}
@@ -33,18 +33,15 @@
                         <span class="ship-component-space">{{localize "IMPMAL_RTIM.VoidCombat.Space"}}: {{this.system.space}}</span>   
                         {{/if}}
                         {{#if (gt this.system.shipPoints 0)}}                         
-                        <div class="points-pips">
+                        <div class="points-pips" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ComponentShipPoints"}}">
                             {{#times this.system.shipPoints}}
                             <span class="pip pip-active"></span>
                             {{/times}}
                         </div>
                         {{/if}}
-                        <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
-                        <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
+                        <div class="list-controls">
+                            <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -89,11 +86,11 @@
     </div>
 
     <div class="ship-components-section">
-        <h5 class="ship-components-subtitle">{{localize "IMPMAL_RTIM.VoidCombat.SupplementalComponents"}} ({{localize "IMPMAL_RTIM.VoidCombat.Combat"}})</h5>
+        <h5 class="ship-components-subtitle" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.SupplementalComponents"}}">{{localize "IMPMAL_RTIM.VoidCombat.SupplementalComponents"}} ({{localize "IMPMAL_RTIM.VoidCombat.Combat"}})</h5>
         <div class="ship-components-list">
             {{#if supplementalComponentsCombat.length}}
                 {{#each supplementalComponentsCombat}}
-                <div class="ship-component-card list-row">
+                <div class="ship-component-card list-row" data-uuid="{{this.uuid}}">
                     <div class="ship-component-header">
                         <div class="ship-component-name" data-action="expandRow" data-collapseid="{{this.id}}"><img src="{{this.img}}"> <label>{{this.name}}</label></div>
                         {{#if (eq this.system.status "damaged")}}
@@ -110,18 +107,15 @@
                             <span class="ship-component-space">{{localize "IMPMAL_RTIM.VoidCombat.Space"}}: {{this.system.space}}</span>   
                             {{/if}}
                             {{#if (gt this.system.shipPoints 0)}}                         
-                            <div class="points-pips">
+                            <div class="points-pips" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ComponentShipPoints"}}">
                                 {{#times this.system.shipPoints}}
                                 <span class="pip pip-active"></span>
                                 {{/times}}
                             </div>
                             {{/if}}
-                            <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                            <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
+                            <div class="list-controls">
+                                <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                            </div>
                         </div>
                     </div>
                     <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
@@ -163,11 +157,11 @@
                 <div class="ship-component-empty">{{localize "IMPMAL_RTIM.VoidCombat.None"}}</div>
             {{/if}}
         </div>
-        <h5 class="ship-components-subtitle">{{localize "IMPMAL_RTIM.VoidCombat.SupplementalComponents"}} ({{localize "IMPMAL_RTIM.VoidCombat.NonCombat"}})</h5>
+        <h5 class="ship-components-subtitle" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.NonCombatSupplementalComponents"}}">{{localize "IMPMAL_RTIM.VoidCombat.SupplementalComponents"}} ({{localize "IMPMAL_RTIM.VoidCombat.NonCombat"}})</h5>
         <div class="ship-components-list">
             {{#if supplementalComponentsNonCombat.length}}
                 {{#each supplementalComponentsNonCombat}}
-                <div class="ship-component-card list-row">
+                <div class="ship-component-card list-row" data-uuid="{{this.uuid}}">
                     <div class="ship-component-header">
                         <div class="ship-component-name" data-action="expandRow" data-collapseid="{{this.id}}"><img src="{{this.img}}"> <label>{{this.name}}</label></div>
                         {{#if (eq this.system.status "damaged")}}
@@ -184,18 +178,15 @@
                             <span class="ship-component-space">{{localize "IMPMAL_RTIM.VoidCombat.Space"}}: {{this.system.space}}</span>   
                             {{/if}}
                             {{#if (gt this.system.shipPoints 0)}}                         
-                            <div class="points-pips">
+                            <div class="points-pips" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ComponentShipPoints"}}">
                                 {{#times this.system.shipPoints}}
                                 <span class="pip pip-active"></span>
                                 {{/times}}
                             </div>
                             {{/if}}
-                            <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                            <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
+                            <div class="list-controls">
+                                <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                            </div>
                         </div>
                     </div>
                     <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">

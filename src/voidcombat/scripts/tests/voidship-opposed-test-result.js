@@ -60,7 +60,12 @@ export class VoidshipOpposedTestResult extends OpposedTestResult
         let additional = attackerTest.result.additionalDamage ?? 0;
         if (additional)
         {
-            this._tooltips.damage.additional = {label : "IMPMAL.Other", value : additional};
+            if (attackerTest.context.leftoverMovement > 0)
+            {
+                additional = additional - attackerTest.context.leftoverMovement;
+                this._tooltips.damage.movement = {label : "IMPMAL_RTIM.VoidCombat.Movement", value : attackerTest.context.leftoverMovement};
+            }
+            if (additional > 0) this._tooltips.damage.additional = {label : "IMPMAL.Other", value : additional};
         }
         switch (attackerTest.context.type)
         {
@@ -79,8 +84,8 @@ export class VoidshipOpposedTestResult extends OpposedTestResult
     {
         let damage = attackerTest.actor.system.options.takeAvgArmour ? 
         attackerTest.actor.system.armour.average.value :
-        attackerTest.actor.system.armour.prow.value;
-        this._tooltips.damage.base = {label : "IMPMAL_RTIM.VoidCombat.ProwArmour", value : damage};
+        attackerTest.actor.system.armour.fore.value;
+        this._tooltips.damage.base = {label : "IMPMAL_RTIM.VoidCombat.ForeArmour", value : damage};
 
         let sizeBonus = Math.max(attackerTest?.actor?.system?.size?.value - defenderTest?.actor?.system?.size?.value, 0);
         

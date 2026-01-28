@@ -3,12 +3,18 @@ import { VoidshipTokenHandler } from "./scripts/voidship-token-handler.js";
 export function registerHooks() {
     Hooks.on('preMoveToken', (document, movement, operation) => {
         if (document.actor.type === "impmal-rtim.voidshipSheet" && document?.inCombat && !operation?.teleport && !operation?.freeMove)
+        {
+            if (movement.method === "dragging" && !game.settings.get("impmal-rtim", "voidcombatSettings").tokenDragMove) return true;
             return document.actor.system.handleMovement({actor : document.actor, movement, preMove : true});
+        }
     })
 
     Hooks.on('moveToken', (document, movement, operation, user) => {
         if (document.actor.type === "impmal-rtim.voidshipSheet" && document?.inCombat && !operation?.teleport && !operation?.freeMove)
+        {            
+            if (movement.method === "dragging" && !game.settings.get("impmal-rtim", "voidcombatSettings").tokenDragMove) return;
             document.actor.system.handleMovement({actor : document.actor, movement, preMove : false});
+        }
     })
 
     Hooks.on('impmal:startTurn', async (combat) => {
@@ -18,17 +24,21 @@ export function registerHooks() {
         }
     })
 
-    Hooks.on('impmal:endCombat', async (combat) => {
-        if (combat?.combatant?.actor?.type === "impmal-rtim.voidshipSheet")
+    Hooks.on('deleteCombat', async (combat) => {
+        for(let actor of combat.combatants.map(i => i.actor))
         {
-            combat.combatant.actor.system.computeEndCombat();
+            if (actor?.type === "impmal-rtim.voidshipSheet")
+            {
+                actor.system.computeEndCombat();
+            }
         }
     })
 
     Hooks.on('impmal:endTurn', async (combat) => {
-        if (combat?.combatant?.actor?.type === "impmal-rtim.voidshipSheet")
+        let previousCombatant = combat.combatants.get(combat.previous.combatantId);
+        if (previousCombatant?.actor?.type === "impmal-rtim.voidshipSheet")
         {
-            combat.combatant.actor.system.computeEndTurn();
+            previousCombatant.actor.system.computeEndTurn();
         }
     })
 
@@ -67,7 +77,7 @@ export function registerHooks() {
 
     Hooks.on("preCreateItem", (item, data) => {
         if (!data.img || data.img === "modules/impmal-core/assets/icons/blank.webp") {
-            let img = "modules/impmal-core/assets/icons/blank.webp"
+            let img = data?.img ?? "";
             if (item.type == "impmal-rtim.voidshipPart")
             {
                 img = "modules/impmal-rtim/assets/rtim-smalllogo.webp"

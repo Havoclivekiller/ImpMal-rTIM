@@ -1,25 +1,3 @@
-2026/01/25-11:20:42.445 26b0 Recovering log #613
-2026/01/25-11:20:42.445 26b0 Level-0 table #615: started
-2026/01/25-11:20:42.447 26b0 Level-0 table #615: 14669 bytes OK
-2026/01/25-11:20:42.452 26b0 Delete type=0 #613
-2026/01/25-11:20:42.453 26b0 Delete type=3 #611
-2026/01/25-19:17:50.387 8260 Level-0 table #618: started
-2026/01/25-19:17:50.390 8260 Level-0 table #618: 70007 bytes OK
-2026/01/25-19:17:50.393 8260 Delete type=0 #616
-2026/01/25-19:17:50.393 8260 Manual compaction at level-0 from '!actors!2sJkI4fXz2UvdGpB' @ 72057594037927935 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at '!actors.items.effects!L3bq61UH4WjtYBCG.UALKcnioRSk3nfNW.ajaIZdC3N5m2kBn2' @ 56 : 1
-2026/01/25-19:17:50.393 8260 Compacting 3@0 + 0@1 files
-2026/01/25-19:17:50.399 8260 Generated table #619@0: 101 keys, 103652 bytes
-2026/01/25-19:17:50.399 8260 Compacted 3@0 + 0@1 files => 103652 bytes
-2026/01/25-19:17:50.400 8260 compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/01/25-19:17:50.400 8260 Delete type=2 #612
-2026/01/25-19:17:50.400 8260 Delete type=2 #615
-2026/01/25-19:17:50.400 8260 Delete type=2 #618
-2026/01/25-19:17:50.410 8260 Manual compaction at level-0 from '!actors.items.effects!L3bq61UH4WjtYBCG.UALKcnioRSk3nfNW.ajaIZdC3N5m2kBn2' @ 56 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at (end)
-2026/01/25-19:17:50.412 8260 Manual compaction at level-1 from '!actors!2sJkI4fXz2UvdGpB' @ 72057594037927935 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at '!folders!xGNW9XujsuAconhh' @ 81 : 1
-2026/01/25-19:17:50.412 8260 Compacting 1@1 + 1@2 files
-2026/01/25-19:17:50.422 8260 Generated table #620@1: 105 keys, 109392 bytes
-2026/01/25-19:17:50.422 8260 Compacted 1@1 + 1@2 files => 109392 bytes
-2026/01/25-19:17:50.423 8260 compacted to: files[ 0 0 1 0 0 0 0 ]
-2026/01/25-19:17:50.423 8260 Delete type=2 #242
-2026/01/25-19:17:50.424 8260 Delete type=2 #619
-2026/01/25-19:17:50.429 8260 Manual compaction at level-1 from '!folders!xGNW9XujsuAconhh' @ 81 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at (end)
+2026/01/28-08:37:22.814 6d54 Recovering log #651
+2026/01/28-08:37:22.820 6d54 Delete type=0 #651
+2026/01/28-08:37:22.820 6d54 Delete type=3 #649

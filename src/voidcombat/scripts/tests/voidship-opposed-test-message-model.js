@@ -9,6 +9,8 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
         let fields = foundry.data.fields;
         let schema = super.defineSchema();
         schema.voidshipApplied = new fields.BooleanField({initial:false});
+        schema.appliedFatigue = new fields.BooleanField({initial:false});
+        schema.appliedComponent = new fields.BooleanField({initial:false});
         schema.appliedSelf = new fields.ObjectField();
         schema.selfDamage = new fields.NumberField({ initial: 0 });
         return schema;
@@ -23,6 +25,8 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
             applyDogfight : this._onApplyDogfight,
             applySquadronFail : this._onApplySquadronFail,
             applyDamage : this._onApplyDamage,
+            applyFatigue : this._onApplyFatigue,
+            applyDamageComponent : this._onApplyDamageComponent,
         });
 
     }
@@ -36,6 +40,8 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
             attackerTest : attackerTest,
             selfDamage : this.selfDamage,
             voidshipApplied : this.voidshipApplied,
+            appliedFatigue : this.appliedFatigue,
+            appliedComponent : this.appliedComponent,
         };
         let content = await foundry.applications.handlebars.renderTemplate("modules/impmal-rtim/voidcombat/templates/tests/voidship-opposed.hbs", templateData);
 
@@ -54,7 +60,9 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
             attackerMessageId : attackerMessage.id,
             targetTokenUuid : defenderToken.uuid,
             selfDamage : this.selfDamage,
-            voidshipApplied : this.voidshipApplied
+            voidshipApplied : this.voidshipApplied,
+            appliedFatigue : this.appliedFatigue,
+            appliedComponent : this.appliedComponent,
         }})
     }
 
@@ -69,6 +77,8 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
             appliedSelf : foundry.utils.isEmpty(this.appliedSelf) ? false : this.appliedSelf,
             voidshipApplied : this.voidshipApplied,
             selfDamage : this.selfDamage,
+            appliedFatigue : this.appliedFatigue,
+            appliedComponent : this.appliedComponent,
             responseButtons : this.constructor._getResponseButtons(this.target)
         };
         let content = await foundry.applications.handlebars.renderTemplate("modules/impmal-rtim/voidcombat/templates/tests/voidship-opposed.hbs", templateData);
@@ -87,6 +97,8 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
             result : {...this.result},
             voidshipApplied : this.voidshipApplied,
             selfDamage : this.selfDamage,
+            appliedFatigue : this.appliedFatigue,
+            appliedComponent : this.appliedComponent,
         }});
     }
 
@@ -96,17 +108,19 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
         let defender = this.defenderTest?.actor;
         if (!defender) return 0;
         if (!this.result) return 0;
+        if (this.attackerTest?.context?.type !== "ramming") return 0;
+        if (!this.result.tooltips) this.result.tooltips = {};
         this.result.tooltips.selfDamage = "";
 
         let selfDamage = attacker.system.options.takeAvgArmour ? 
         attacker.system.armour.average.value :
-        attacker.system.armour.prow.value;
+        attacker.system.armour.fore.value;
         selfDamage = Math.ceil(selfDamage/2);
 
-        let location = this.attackerTest.result.hitLocation ?? "prow";
+        let location = this.attackerTest.result.hitLocation ?? "fore";
         if (defender.system.options.takeAvgArmour) location = "average";
 
-        this.result.tooltips.selfDamage = `<p>Prow Armour (1/2): ${selfDamage}</p>`;
+        this.result.tooltips.selfDamage = `<p>Fore Armour (1/2): ${selfDamage}</p>`;
         if (selfDamage < defender.system.armour[location].value)
         {
             selfDamage = defender.system.armour[location].value;
@@ -125,6 +139,77 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
             this.result.tooltips.selfDamage += `<p>Negative SL: ${-this.result?.SL}</p>`;
         }
         this.selfDamage = selfDamage;
+    }
+
+    static _onApplyDamageComponent(ev, target)
+    {
+        this.applyDamageComponent();
+    }
+
+    async applyDamageComponent()
+    {
+        if (!game.user.isGM)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyGM"));
+            return;
+        }
+
+        if (!this.target?.actor) return;
+
+        let items = this.target.actor.items
+            .filter(item => item.type === "impmal-rtim.voidshipPart")
+            .filter(item => item.system?.partType === "role" || item.system.partType === "weapon")
+            .filter(item => item.system.status !== "destroyed");
+        if (items.length == 0)
+        {
+            ui.notifications.info(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoComponentsToDamage"));
+
+            this.target.actor.applyDamage(2, {type: "selfDamage", criticalcreateCriticalMessage: true});
+                
+            this.appliedComponent = true;
+            this.renderContent({"system.appliedComponent" : true});
+        }
+        else
+        {
+            let random = Math.floor(CONFIG.Dice.randomUniform() * items.length);
+            let chosenItem = items[random];
+
+            if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+            {
+                let item = (await ItemDialog.create(items, 1, 
+			        {title : "List of Components and Weapons", text: "Choose 1"}));
+                if (item && item.length > 0) chosenItem = item[0];
+            }
+            
+            if (chosenItem)
+            {
+                let newStatus = chosenItem.system.status === "default" ? "damaged" : "destroyed";
+                chosenItem.update({"system.status": newStatus});
+                ui.notifications.info(`${chosenItem.name} was ${newStatus}.`);
+
+                this.appliedComponent = true;
+                this.renderContent({"system.appliedComponent" : true});
+            }
+        }
+    }
+
+    static _onApplyFatigue(ev, target)
+    {
+        this.applyFatigue();
+    }
+    
+    applyFatigue()
+    {
+        if (!game.user.isGM)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyGM"));
+            return;
+        }
+        this.target?.actor?.applyDamage(1, { type : "fatigue"}).then(data => {
+            this.appliedFatigue = true;
+            this.renderContent({"system.appliedFatigue" : true});
+            ui.notifications.info(`${this.target.name} received Fatigue from Critical.`);
+        });
     }
 
     static _onApplyDamage(ev, target)
@@ -168,9 +253,9 @@ export class VoidshipOpposedTestMessageModel extends OpposedTestMessageModel
 
         let selfDamage = attacker.system.options.takeAvgArmour ? 
         attacker.system.armour.average.value :
-        attacker.system.armour.prow.value;
+        attacker.system.armour.fore.value;
         selfDamage = Math.ceil(selfDamage/2);
-        let location = this.attackerTest.result.hitLocation ?? "prow";
+        let location = this.attackerTest.result.hitLocation ?? "fore";
         if (defender.system.options.takeAvgArmour) location = "average";
         if (selfDamage < defender.system.armour[location].value)
             selfDamage = defender.system.armour[location].value;

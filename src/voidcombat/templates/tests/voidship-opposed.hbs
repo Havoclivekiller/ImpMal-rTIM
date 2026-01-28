@@ -1,4 +1,4 @@
-<div class="opposed">
+<div class="opposed voidship">
 
     <div class="opposed-message">
         <p>{{attacker.name}} is targeting {{defender.name}}</p>
@@ -53,19 +53,34 @@
         {{#if (eq result.winner "attacker")}}
             {{#if this.attackerTest.data.hasDamage}}
             <div class="applied-details">
-            <span> <a class="damage-breakdown"  data-tooltip="{{result.tooltips.damage}}" data-tooltip-direction="LEFT"><i class="fa-regular fa-circle-info"></i></a> {{localize "IMPMAL.DamageDisplay" damage=result.damage}} {{#if result.damageFormula}} ({{result.damageFormula}}){{/if}} {{#if applied}} (Applied){{/if}}</span>
+                <span> <a class="damage-breakdown"  data-tooltip="{{result.tooltips.damage}}" data-tooltip-direction="LEFT"><i class="fa-regular fa-circle-info"></i></a> {{localize "IMPMAL.DamageDisplay" damage=result.damage}} {{#if result.damageFormula}} ({{result.damageFormula}}){{/if}} {{#if applied}} (Applied){{/if}}</span>
+                {{#if applied.critical}}
+                <span class="critical">{{{applied.critical}}}</span>
+                {{/if}}
+            </div>
+                {{#if applied}}
+                <button data-action="applyDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
+                {{else}}
+                    <button data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
+                {{/if}}
             
-            {{#if applied.critical}}
-            <span class="critical">{{{applied.critical}}}</span>
+                {{#if (and attackerTest.context.targetCriticalFatigue attackerTest.result.critical)}}
+                    {{#if appliedFatigue}}
+                    <button data-action="applyFatigue" class="apply-damage applied" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}"><i class="fa-solid fa-check"></i></button>
+                    {{else}}
+                    <button data-action="applyFatigue" class="apply-damage" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}"><i class="fa-solid fa-face-tired"></i></button>
+                    {{/if}}
+                {{/if}}  
+                
+                {{#if (gte result.SL 5)}}
+                    {{#if appliedComponent}}
+                    <button data-action="applyDamageComponent" class="apply-damage applied" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon"}}"><i class="fa-solid fa-check"></i></button>
+                    {{else}}
+                    <button data-action="applyDamageComponent" class="apply-damage" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon"}}"><i class="fa-solid fa-virus-slash"></i></button>
+                    {{/if}}
+                {{/if}}
             {{/if}}
 
-            </div>
-            {{#if applied}}
-            <button data-action="applyDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
-            {{else}}
-                <button data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
-            {{/if}}
-            {{/if}}
             {{#if (eq this.attackerTest.context.type "boarding")}}
                 {{#unless voidshipApplied}}
                 <button data-action="applyBoarding" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.Boarding'}}" data-type="boarding"><i class="fa-solid fa-person-rifle"></i> </button>
@@ -152,7 +167,11 @@
                 {{else}}
                 <button data-action="applySelfDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.ApplySelfDamage'}}"><i class="fa-solid fa-bandage"></i></button>
                 {{/if}}
-            </div>            
+            </div>   
+            
+            {{#if (and context.targetCriticalFatigue result.critical)}}
+            <button data-action="testButton">{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}</button>
+            {{/if}}         
         </div>
         {{else}}
             <div class="response-buttons">

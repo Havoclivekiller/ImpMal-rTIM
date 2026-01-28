@@ -8,8 +8,8 @@ export function registerOverride()
         let table = old_findTable.call(this, key);
         if (!table)
         {
-            if (key === "critvoidship") return game.tables.get("5jxoqStV9YSRL4g5"); //TODO: add tables to settings. get their ids from there
-            if (key === "catastrophicvoidship") return game.tables.get("EZuCX0aW4QXkzb5a");
+            if (key === "critvoidship") return game.tables.get(game.settings.get("impmal-rtim", "voidcombatSettings").voidshipCriticalTable ?? "5jxoqStV9YSRL4g5"); //TODO: add tables to settings. get their ids from there
+            if (key === "catastrophicvoidship") return game.tables.get(game.settings.get("impmal-rtim", "voidcombatSettings").voidshipCatastrophicTable ?? "EZuCX0aW4QXkzb5a");
         }
         return table;
     };
@@ -25,4 +25,12 @@ export function registerOverride()
     Handlebars.registerHelper('ceil', (a) => Math.ceil(a));
     Handlebars.registerHelper('max', (a, b) => Math.max(a, b));
     Handlebars.registerHelper('min', (a, b) => Math.min(a, b));
+
+    let old_renderHtml = ImpMalChatMessage.prototype.renderHTML;
+
+    ImpMalChatMessage.prototype.renderHTML = async function (options) {
+        let html = await old_renderHtml.call(this, options);
+        if (this.system?.test?.listeners) this.system.test.listeners(html);
+        return html;
+    };
 }

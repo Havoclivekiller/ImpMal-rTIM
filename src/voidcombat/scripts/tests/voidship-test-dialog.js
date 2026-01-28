@@ -14,7 +14,7 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
         super(...args);
         this.data.hitLocations = {
             "aft" : "IMPMAL_RTIM.VoidCombat.Aft",
-            "prow" : "IMPMAL_RTIM.VoidCombat.Prow",
+            "fore" : "IMPMAL_RTIM.VoidCombat.Fore",
             "port" : "IMPMAL_RTIM.VoidCombat.Port",
             "starboard" : "IMPMAL_RTIM.VoidCombat.Starboard",
         };
@@ -167,6 +167,12 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
             this.fields.SL += 1;
             this.tooltips.add("SL", 1, "Target of Scan");
         }
+
+        if (this.fields.leftoverMovement > 0)
+        {
+            this.fields.damage += this.fields.leftoverMovement;
+            this.tooltips.add("damage", this.fields.leftoverMovement, "Leftover MP");
+        }
         
         if (this.data.bonuses?.length !== 0)
         {   
@@ -272,6 +278,8 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
 
         dialogData.fields.distanceToTarget = context?.distanceToTarget ?? 0;
 
+        dialogData.fields.targetCriticalFatigue = context?.targetCriticalFatigue ?? false;
+
         dialogData.fields.hasWeaponRating = context?.hasWeaponRating ?? false;
         dialogData.fields.useWeaponRating = context?.hasWeaponRating ?? false;  
         dialogData.fields.weaponRating = item?.system?.weapon?.rating || 0;  
@@ -325,6 +333,9 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
         dialogData.fields.hasTurret = context?.hasTurret ?? false;
         dialogData.fields.useTurret = context?.useTurret ?? false;
         dialogData.fields.turretRating = actor?.system?.turretRating?.value || 0;
+        
+        dialogData.fields.leftoverMovement = context?.leftoverMovement ?? 0;
+        dialogData.data.leftoverMovement = context?.leftoverMovement ?? 0;
 
         dialogData.fields.useHalfTurret = context?.useHalfTurret ?? false;
         if (dialogData.fields.useHalfTurret)
@@ -409,11 +420,6 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
                 autoRotate : true,
                 freeMove : true
             });
-            if (this.actor.system.movementPoints.value > 4)
-            {
-                this.fields.damage += this.actor.system.movementPoints.value-4;
-                this.actor.update({"system.movementPoints.value" : 4}); 
-            }
         }
         return super.submit(ev);
     }

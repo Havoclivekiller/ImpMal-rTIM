@@ -11,6 +11,7 @@ export class VoidShipSheet extends IMActorSheet {
     collapsed = {};
 
     static DEFAULT_OPTIONS = {
+        classes: ["voidship"],
         actions: {
             removeShipMember: this._onRemoveShipMember,
             openShipMember: this._onOpenShipMember,
@@ -31,6 +32,7 @@ export class VoidShipSheet extends IMActorSheet {
             addBonusType: this._onAddBonusType,
             removeBonusType: this._onRemoveBonusType,
             goSilent: this._onGoSilent,
+            defyDeath: this._onDefyDeath
         },
         position: {
             height: 900,
@@ -115,19 +117,17 @@ export class VoidShipSheet extends IMActorSheet {
                 game.user.getFlag("impmal-rtim", "voidshipCollapsedRows") ?? {}
             );
         }
-        const shipParts = this.actor.itemTypes["impmal-rtim.voidshipPart"];
-        const weaponParts = shipParts.filter(item => item.system?.partType === "weapon");
+        context.collapsed = this.collapsed;
+        let shipParts = this.actor.itemTypes["impmal-rtim.voidshipPart"];
+        let weaponParts = shipParts.filter(item => item.system?.partType === "weapon");
         context.criticalParts = shipParts.filter(item => item.system?.partType === "critical");
-        const hullPart = shipParts.find(item => item.system?.partType === "hull");
+        let hullPart = shipParts.find(item => item.system?.partType === "hull");
 
         context.areMembers = this.actor.system.shipMembers.length !== 0;
         context.notMinion = this.actor.system.shipType !== "minion";
         context.isCrewRiots = this.actor.system?.characteristics?.crew?.total <= 0 && this.actor.system?.fatigue?.value >= this.actor.system?.fatigue?.max;
         context.isFatigued = !context.isCrewRiots && this.actor.system?.fatigue?.value >= this.actor.system?.fatigue?.max;
-        context.weaponOptions = weaponParts.map(item => ({
-            value: item.id,
-            label: item.name
-        }));
+        
         context.weaponById = Object.fromEntries(
             weaponParts.map(item => [
                 item.id,
@@ -143,26 +143,26 @@ export class VoidShipSheet extends IMActorSheet {
                 }
             ])
         );
-        context.hasCriticalParts = context.criticalParts.length > 0;
-        const slotKeys = ["prow", "port", "starboard", "aft", "dorsal", "keel"];
-        const slotData = this.actor.system?.weaponSlots || {};
-        const assignedBySlot = Object.fromEntries(slotKeys.map((key) => {
-            const assigned = Array.isArray(slotData[key]?.assigned) ? slotData[key].assigned : [];
+        
+        let slotKeys = ["prow", "port", "starboard", "aft", "dorsal", "keel"];
+        let slotData = this.actor.system?.weaponSlots || {};
+        let assignedBySlot = Object.fromEntries(slotKeys.map((key) => {
+            let assigned = slotData[key].assigned ?? [];
             return [key, assigned];
         }));
-        const assignedSetAll = new Set(
+        let assignedSetAll = new Set(
             Object.values(assignedBySlot).flat().filter(Boolean)
         );
         context.weaponSlots = Object.fromEntries(slotKeys.map((key) => {
-            const count = Number(slotData[key]?.value ?? 0);
-            const assigned = Array.isArray(assignedBySlot[key]) ? assignedBySlot[key] : [];
-            const slots = Array.from({ length: count }, (_, index) => {
-                const currentAssigned = assigned[index] || "";
-                const reserved = new Set(assignedSetAll);
+            let count = slotData[key]?.value ?? 0;
+            let assigned = assignedBySlot[key] ?? [];
+            let slots = Array.from({ length: count }, (_, index) => {
+                let currentAssigned = assigned[index] || "";
+                let reserved = new Set(assignedSetAll);
                 if (currentAssigned) {
                     reserved.delete(currentAssigned);
                 }
-                const options = weaponParts
+                let options = weaponParts
                     .filter(item => !reserved.has(item.id))
                     .map(item => ({
                         value: item.id,
@@ -196,34 +196,12 @@ export class VoidShipSheet extends IMActorSheet {
             .filter(item => item.system?.weapon?.type === "torpedo");
         context.landingWeapons = weaponParts
             .filter(item => item.system?.weapon?.type === "landing");
-        context.hasMacroWeapons = context.macroWeapons.length > 0;
-        context.hasLanceWeapons = context.lanceWeapons.length > 0;
-        context.hasTorpedoWeapons = context.torpedoWeapons.length > 0;
-        context.hasLandingWeapons = context.landingWeapons.length > 0;
-        context.hasNovaWeapons = context.novaWeapons.length > 0;
-        context.hasOtherWeapons = context.otherWeapons.length > 0;
-        context.hasAnyWeapons = context.hasMacroWeapons ||
-            context.hasLanceWeapons ||
-            context.hasTorpedoWeapons ||
-            context.hasLandingWeapons ||
-            context.hasNovaWeapons ||
-            context.hasOtherWeapons;
+        context.hasWeapons = weaponParts.length > 0;
             
         context.crewTraits = shipParts.filter(item => item.system?.partType === "trait");
         context.hullName = hullPart?.name || "";
         context.hullId = hullPart?.id || "";
-        context.hullStats = hullPart
-            ? {
-                value: hullPart.system.hull.value ?? 0,
-                size: hullPart.system.hull.size ?? 0,
-                speedRating: hullPart.system.hull.speedRating ?? 0,
-                turnRating: hullPart.system.hull.turnRating ?? 0,
-                evasionRating: hullPart.system.hull.evasionRating ?? 0,
-                detectionRating: hullPart.system.hull.detectionRating ?? 0,
-                turretRating: hullPart.system.hull.turretRating ?? 0,
-                effect: hullPart.system.effect
-            }
-            : null;
+        context.hullEffect = hullPart?.system.effect;
 
         context.requiredSkills = ["piloting","ranged","presence","rapport","tech","awareness","navigation","logic"];
         context.shipPointsTotal = shipParts.reduce((total, item) => total + Number(item.system?.shipPoints || 0), 0);
@@ -236,15 +214,13 @@ export class VoidShipSheet extends IMActorSheet {
         context.supplementalComponentsNonCombat = shipParts.filter(item => item.system?.partType === "component" 
             && item.system?.component.type === "supplemental" && item.system?.component.subtypeSupplemental === "noncombat");
 
-        const memberUuids = Array.from(this.actor.system.shipMembers || []);
-        const members = await Promise.all(memberUuids.map(uuid => fromUuid(uuid)));
-        const userCharacters = new Set(
+        let members = await Promise.all(this.actor.system.shipMembers.map(uuid => fromUuid(uuid)));
+        let userCharacters = new Set(
             game.users
                 .filter(user => user.character)
                 .map(user => user.character.uuid)
         );
-        const resolvedMembers = members
-            .filter(member => member)
+        let resolvedMembers = members
             .map(member => ({
                 uuid: member.uuid,
                 name: member.name,
@@ -262,8 +238,9 @@ export class VoidShipSheet extends IMActorSheet {
             name: member.name,
             img: member.img
         }));
-        context.collapsed = this.collapsed;
+
         context.roleParts = shipParts.filter(item => item.system?.partType === "role");
+
         return context;
     }
 
@@ -518,6 +495,17 @@ export class VoidShipSheet extends IMActorSheet {
         await roleItem.update({ [updatePath]: cooldownCount + value });
     }
 
+    static async _onDefyDeath (ev, target)
+    {
+        let confirm = await foundry.applications.api.DialogV2.confirm({
+            window: {title:`${game.i18n.localize("IMPMAL_RTIM.VoidCombat.AreYouSure")}`}
+        });
+        if (!confirm) {
+            return;
+        }
+        this.actor.system.defyDeath();
+    }
+
     static async _onEditShipPart(ev, target) {
         ev.preventDefault();
         this.actor.items.get(target?.dataset?.id)?.sheet?.render(true, { editable: true });
@@ -577,8 +565,8 @@ export class VoidShipSheet extends IMActorSheet {
                 updateTrack(`${groupPath}.${key}`, hasMax);
             });
         };
-        resetDirectional("shields", ["prow", "port", "starboard", "aft", "average"], true);
-        resetDirectional("armour", ["prow", "port", "starboard", "aft", "average"], false);
+        resetDirectional("shields", ["fore", "port", "starboard", "aft", "average"], true);
+        resetDirectional("armour", ["fore", "port", "starboard", "aft", "average"], false);
         ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) => {
             updates[`system.weaponSlots.${key}.base`] = 0;
             updates[`system.weaponSlots.${key}.assigned`] = [];
@@ -731,11 +719,19 @@ export class VoidShipSheet extends IMActorSheet {
         const isRightClick = event.type === "contextmenu" || event.button === 2;
         const delta = isRightClick ? -1 : 1;
         let pointsPath = "";
-        if (pointsType === "movement") {
-            pointsPath = "movementPoints";
-        } else if (pointsType === "action") {
-            pointsPath = "actionPoints";
+        switch (pointsType)
+        {
+            case "movement":
+                pointsPath = "movementPoints";
+                break;
+            case "action":
+                pointsPath = "actionPoints";
+                break;
+            case "fatePoints":
+                pointsPath = "fate";
+                break;
         }
+        
         if (!pointsPath) {
             return;
         }
@@ -759,29 +755,42 @@ export class VoidShipSheet extends IMActorSheet {
             return;
         }
 
-        if (property === "actionPoints")
+        let updateObj = {};
+        switch (property)
         {
-            this.actor.update({ [`system.actionPoints.value`]: this.actor.system.actionPoints.max });
+            case "actionPoints":
+                updateObj[`system.actionPoints.value`] = this.actor.system.actionPoints.max;
+                break;
+            case "movementPoints":
+                updateObj[`system.movementPoints.value`] = this.actor.system.movementPoints.max;
+                updateObj[`system.turnRating.current`] = 0;
+                break;
+            case "hull":
+                updateObj[`system.hull.value`] = this.actor.system.hull.max;
+                break;
+            case "shields":
+                ["fore", "port", "starboard", "aft", "average"].forEach((key) => 
+                    updateObj[`system.shields.${key}.value`] = this.actor.system.shields[key].max );
+                break;
+            case "blocks":
+                this.blockRangeCheck = false;
+                this.blockMovementCheck = false;
+                break;
+            case "actionCost":
+                Object.keys(this.actor.system.actionCosts).forEach((key) => {
+                    if (this.actor.system.actionCosts[key].byTurn > 0)
+                    {
+                        updateObj[`system.actionCosts.${key}.byTurn`] = 0;
+                    }
+                });
+                break;
+            case "defyDeath":
+                updateObj[`system.options.defyDeath.used`] = false;
+                updateObj[`system.options.defyDeath.roleIds`] = [];
+                updateObj[`system.options.defyDeath.resetOnEnd`] = 0;
+                break;
         }
-        if (property === "movementPoints")
-        {
-            this.actor.update({ [`system.movementPoints.value`]: this.actor.system.movementPoints.max });
-            this.actor.update({ [`system.turnRating.current`]: 0 });
-        }
-        if (property === "hull")
-        {
-            this.actor.update({ [`system.hull.value`]: this.actor.system.hull.max });
-        }
-        if (property === "shields")
-        {
-            ["prow", "port", "starboard", "aft", "average"].forEach((key) => 
-                this.actor.update({ [`system.shields.${key}.value`]: this.actor.system.shields[key].max }));
-        }
-        if (property === "blocks")
-        {
-            this.blockRangeCheck = false;
-            this.blockMovementCheck = false;
-        }
+        this.actor.update(updateObj); 
     }
 
     static async _onAddBonus(ev, target) {
@@ -959,7 +968,6 @@ export class VoidShipSheet extends IMActorSheet {
         {
             Item.implementation.create((await fromUuid(choice[0].uuid)).toObject(), {parent: this.actor});
         }
-
         else 
         {
             Item.implementation.create({

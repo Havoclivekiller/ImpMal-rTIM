@@ -59,8 +59,14 @@ export class VoidshipModel extends StandardActorModel {
             minionTargetUuid : new fields.StringField({ initial: "" }),
             boardingRange : new fields.NumberField({ initial: 2 }),
             rammingRange : new fields.NumberField({ initial: 2 }),
-            rammingCost : new fields.NumberField({ initial: 4 }),
             rammingDamage : new fields.NumberField({ initial: 0 }),
+            defyDeath : new fields.SchemaField({
+                has : new fields.BooleanField({ initial: false }),
+                used : new fields.BooleanField({ initial: false }),
+                resetOnEnd : new fields.NumberField({ initial: 0 }),
+                amountRoles : new fields.NumberField({ initial: 2 }),
+                roleIds: new fields.ArrayField(new fields.StringField({ initial: "" })),
+            }),
         });
         schema.bonuses = new fields.ArrayField(new fields.SchemaField({
             SL : new fields.NumberField({ initial: 0 }),
@@ -99,14 +105,14 @@ export class VoidshipModel extends StandardActorModel {
             remaining: new fields.NumberField({ min : 0, initial: 0 })
         });
         schema.shields = new fields.SchemaField({
-            prow: createMaxSchema(),
+            fore: createMaxSchema(),
             average: createMaxSchema(),
             port: createMaxSchema(),
             starboard: createMaxSchema(),
             aft: createMaxSchema()
         });
         schema.armour = new fields.SchemaField({
-            prow: createValueSchema(),
+            fore: createValueSchema(),
             average: createValueSchema(),
             port: createValueSchema(),
             starboard: createValueSchema(),
@@ -131,17 +137,59 @@ export class VoidshipModel extends StandardActorModel {
         });
         schema.actionPoints = createMaxSchema();
         schema.movementPoints = createMaxSchema();
+        const createBaseSchema = (base=0) => {
+            return new fields.SchemaField({
+            base: new fields.NumberField({ initial: base }),
+            byTurn: new fields.NumberField({ initial: 0 }),
+            modifier: new fields.NumberField({ initial: 0 }),
+            modifierManual: new fields.NumberField({ initial: 0 }),
+            value: new fields.NumberField({ initial: 0 }),
+        })
+        };
+
+        schema.actionCosts = new fields.SchemaField({
+            repair: createBaseSchema(game.impmal.config.RTIM.voidship.actions.repair.defaultCost),
+            rally: createBaseSchema(game.impmal.config.RTIM.voidship.actions.rally.defaultCost),
+            scan: createBaseSchema(game.impmal.config.RTIM.voidship.actions.scan.defaultCost),
+            boarding: createBaseSchema(game.impmal.config.RTIM.voidship.actions.boarding.defaultCost),
+            assaultBoarding: createBaseSchema(game.impmal.config.RTIM.voidship.actions.boarding.defaultCost),
+            reloadSpecial: createBaseSchema(game.impmal.config.RTIM.voidship.actions.reload.defaultCost),
+            reloadTorpedoes: createBaseSchema(game.impmal.config.RTIM.voidship.actions.reload.defaultCost),
+            reloadSquadrons: createBaseSchema(game.impmal.config.RTIM.voidship.actions.reload.defaultCost),
+            reloadNovaCannon: createBaseSchema(game.impmal.config.RTIM.voidship.actions.reload.defaultCost),
+            restartShields: createBaseSchema(game.impmal.config.RTIM.voidship.actions.restartShields.defaultCost),
+            seek: createBaseSchema(game.impmal.config.RTIM.voidship.actions.seek.defaultCost),
+            evasiveManeuvers: createBaseSchema(game.impmal.config.RTIM.voidship.maneuvers.evasiveManeuvers.defaultCost),
+            ramming: createBaseSchema(game.impmal.config.RTIM.voidship.maneuvers.ramming.defaultCost),
+            silentRunning: createBaseSchema(game.impmal.config.RTIM.voidship.maneuvers.silentRunning.defaultCost),
+        });
 
         schema.autoCalc.fields = {}
         schema.autoCalc = new fields.SchemaField({
-            endCombat: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcEndCombat"}),
-            movement: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcMovement"}),
-            allowMovement: new fields.BooleanField({initial : false, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowMovement"}),
-            allowNoPoints: new fields.BooleanField({initial : false, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowNoPoints"}),
-            allowOnCooldown: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowOnCooldown"}),
-            allowOutsideRange: new fields.BooleanField({initial : true, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowOutsideRange"}),
-            allowDamagedRoles: new fields.BooleanField({initial : false, label : "IMPMAL_RTIM.VoidCombat.AutoCalcAllowDeactivatedRoles"}),
-            movementSound: new fields.StringField({initial : "", label : "IMPMAL_RTIM.VoidCombat.MovementSound"}),
+            endCombat: new fields.BooleanField({initial : true, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.EndCombat.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.EndCombat.Hint"}),
+            movement: new fields.BooleanField({initial : true, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.AutomateMovementPoints.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.AutomateMovementPoints.Hint"}),
+            allowMovement: new fields.BooleanField({initial : false, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.UnrestrictedMovement.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.UnrestrictedMovement.Hint"}),
+            allowNoPoints: new fields.BooleanField({initial : false, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowNoPoints.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowNoPoints.Hint"}),
+            allowOnCooldown: new fields.BooleanField({initial : true, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowOnCooldown.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowOnCooldown.Hint"}),
+            allowOutsideRange: new fields.BooleanField({initial : true, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowOutsideRange.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowOutsideRange.Hint"}),
+            allowDeactivated: new fields.BooleanField({initial : false, 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowDeactivatedComponents.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.AllowDeactivatedComponents.Hint"}),
+            movementSound: new fields.StringField({initial : "", 
+                label : "IMPMAL_RTIM.VoidCombat.AutoCalc.MovementSound.Label", 
+                hint: "IMPMAL_RTIM.VoidCombat.AutoCalc.MovementSound.Hint"}),
         });
         
         return schema;
@@ -175,7 +223,7 @@ export class VoidshipModel extends StandardActorModel {
             foundry.utils.setProperty(this, "system.detectionRating.base", hull.system.hull.detectionRating);
             foundry.utils.setProperty(this, "system.turretRating.base", hull.system.hull.turretRating);
             foundry.utils.setProperty(this, "system.supplemental.base", hull.system.hull.supplemental);
-            ["prow", "port", "starboard", "aft", "average"].forEach((key) =>
+            ["fore", "port", "starboard", "aft", "average"].forEach((key) =>
             {
                 foundry.utils.setProperty(this, `system.shields.${key}.base`, hull.system.hull.shields[key]);
                 foundry.utils.setProperty(this, `system.armour.${key}.base`, hull.system.hull.armour[key]);
@@ -185,7 +233,7 @@ export class VoidshipModel extends StandardActorModel {
                 foundry.utils.setProperty(this, `system.weaponSlots.${key}.base`, hull.system.hull.weapons[key]);
             });
         }
-
+        
         const componentItems = this.parent?.items?.filter(item => item.system?.partType === "component") || [];
         const baseModifierPaths = [
             "speedRating",
@@ -213,7 +261,7 @@ export class VoidshipModel extends StandardActorModel {
             }
             const shieldChanges = changes.shields || {};
             const armourChanges = changes.armour || {};
-            const locationKeys = ["prow", "port", "starboard", "aft", "average"];
+            const locationKeys = ["fore", "port", "starboard", "aft", "average"];
             if (Number(shieldChanges.all ?? 0)) {
                 const delta = Number(shieldChanges.all ?? 0);
                 locationKeys.forEach((key) => applyDelta(`shields.${key}.modifier`, delta));
@@ -263,7 +311,7 @@ export class VoidshipModel extends StandardActorModel {
         updateTotalValue("supplemental");
         updateTotalValue("evasionRating");
         updateTotalValue("turretRating");
-        ["prow", "port", "starboard", "aft", "average"].forEach((key) => {
+        ["fore", "port", "starboard", "aft", "average"].forEach((key) => {
             updateTotalMax(`shields.${key}`);
             updateTotalValue(`armour.${key}`);
         });
@@ -282,8 +330,77 @@ export class VoidshipModel extends StandardActorModel {
         Object.keys(skills).forEach((key) => {
             this.skills[key].computeTotal(this.characteristics);
         });
+        
+
+        const updateActionCostsValue = (path) => {
+            const base = Number(foundry.utils.getProperty(this, `actionCosts.${path}.base`) ?? 0);
+            const byTurn = Number(foundry.utils.getProperty(this, `actionCosts.${path}.byTurn`) ?? 0);
+            const modifier = Number(foundry.utils.getProperty(this, `actionCosts.${path}.modifier`) ?? 0);
+            const manual = Number(foundry.utils.getProperty(this, `actionCosts.${path}.modifierManual`) ?? 0);
+            foundry.utils.setProperty(this, `actionCosts.${path}.value`, Math.max(base + byTurn + modifier + manual, 0));
+        };
+
+        this.actionCosts.evasiveManeuvers.base = this.movementPoints.max;
+        updateActionCostsValue("repair");
+        updateActionCostsValue("rally");
+        updateActionCostsValue("scan");
+        updateActionCostsValue("boarding");
+        updateActionCostsValue("reloadSpecial");
+        updateActionCostsValue("seek");
+        updateActionCostsValue("evasiveManeuvers");
+        updateActionCostsValue("ramming");
+        updateActionCostsValue("silentRunning");
+        updateActionCostsValue("reloadTorpedoes");
+        updateActionCostsValue("reloadSquadrons");
+        updateActionCostsValue("reloadNovaCannon");
+        updateActionCostsValue("restartShields");
+        updateActionCostsValue("assaultBoarding");
+
 
         this.combat.initiative = this.evasionRating.value + this.detectionRating.value;
+
+        let getSkillSpecialisation = (skillKey, specKey) => {
+            let spec = this.parent.system.skills[skillKey]?.specialisations?.find(i => i.name.slugify() == specKey?.slugify());
+            if (spec)
+            {
+                return spec;
+            } 
+        };
+        
+        let roleItems = this.parent?.items?.filter(item => item.system?.partType === "role");
+        const takeHigher = (obj, path, change) => {
+            let current = Number(foundry.utils.getProperty(obj, path) ?? 0);
+            if (current < change) foundry.utils.setProperty(obj, path, change);
+        };
+        if (roleItems)
+        {
+            roleItems.forEach(item => {
+                let role = item.system.role.assignee;
+                if (!role.uuid) return;
+            
+                let actor = fromUuidSync(role.uuid);
+                if (!actor) return;
+
+                ["skillOne","skillTwo"].forEach(key => {
+                    if (role[key].key)
+                    {
+                        takeHigher(this, `skills.${role[key].key}.advances`, actor.system.skills[role[key].key].advances);
+                        if (role[key].specialisation)
+                        {
+                            let specActor = actor.system.skills[role[key].key]?.specialisations?.find(i => i.name.slugify() == role[key].specialisation?.slugify());
+                            if (!specActor) return;
+
+                            let specShip = getSkillSpecialisation(role[key].key, role[key].specialisation);
+                            if (specShip)
+                            {
+                                takeHigher(specShip, `system.advances`, specActor.system.advances);
+                            }
+                        }
+                    }
+                });                            
+            });
+        }
+
 
         this.runScripts("postPrepareDerivedData", this);
 
@@ -303,7 +420,7 @@ export class VoidshipModel extends StandardActorModel {
         checkMinValue("supplemental",0);
         checkMinValue("movementPoints",0);
         checkMinValue("actionPoints",0);
-        ["prow", "port", "starboard", "aft", "average"].forEach((key) => {
+        ["fore", "port", "starboard", "aft", "average"].forEach((key) => {
             checkMinValue("shields",key,0);
             checkMinValue("armour",key,0);
         });
@@ -414,7 +531,7 @@ export class VoidshipModel extends StandardActorModel {
         {
             case 1:
             case 2:
-                return "prow";
+                return "fore";
             case 3:
             case 4:
             case 5:
@@ -427,7 +544,7 @@ export class VoidshipModel extends StandardActorModel {
             case 10:
                 return "aft";
             default:
-                return "prow";
+                return "fore";
         }
     }
 
@@ -774,6 +891,13 @@ export class VoidshipModel extends StandardActorModel {
             }
             item.update(updateItem);
         });
+        Object.keys(this.actionCosts).forEach((key) => {
+            if (this.actionCosts[key].byTurn > 0)
+            {
+                updateObj[`system.actionCosts.${key}.byTurn`] = 0;
+            }
+        });
+
         this.parent.update(updateObj);
     }
 
@@ -790,7 +914,16 @@ export class VoidshipModel extends StandardActorModel {
             updateObj["system.options.evasiveManeuvers.slPenalty"] = 0;            
         }        
         
-        updateObj["system.options.restartShieldsDifficulty"] = "routine";    
+        updateObj["system.options.restartShieldsDifficulty"] = "routine";         
+        updateObj["system.options.defyDeath.resetOnEnd"] = 0; 
+        updateObj["system.options.defyDeath.used"] = false;   
+
+        Object.keys(this.actionCosts).forEach((key) => {
+            if (this.actionCosts[key].byTurn > 0)
+            {
+                updateObj[`system.actionCosts.${key}.byTurn`] = 0;
+            }
+        });
 
         const roleItems = this.parent?.items?.filter(item => item.system?.partType === "role") || [];
         roleItems.forEach((item) => {
@@ -817,6 +950,26 @@ export class VoidshipModel extends StandardActorModel {
             }
         });
         updateObj["system.bonuses"] = bonuses;  
+
+        if (this.options.defyDeath.resetOnEnd > 0 && this.options.defyDeath.used)
+        {
+            updateObj["system.options.defyDeath.resetOnEnd"] = this.options.defyDeath.resetOnEnd-1;
+            if ((this.options.defyDeath.resetOnEnd-1) == 0)
+            {
+                let changedRoles = [];
+                this.options.defyDeath.roleIds.forEach(key =>
+                {
+                    let item = this.parent.items.get(key);
+                    if (item && !item.system.active && item.system.status === "default")
+                    {
+                        item.update({"system.active": true});
+                        changedRoles.push(item);
+                    }
+                })
+                updateObj["system.options.defyDeath.roleIds"] = [];
+                ui.notifications.info(`Defy Death! ${changedRoles.map(item => item.name).join(", ")} were activated back!`);
+            }
+        }
 
         this.parent.update(updateObj);
     }
@@ -851,4 +1004,99 @@ export class VoidshipModel extends StandardActorModel {
             this.parent.update({ "system.movementPoints.value": movementCost})
         }
     }
+
+    async defyDeath()
+    {
+        if (this.options.defyDeath.used)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.CantDefyDeathUsed"));
+            return;
+        }
+
+        let amountRoles = this.options.defyDeath.amountRoles;
+        let roles = this.parent.items
+            .filter(item => item.system?.partType === "role")
+            .filter(item => item.system.status === "default" && item.system.active);
+        if (!roles || roles.length < amountRoles)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.CantDefyDeathRoles"));
+            return;
+        }
+
+        let defyDeathRoles = "";
+        let updateObj = {};
+        if (amountRoles > 0)
+        {
+            let chosenItems = [];
+            if (!game.settings.get("impmal-rtim", "voidcombatSettings").randomDamaged)
+            {
+                let resultItems = (await ItemDialog.create(roles, amountRoles, 
+                    {title : "List of Roles", text: `Choose ${amountRoles}}`}));
+                if (resultItems && resultItems.length > 0) chosenItems = resultItems;
+                if (chosenItems.length < amountRoles) 
+                {
+                    ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.CantDefyDeathRoles"));
+                    return;
+                }
+            }
+            else
+            {
+                for (let i = 0; i < amountRoles; i++) {
+                    let random = Math.floor(CONFIG.Dice.randomUniform() * roles.length);
+                    chosenItems.push(roles[random]);
+                    roles.splice(random, 1);
+                }
+            }
+
+            if (!chosenItems || chosenItems.length == 0) return;
+            defyDeathRoles = chosenItems.map(item => item.name).join(", ");
+            updateObj["system.options.defyDeath.roleIds"] = chosenItems.map(item => item.id);
+            chosenItems.forEach(item => {
+                item.update({"system.active": false});
+            });
+        }
+
+        updateObj["system.options.defyDeath.used"] = true;
+        updateObj["system.options.defyDeath.resetOnEnd"] = 2;
+		ChatMessage.create({
+				speaker : ChatMessage.getSpeaker({actor : this.actor}),
+				content : 
+				`The ship DEFIES DEATH! Roles were deactivated until end of the next turn: ${defyDeathRoles}`
+			});  
+        await this.parent.update(updateObj);    
+    }
+    
+    getMovementCost(type) {        
+        switch (type)
+        {
+            case "ramming":
+            case "silentRunning":
+                return this.actionCosts[type].value ?? 0;
+            case "evasiveManeuvers":
+                return this.actionCosts.evasiveManeuvers.value ?? this.movementPoints.max;
+        }
+        return 0;
+    }
+
+    getActionCost(type) {        
+        switch (type)
+        {
+            case "scanMinion":
+            case "repairMinion":
+                return 1;
+            case "repair":
+            case "rally":
+            case "scan":
+            case "seek":
+                return (this.actionCosts[type].value) ?? 1;
+            case "boarding":
+            case "reloadSpecial":
+            case "reloadTorpedoes":
+            case "reloadNovaCannon":
+            case "reloadSquadrons":
+            case "restartShields":
+                return (this.actionCosts[type].value) ?? 2;
+        }
+        return 0;
+    }  
 }

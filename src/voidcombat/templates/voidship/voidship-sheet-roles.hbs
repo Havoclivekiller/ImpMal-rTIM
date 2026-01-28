@@ -1,7 +1,8 @@
 <section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
     <div class="ship-role-list">
+        <h5 class="ship-components-subtitle">{{localize "IMPMAL_RTIM.VoidCombat.Roles"}}</h5>
         {{#each roleParts}}
-        <div class="ship-role-card list-row">
+        <div class="ship-role-card list-row" data-uuid="{{this.uuid}}">
             <div class="ship-role-header">
                 <div class="ship-role-name" data-action="expandRow" data-collapseid="{{this.id}}"><img src="{{this.img}}"> <label>{{this.name}}</label></div>
                 <div class="ship-role-header-actions">
@@ -9,7 +10,7 @@
                     <div class="ship-role-tag">{{localize "IMPMAL_RTIM.VoidCombat.Upgraded"}}</div>
                     {{/if}}     
                     
-                    <label class="modifiers-bonus-toggle">
+                    <label class="modifiers-bonus-toggle" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RoleActive"}}">
                         <input type="checkbox" data-id="{{this.id}}" data-path="system.active" data-action="editItemProperty" name="system.active" {{checked system.active}}>
                         <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
                     </label>            
@@ -17,25 +18,22 @@
                         <input type="radio" id="role-status-default-{{this.id}}" name="system.status.{{this.id}}"
                             value="default" data-id="{{this.id}}" data-path="system.status"
                             data-action="editItemProperty" {{checked (eq this.system.status "default")}}>
-                        <label for="role-status-default-{{this.id}}"><i class="fa-solid fa-heart"></i></label>
+                        <label class="item-status" for="role-status-default-{{this.id}}"><i class="fa-solid fa-heart" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.StatusDefault"}}"></i></label>
                         <input type="radio" id="role-status-damaged-{{this.id}}" name="system.status.{{this.id}}"
                             value="damaged" data-id="{{this.id}}" data-path="system.status"
                             data-action="editItemProperty" {{checked (eq this.system.status "damaged")}}>
-                        <label for="role-status-damaged-{{this.id}}"><i class="fa-solid fa-heart-crack"></i></label>
+                        <label class="item-status" for="role-status-damaged-{{this.id}}" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.StatusDamaged"}}"><i class="fa-solid fa-heart-crack"></i></label>
                         <input type="radio" id="role-status-destroyed-{{this.id}}" name="system.status.{{this.id}}"
                             value="destroyed" data-id="{{this.id}}" data-path="system.status"
                             data-action="editItemProperty" {{checked (eq this.system.status "destroyed")}}>
-                        <label for="role-status-destroyed-{{this.id}}"><i class="fa-regular fa-heart"></i></label>
+                        <label class="item-status" for="role-status-destroyed-{{this.id}}" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.StatusDestroyed"}}"><i class="fa-regular fa-heart"></i></label>
                     </div>
-                    <button type="button" class="ship-part-action" data-action="makeTest" data-type="role" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.MakeTest"}}">
+                    <button type="button" class="ship-part-action make-test" data-action="makeTest" data-type="role" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.MakeTest"}}">
                         <i class="fa-solid fa-dice"></i>
                     </button>
-                    <button type="button" class="ship-part-action" data-action="editShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.EditPart"}}">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                    <button type="button" class="ship-part-action danger" data-action="removeShipPart" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemovePart"}}">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <div class="list-controls">
+                        <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                    </div>
                 </div>
             </div>
             <div class="panel dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}} {{#unless system.active}}is-disabled{{/unless}}">
@@ -63,7 +61,7 @@
                         {{/with}}
                     </div>
                 </div>
-                <div class="ship-role-block">
+                <div class="ship-role-block" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Cooldown"}}">
                     <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Cooldown"}}</div>
                     <div class="ship-role-cooldown" data-action="advanceRoleCooldown" data-id="{{this.id}}" data-action-path="role.actionUpgraded">
                         {{#if (gte this.system.role.actionUpgraded.cooldownCount this.system.role.actionUpgraded.cooldown)}}
@@ -98,7 +96,7 @@
                         {{/with}}
                     </div>
                 </div>
-                <div class="ship-role-block">
+                <div class="ship-role-block" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Cooldown"}}">
                     <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Cooldown"}}</div>
                     <div class="ship-role-cooldown" data-action="advanceRoleCooldown" data-id="{{this.id}}" data-action-path="role.action">
                         {{#if (gte this.system.role.action.cooldownCount this.system.role.action.cooldown)}}
@@ -114,7 +112,7 @@
                 </div>
                 {{/if}}
                 {{#if ../areMembers}}
-                <div class="ship-role-block">
+                <div class="ship-role-block" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.AssignedRole"}}">
                     <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.Assigned"}}</div>
                     {{#if this.system.role.assignee.uuid}}
                     <button type="button" class="ship-role-button" data-action="assignRoleMember" data-id="{{id}}">
@@ -158,6 +156,24 @@
                 <div class="ship-role-label">{{localize "IMPMAL.GMNotes"}}</div>
                 <div class="ship-role-text">{{{this.system.notes.gm}}}</div>
             </div>
+            {{/if}}
+            {{#if this.system.role.assignee.uuid}}
+            <div class="ship-role-grid">
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.AssigneeSkillSpecialization"}}</div>
+                    <select name="system.role.assignee.skillOne.key" data-id="{{this.id}}" data-path="system.role.assignee.skillOne.key" data-action="editItemProperty" >
+                        {{selectOptions (config "skills") selected=this.system.role.assignee.skillOne.key blank=""}}
+                    </select>
+                    <input type="text" name="system.role.assignee.skillOne.specialisation" data-id="{{this.id}}" data-path="system.role.assignee.skillOne.specialisation" data-action="editItemProperty" value="{{this.system.role.assignee.skillOne.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
+                </div>
+                <div class="ship-role-block">
+                    <div class="ship-role-label">{{localize "IMPMAL_RTIM.VoidCombat.AssigneeSkillSpecialization"}}</div>
+                    <select name="system.role.assignee.skillTwo.key" data-id="{{this.id}}" data-path="system.role.assignee.skillTwo.key" data-action="editItemProperty">
+                        {{selectOptions (config "skills") selected=this.system.role.assignee.skillTwo.key blank=""}}
+                    </select>
+                    <input type="text" name="system.role.assignee.skillTwo.specialisation" data-id="{{this.id}}" data-path="system.role.assignee.skillTwo.specialisation" data-action="editItemProperty" value="{{this.system.role.assignee.skillTwo.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
+                </div>
+            </div> 
             {{/if}}
             {{> sheetButtons document=this}}
             </div>

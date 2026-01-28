@@ -3,7 +3,7 @@ export class VoidShipPartSheet extends IMItemSheet {
     static type = "impmal-rtim.voidshipPart"
 
     static DEFAULT_OPTIONS = {
-      classes: [this.type],
+      classes: ["voidship"],
       actions : {
       }
     }
@@ -17,7 +17,7 @@ export class VoidShipPartSheet extends IMItemSheet {
     }
 
     async _prepareContext(options) {
-        const context = await super._prepareContext(options);
+        let context = await super._prepareContext(options);
         return context;
     }
 
