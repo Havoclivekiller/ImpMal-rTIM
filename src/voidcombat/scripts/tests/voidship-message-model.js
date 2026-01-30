@@ -61,7 +61,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return `<button class="voidshipOption" data-action="${action}" ${dataStr}>${label}</button>`
     }
 
-    static async getContentSquadronFail({SL, usages, failed, hullDamaged, result, critical, criticalBtn}, options)
+    static async getContentSquadronFail({SL, usages, failed, hullDamaged, critical, criticalBtn}, options)
     {
         let innerHtml = "";
         if (-SL >= 3 && options?.squadronIndestructible)
@@ -78,7 +78,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             hasUsages : false,
             failed : failed,
             hullDamaged : hullDamaged,
-            result : result,
+            result : this.result,
             targetName : this.targetName,
             targetUuid : this.targetUuid,
             innerHtml : innerHtml,
@@ -91,7 +91,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentDogfight({SL, usages, failed, hullDamaged, result, critical, criticalBtn}, options)
+    static async getContentDogfight({SL, usages, failed, hullDamaged, critical, criticalBtn}, options)
     {
         let innerHtml = ""
         innerHtml += "<span>Enemy squadron is defeated!</span>"
@@ -110,7 +110,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             hasUsages : true,
             failed : failed,
             hullDamaged : hullDamaged,
-            result : result,
+            result : this.result,
             targetName : this.targetName,
             targetUuid : this.targetUuid,
             innerHtml : innerHtml,
@@ -123,14 +123,14 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentBoarding({usages=1,hullDamaged=false,fire=1,component=1,weapon=1,fatigue=1,critical=0,criticalBtn="",failed,result}, options)
+    static async getContentBoarding({usages=1,hullDamaged=false,fire=1,component=1,weapon=1,fatigue=1,critical=0,criticalBtn="",failed}, options)
     {
         let innerHtml = ""
         if (options?.additionalFire > 0) fire += options.additionalFire;
         if (options?.additionalComponent > 0) component += options.additionalComponent;
         if (options?.additionalWeapon > 0) weapon += options.additionalWeapon;
         if (options?.additionalFatigue > 0) fatigue += options.additionalFatigue;
-        let damageHull = result.SL;
+        let damageHull = this.result.SL;
         if (options?.additionalHull > 0) damageHull += options.additionalHull;
         innerHtml += this.getButtonStr("addFireStack", `Start a fire on the ship - ${fire} On Fire! stack`, [{label : "value", value : fire}]);
         innerHtml += this.getButtonStr("damageComponent", `Damage ${component} of the components - Damaged Component (Role)`, [{label : "value", value : component}]);
@@ -148,7 +148,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             hasUsages : true,
             failed : failed,
             hullDamaged : hullDamaged,
-            result : result,
+            result : this.result,
             targetName : this.targetName,
             targetUuid : this.targetUuid,
             innerHtml : innerHtml,
@@ -161,14 +161,14 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentScan({usages=1,addSL=1,amount=1,failed,result}, options)
+    static async getContentScan({usages=1,addSL=1,amount=1,failed}, options)
     {
         let innerHtml = ""
-        amount = 1 + Math.floor(result?.SL/2);
+        amount = 1 + Math.floor(this.result?.SL/2);
         if (options?.weaponPerSL)
         {
-            if (options.weaponPerSL === true) amount = Math.floor(result.SL/1)+1
-            else amount = Math.floor(result.SL/options.weaponPerSL)+1
+            if (options.weaponPerSL === true) amount = Math.floor(this.result.SL/1)+1
+            else amount = Math.floor(this.result.SL/options.weaponPerSL)+1
         }
         if (options?.weaponAmount) amount += options.weaponAmount === true ? 1 : Number(options.weaponAmount);
         if (options?.weaponSL) addSL += options.weaponSL === true ? 1 : Number(options.weaponSL);
@@ -182,10 +182,10 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             actorUuid : this.actorUuid,
             targetName : this.targetName,
             usages : usages,
-            hasUsages : false,
+            hasUsages : true,
             failed : failed,
             innerHtml : innerHtml,
-            result : result,
+            result : this.result,
             options : options
         };
 
@@ -193,7 +193,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentRepair({usages=1,weapon=1,shield=5,repair="all",failed,result}, options)
+    static async getContentRepair({usages=1,weapon=1,shield=5,repair="all",failed}, options)
     {
         let innerHtml = ""
         if (options?.additionalRepair > 0) repair += options.additionalRepair;
@@ -213,7 +213,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             hasUsages : true,
             failed : failed,
             innerHtml : innerHtml,
-            result : result,
+            result : this.result,
             options : options,
         };
 
@@ -221,7 +221,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentRepairMinion({usages=1,weapon=1,fire="all",failed,result}, options)
+    static async getContentRepairMinion({usages=1,weapon=1,fire="all",failed}, options)
     {
         let innerHtml = ""
 
@@ -238,7 +238,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             hasUsages : true,
             failed : failed,
             innerHtml : innerHtml,
-            result : result,
+            result : this.result,
             options : options,
         };
 
@@ -246,7 +246,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentRally({usages=1, criticalAmount=1,critical=11, fatigue=1,fire="all",failed,result}, options)
+    static async getContentRally({usages=1, criticalAmount=1,critical=11, fatigue=1,fire="all",failed}, options)
     {
         let innerHtml = ""
 
@@ -269,7 +269,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             hasUsages : true,
             failed : failed,
             innerHtml : innerHtml,
-            result : result,
+            result : this.result,
             options : options,
         };
 
@@ -277,12 +277,11 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         return content;
     }
 
-    static async getContentRestartShields({usages=1, penaltyChoice=false, penalty=1,failed,result}, options)
+    static async getContentRestartShields({usages=1, penaltyChoice=false, penalty=1,failed}, options)
     {
         let innerHtml = "";
 
         if (options?.alwaysChoice) penaltyChoice = true;
-        if (options?.additionalSLPenalty) penalty += options.additionalSLPenalty;
 
         if (!penaltyChoice) {
             innerHtml += this.getButtonStr("restartShields", `Restart Shields on one side with -${penalty} SL penalty to Shooting tests until end of the next turn`, [{label : "value", value : 1},{label : "penalty", value : penalty}]);
@@ -301,10 +300,10 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             targetName : this.targetName,
             usages : usages,
             penaltyChoice : penaltyChoice,
-            hasUsages : false,
+            hasUsages : true,
             failed : failed,
             innerHtml : innerHtml,
-            result : result,
+            result : this.result,
             options : options,
         };
 
@@ -519,7 +518,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         let actor = await fromUuid(this.targetUuid);
         if (!actor) return;
 
-        actor.update({"system.fire": actor.system.fire + Number(value)});
+        actor.applyDamage(Number(value), {type:"fire", createCriticalMessage : true});
 
         this.usages -= 1;
 
@@ -549,19 +548,9 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         if (!actor) return;
 
         let hullDamage = Number(value);
-        let hullLeft = actor.system.hull.value - hullDamage;
-
-        if (hullLeft < 0)
-        {
-            this.critical += -hullLeft;
-            this.criticalBtn = `<a class="table-roll critical-voidship" 
-        data-table="critvoidship" 
-        data-formula="${this.getCriticalFormula(actor, this.critical)}"><i class="fa-solid fa-dice-d10"></i>${game.i18n.localize("IMPMAL.Critical")} (${this.getCriticalFormula(actor, this.critical)})</a>`;
-            hullLeft = 0;
-        }
         
-        actor.update({"system.hull.value": hullLeft});
-
+        actor.applyDamage(hullDamage, {type:"selfDamage", createCriticalMessage : true});
+        
         this.hullDamaged = true;
 
         this.usages -= 1;
@@ -591,37 +580,12 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             ui.notifications.info(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUseFatigue"));
 
             let hullDamage = Number(value) * 2;
-            let hullLeft = actor.system.hull.value - hullDamage;
 
-            if (hullLeft < 0)
-            {
-                this.critical += -hullLeft;
-                this.criticalBtn = `<a class="table-roll critical-voidship" 
-            data-table="critvoidship" 
-            data-formula="${this.getCriticalFormula(actor, this.critical)}"><i class="fa-solid fa-dice-d10"></i>${game.i18n.localize("IMPMAL.Critical")} (${this.getCriticalFormula(actor, this.critical)})</a>`;
-                hullLeft = 0;
-            }
-            
-            actor.update({"system.hull.value": hullLeft});
+            actor.applyDamage(hullDamage, {type:"selfDamage", createCriticalMessage : true});
         }
         else
         {
-            let noFatigued = actor.system.fatigue.value < actor.system.fatigue.max;
-            actor.update({"system.fatigue.value": actor.system.fatigue.value + Number(value)});
-            if (noFatigued && actor.system.fatigue.value >= actor.system.fatigue.max)
-            {
-                ChatMessage.create({
-                        speaker : ChatMessage.getSpeaker({actor : this.parent}),
-                        content : game.i18n.localize("IMPMAL_RTIM.VoidCombat.CrewBecomesFatigued")
-                    });
-            }
-            else if (actor.system.fatigue.value > actor.system.fatigue.max && actor.characteristics.crew.total == 0)
-            {
-                ChatMessage.create({
-                        speaker : ChatMessage.getSpeaker({actor : this.parent}),
-                        content : game.i18n.localize("IMPMAL_RTIM.VoidCombat.CrewBecomesRiot")
-                    });
-            }
+            actor.applyDamage(Number(value), {type:"fatigue", createCriticalMessage : true});
         }
 
         this.usages -= 1;
@@ -631,6 +595,15 @@ export class VoidshipMessageModel extends WarhammerMessageModel
 
     static async _onRestartShields(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         let penalty = target.dataset.penalty;
         if (this.usages <= 0)
@@ -639,8 +612,6 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             return;
         }
 
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         let locations = []
         if (value === "all")
@@ -704,6 +675,15 @@ export class VoidshipMessageModel extends WarhammerMessageModel
 
     static async _onAddWeaponSL(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         let SL = target.dataset.sl;
         if (this.usages <= 0)
@@ -711,9 +691,6 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         let weaponItems = actor.items
             .filter(item => item.type === "impmal-rtim.voidshipPart")
@@ -753,6 +730,15 @@ export class VoidshipMessageModel extends WarhammerMessageModel
 
     static async _onRemoveCritical(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         let critical = target.dataset.critical;
         if (this.usages <= 0)
@@ -760,9 +746,6 @@ export class VoidshipMessageModel extends WarhammerMessageModel
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         let criticalItems = actor.items
             .filter(item => item.type === "impmal-rtim.voidshipPart")
@@ -787,15 +770,21 @@ export class VoidshipMessageModel extends WarhammerMessageModel
 
     static async _onRemoveFatigue(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         if (this.usages <= 0)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         if (actor.system.fatigue.value <= 0 || actor.system.options.noFatigue)
         {
@@ -820,15 +809,21 @@ export class VoidshipMessageModel extends WarhammerMessageModel
 
     static async _onRemoveFire(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         if (this.usages <= 0)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         if (actor.system.fire <= 0)
         {
@@ -854,15 +849,21 @@ export class VoidshipMessageModel extends WarhammerMessageModel
     //RepairComponents aka Damaged Roles (status == "damaged" >> "default", skip "destroyed")
     static async _onRepairDamagedComponents(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         if (this.usages <= 0)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         let roleItems = actor.items
             .filter(item => item.type === "impmal-rtim.voidshipPart")
@@ -887,15 +888,21 @@ export class VoidshipMessageModel extends WarhammerMessageModel
     //RepairWeapon
     static async _onRepairWeapon(ev, target)
     {
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         if (this.usages <= 0)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         let weaponItems = actor.items
             .filter(item => item.type === "impmal-rtim.voidshipPart")
@@ -920,15 +927,21 @@ export class VoidshipMessageModel extends WarhammerMessageModel
     //RepairShield
     static async _onRepairShield(ev, target)
     {        
+        let actor = await fromUuid(this.actorUuid);
+        if (!actor) return;
+
+        if (!actor.isOwner)
+        {
+            ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.OnlyOwner"));
+            return;
+        }
+
         let value = target.dataset.value;
         if (this.usages <= 0)
         {
             ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoUsagesLeft"));
             return;
         }
-
-        let actor = await fromUuid(this.actorUuid);
-        if (!actor) return;
 
         let takeAvgShield = actor.system.options.takeAvgShield;
 
@@ -1003,7 +1016,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                     hullDamaged : this.hullDamaged,            
                     critical : this.critical,
                     criticalBtn : this.criticalBtn,
-                    result : this.result,
+                    result : {...this.result},
                     usages : this.usages, 
                     options : this.options, 
                     failed : result.outcome === "failure",
@@ -1017,7 +1030,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                     hullDamaged : this.hullDamaged,            
                     critical : this.critical,
                     criticalBtn : this.criticalBtn,
-                    result : this.result,
+                    result : {...this.result},
                     options : this.options, 
                     failed : result.outcome === "failure",
                     usages : this.usages })
@@ -1028,7 +1041,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                     hullDamaged : this.hullDamaged,            
                     critical : this.critical,
                     criticalBtn : this.criticalBtn,
-                    result : this.result,
+                    result : {...this.result},
                     usages : this.usages, 
                     options : this.options, 
                     failed : result.outcome === "failure",
@@ -1040,7 +1053,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                     hullDamaged : this.hullDamaged,            
                     critical : this.critical,
                     criticalBtn : this.criticalBtn,
-                    result : this.result,
+                    result : {...this.result},
                     usages : this.usages, 
                     options : this.options, 
                     failed : result.outcome === "failure",
@@ -1053,7 +1066,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                     hullDamaged : this.hullDamaged,            
                     critical : this.critical,
                     criticalBtn : this.criticalBtn,
-                    result : this.result,
+                    result : {...this.result},
                     usages : this.usages, 
                     options : this.options, 
                     failed : result.outcome === "success",
@@ -1065,7 +1078,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                     hullDamaged : this.hullDamaged,            
                     critical : this.critical,
                     criticalBtn : this.criticalBtn,
-                    result : this.result,
+                    result : {...this.result},
                     options : this.options, 
                     failed : result.outcome === "failure",
                     usages : this.usages, 
@@ -1086,7 +1099,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         await Promise.all(actor.runScripts("voidshipOptions", args)); 
         this.options = args.options;
 
-        let content = await this.getContentRestartShields({penaltyChoice : result.SL >= 3, result}, this.options);
+        let content = await this.getContentRestartShields({penaltyChoice : result.SL >= 3, result : this.result}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1094,9 +1107,9 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 usages : 1,
                 penaltyChoice : result.SL >= 3, 
                 testType : "restartShields", 
-                hasUsages : false,
+                hasUsages : true,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 targetName : actor.name ?? actor.parent.name,
                 options : this.options,
                 actorUuid : this.actorUuid
@@ -1119,7 +1132,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         this.options = args.options;
         if (this.options?.additionalUsages > 0) this.usages += this.options.additionalUsages;
 
-        let content = await this.getContentRepair({usages : this.usages, result}, this.options);
+        let content = await this.getContentRepair({usages : this.usages, result : this.result}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1128,11 +1141,10 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 testType : "repair", 
                 hasUsages : true,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 targetName : actor.name ?? actor.parent.name,
                 actorUuid : this.actorUuid,
                 options : this.options,
-                result : this.result
             },
             speaker : actor,
             flavor : game.i18n.localize("IMPMAL_RTIM.VoidCombat.RepairAction")
@@ -1152,7 +1164,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         this.options = args.options;
         if (this.options?.additionalUsages > 0) this.usages += this.options.additionalUsages;
 
-        let content = await this.getContentRepairMinion({usages : this.usages, result}, this.options);
+        let content = await this.getContentRepairMinion({usages : this.usages, result : this.result}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1161,11 +1173,10 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 testType : "repairMinion", 
                 hasUsages : true,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 targetName : actor.name ?? actor.parent.name,
                 actorUuid : this.actorUuid,
                 options : this.options,
-                result : this.result
             },
             speaker : actor,
             flavor : game.i18n.localize("IMPMAL_RTIM.VoidCombat.RepairMinionAction")
@@ -1185,7 +1196,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         this.options = args.options;
         if (this.options?.additionalUsages > 0) this.usages += this.options.additionalUsages;
 
-        let content = await this.getContentRally({usages : this.usages}, this.options);
+        let content = await this.getContentRally({usages : this.usages, result : this.result}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1194,11 +1205,10 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 testType : "rally", 
                 hasUsages : true,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 targetName : actor.name ?? actor.parent.name,
                 actorUuid : this.actorUuid,
                 options : this.options,
-                result : this.result
             },
             speaker : actor,
             flavor : game.i18n.localize("IMPMAL_RTIM.VoidCombat.RallyAction")
@@ -1217,20 +1227,19 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         await Promise.all(actor.runScripts("voidshipOptions", args)); 
         this.options = args.options;
 
-        let content = await this.getContentScan({usages : 1, result, amount : Math.floor(result.SL/2)+1}, this.options);
+        let content = await this.getContentScan({usages : 1, result : this.result, amount : Math.floor(result.SL/2)+1}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
             system : { 
                 usages : 1,
                 testType : "scan", 
-                hasUsages : false,
+                hasUsages : true,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 targetName : actor.name ?? actor.parent.name,
                 actorUuid : this.actorUuid,
-                result : this.result,
-                options : this.options,
+                options : {...this.options},
             },
             speaker : actor,
             flavor : game.i18n.localize("IMPMAL_RTIM.VoidCombat.ScanAction")
@@ -1251,7 +1260,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         this.options = args.options;
         if (this.options?.additionalUsages > 0) this.usages += this.options.additionalUsages;
 
-        let content = await this.getContentBoarding({usages : this.usages, hullDamaged : false, result, targetName : this.targetName}, this.options);
+        let content = await this.getContentBoarding({usages : this.usages, hullDamaged : false, result : this.result, targetName : this.targetName}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1264,7 +1273,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 actorUuid : this.actorUuid,
                 targetUuid : this.targetUuid,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 critical : this.critical,
                 criticalBtn : this.criticalBtn,
                 options : this.options,
@@ -1287,7 +1296,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         await Promise.all(actor.runScripts("voidshipOptions", args)); 
         this.options = args.options;
 
-        let content = await this.getContentDogfight({usages : 1, hullDamaged : false, result, targetName : this.targetName}, this.options);
+        let content = await this.getContentDogfight({usages : 1, hullDamaged : false, result : this.result, targetName : this.targetName}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1300,7 +1309,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 actorUuid : this.actorUuid,
                 targetUuid : this.targetUuid,
                 failed : this.failed,
-                result : this.result,
+                result : {...this.result},
                 critical : this.critical,
                 criticalBtn : this.criticalBtn,
                 options : this.options,
@@ -1323,7 +1332,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
         await Promise.all(actor.runScripts("voidshipOptions", args)); 
         this.options = args.options;
 
-        let content = await this.getContentSquadronFail({usages : 1, hullDamaged : false, result, failed : false, targetName : this.targetName}, this.options);
+        let content = await this.getContentSquadronFail({usages : 1, hullDamaged : false, result : this.result, failed : false, targetName : this.targetName}, this.options);
         return ChatMessage.create({
             content,
             type : "impmal-rtim.voidshipMessage",
@@ -1336,7 +1345,7 @@ export class VoidshipMessageModel extends WarhammerMessageModel
                 actorUuid : this.actorUuid,
                 targetUuid : this.targetUuid,
                 failed : false,
-                result : this.result,
+                result : {...this.result},
                 critical : this.critical,
                 criticalBtn : this.criticalBtn,
                 options : this.options,

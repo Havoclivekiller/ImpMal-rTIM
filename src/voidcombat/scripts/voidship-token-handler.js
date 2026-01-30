@@ -122,7 +122,7 @@ export class VoidshipTokenHandler
     }
 
     static getPreviewData(token) {
-        return token?._voidshipMovementPreview;
+        return token?._voidshipMovementPreview ?? token?.document?._voidshipMovementPreview;
     }
 
     static setPreviewData(token, data) {
@@ -132,6 +132,9 @@ export class VoidshipTokenHandler
     static clearPreviewData(token) {
         if (token?._voidshipMovementPreview) {
             delete token._voidshipMovementPreview;
+        }
+        if (token?.document?._voidshipMovementPreview) {
+            delete token.document._voidshipMovementPreview;
         }
     }
 
@@ -299,7 +302,7 @@ export class VoidshipTokenHandler
             }
             const { actorId, tokenId } = this._moveMode;
             const token = canvas.tokens?.get(tokenId);
-            const actor = actorId ? game.actors?.get(actorId) : token?.actor;
+            const actor = token?.actor ?? game.actors.get(actorId);
             if (!token || !actor) {
                 this.clearMoveMode();
                 return;
@@ -412,12 +415,13 @@ export class VoidshipTokenHandler
         if (!local) {
             return;
         }
-        const elevation = token.document?.elevation ?? token.elevation ?? 0;
-        const { width, height, shape } = token.document;
-        const pivot = token.document.getCenterPoint({ x: 0, y: 0, elevation, width, height, shape });
+        let tokenDoc = token.document ?? token;
+        const elevation = tokenDoc.elevation ?? tokenDoc.elevation ?? 0;
+        const { width, height, shape } = tokenDoc;
+        const pivot = tokenDoc.getCenterPoint({ x: 0, y: 0, elevation, width, height, shape });
         const desired = { x: local.x - pivot.x, y: local.y - pivot.y, elevation, width, height, shape };
-        const snapped = token.document.getSnappedPosition(desired);
-        const offset = token.document._positionToGridOffset(snapped);
+        const snapped = tokenDoc.getSnappedPosition(desired);
+        const offset = tokenDoc._positionToGridOffset(snapped);
         if (!offset) {
             return;
         }
@@ -451,7 +455,6 @@ export class VoidshipTokenHandler
         });
         const destination = offsets.at(-1);
         const topLeft = canvas.grid.getTopLeftPoint(destination);
-        const doc = token.document ?? token;
         const moveWaypoints = waypoints.length
             ? waypoints
             : [{
@@ -459,13 +462,13 @@ export class VoidshipTokenHandler
                 y: topLeft.y,
                 elevation,
             }];
-        if (actor.system?.autoCalc?.movementSound !== "")
+        if (actor.system?.autoCalc?.movementSound !== "" && moveWaypoints.length > 2)
         {
             AudioHelper.play({src: actor.system?.autoCalc?.movementSound, 
                 volume: 1, autoplay: true, loop: false}, true);        
         }
 
-        const moved = await doc.move(moveWaypoints, {
+        const moved = await tokenDoc.move(moveWaypoints, {
             autoRotate: true,
         });
         if (moved && endState) {
@@ -721,9 +724,8 @@ export class VoidshipTokenHandler
         }
 
         let angleToTarget = Math.atan2(end.y - start.y, end.x - start.x);
-        let baseOffset = game.canvas?.scene?.grid?.columns ? 90 : 0;
         let rotation = Number(target.document?.rotation ?? target.rotation ?? 0) + 180;
-        let facingAngle = (rotation + baseOffset) * (Math.PI / 180);
+        let facingAngle = (rotation + this.ROTATION_OFFSET_DEG) * (Math.PI / 180);
         let twoPi = Math.PI * 2;
         let sectorSize = Math.PI / 3;
         let normalized = ((angleToTarget - facingAngle) % twoPi + twoPi) % twoPi;

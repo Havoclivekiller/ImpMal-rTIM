@@ -24,5 +24,32 @@ export class VoidShipPartSheet extends IMItemSheet {
     async _onRender(options)
     {
         await super._onRender(options);
+
+        this.element.querySelectorAll("[data-action='editItemProperty']").forEach(element => 
+        {
+            element.addEventListener(element.type !== "button" ? "change" : "click", this.constructor._onEditItemProperty.bind(this));
+        });
+    }
+
+    static async _onEditItemProperty(ev, target)
+    {
+        let document = (await this._getDocumentAsync(ev, target)) || this.document;
+        let path = ev.target.dataset.path;
+        let itemId = ev.target.dataset.id;
+        if (document.id !== itemId) return;
+        let value = ev.target.value;
+        if (ev.target.type == "number" && value == "")
+        {
+            value = 0;
+        }
+        else if (ev.target.type == "number")
+        {
+            value = Number(ev.target.value);
+        }
+        if (ev.target.type == "checkbox")
+        {
+            value = ev.target.checked;
+        }
+        document.update({[path] : value});
     }
 }

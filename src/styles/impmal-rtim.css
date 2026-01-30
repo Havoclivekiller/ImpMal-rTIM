@@ -1,16 +1,46 @@
-.voidship{
-    --voidship-border: 1px solid #584a7585;
-    --voidship-dark: #1d1c25;
-    --voidship-gradientbackground: linear-gradient(180deg, #201c29 0%, #302f35 100%);
-    --voidship-pip: #c5aef3;
+body.theme-light .voidship{
+    --voidship-border: 1px solid #ada2c485;
+    --voidship-dark: #a8a4c1;
+    --voidship-disabled-grey: #b6b0b4;
+    --voidship-gradientbackground: linear-gradient(180deg, #a39db3 0%, #a7a3b7 100%);
+    --voidship-pip: #362851;
     --voidship-pip-shadow: 0 0 6px #584a7599;
-    --voidship-halfpip: linear-gradient(90deg, #47DFFF 0%, #47DFFF 50%, #122c2f 50%, #122c2f 100%);
+    --voidship-halfpip: linear-gradient(90deg, #362851 0%, #362851 50%, #122c2f 50%, #122c2f 100%);
     --voidship-darkred:#7a0f0f;
     --voidship-red:#b13232;
     --voidship-orange: #d6861a;
     --voidship-darkorange: #b36b00;
     --voidship-green: #43b96a;
     --voidship-darkgreen: #1f6f3b;
+    --voidship-button-hover: var(--color-warm-2);
+    --voidship-button-hover-border: var(--color-light-3);
+    --voidship-white: #000000;
+    --voidship-black: #ffffff;
+    --voidship-grey: #515656;
+    
+
+}
+
+body.theme-dark .voidship{
+    --voidship-border: 1px solid #584a7585;
+    --voidship-dark: #1d1c25;
+    --voidship-disabled-grey: #332d31;
+    --voidship-gradientbackground: linear-gradient(180deg, #201c29 0%, #302f35 100%);
+    --voidship-pip: #c5aef3;
+    --voidship-pip-shadow: 0 0 6px #584a7599;
+    --voidship-halfpip: linear-gradient(90deg, #c5aef3 0%, #c5aef3 50%, #122c2f 50%, #122c2f 100%);
+    --voidship-darkred:#7a0f0f;
+    --voidship-red:#b13232;
+    --voidship-orange: #d6861a;
+    --voidship-darkorange: #b36b00;
+    --voidship-green: #43b96a;
+    --voidship-darkgreen: #1f6f3b;
+    --voidship-button-hover: var(--color-warm-2);
+    --voidship-button-hover-border: var(--color-light-3);
+    --voidship-white: #ffffff;
+    --voidship-black: #000000;
+    --voidship-grey: #e6f3f3;
+    
 
 }
 
@@ -18,6 +48,7 @@ body.impmal-theme .voidship
 {
     --voidship-border: 1px solid #1c7b8485;
     --voidship-dark: #0f2629;
+    --voidship-disabled-grey: #595959;
     --voidship-gradientbackground: linear-gradient(180deg, #122b2f 0%, #16373b 100%);
     --voidship-pip: #47DFFF;
     --voidship-pip-shadow: 0 0 6px rgba(71, 223, 255, 0.6);
@@ -28,6 +59,10 @@ body.impmal-theme .voidship
     --voidship-darkorange: #b36b00;
     --voidship-green: #43b96a;
     --voidship-darkgreen: #1f6f3b;
+    --voidship-button-hover: var(--impmal-lightblue);
+    --voidship-button-hover-border: var(--impmal-lightgreen);
+    --voidship-checked-color: var(--impmal-lightgreen);
+    --voidship-disabled-color: var(--impmal-darkgreen);
 }
 
 .voidship textarea{
@@ -68,7 +103,7 @@ body.impmal-theme .voidship
 
 .voidship .ship-member-name{
     font-weight: 700;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     line-height: 1.1;
 }
 
@@ -89,13 +124,13 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-member-value{
     font-size: 12px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--voidship-white);
 }
 
 .voidship .ship-member-remove{
@@ -104,7 +139,7 @@ body.impmal-theme .voidship
     border-radius: 4px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #ffffff;
+    color: var(--voidship-white);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -112,8 +147,8 @@ body.impmal-theme .voidship
 }
 
 .voidship .ship-member-remove:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
 }
 
 .voidship .crew-grid{
@@ -171,7 +206,7 @@ body.impmal-theme .voidship
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #cfe4e4;
+    color: var(--voidship-grey);
 }
 
 .voidship .crew-field{
@@ -186,7 +221,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .crew-static{
@@ -194,7 +229,7 @@ body.impmal-theme .voidship
     border-radius: 6px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     font-weight: 600;
     min-height: 28px;
     display: flex;
@@ -222,7 +257,7 @@ body.impmal-theme .voidship
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #cfe4e4;
+    color: var(--voidship-grey);
 }
 
 .voidship .modifiers-fields{
@@ -245,32 +280,39 @@ body.impmal-theme .voidship
 }
 
 .voidship .modifiers-buttons{
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.voidship .modifiers-buttons > div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .voidship .modifiers-button
 {
     display: inline-block;
-    margin-top: 15px;
     padding: 2px 7px;
     border-radius: 999px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     font-size: 11px;
     line-height: 1.1;
     cursor: pointer;
 }
 
 .voidship .modifiers-button:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
 }
 
 
-.voidship .item-status:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+.voidship .ship-role-status-button:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
 }
 
 .voidship .modifiers-field{
@@ -296,7 +338,7 @@ body.impmal-theme .voidship
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     font-size: 12px;
 }
 
@@ -308,7 +350,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .modifiers-bonuses{
@@ -396,7 +438,7 @@ body.impmal-theme .voidship
 
 .voidship .modifiers-bonus-inline-label{
     font-size: 11px;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }
@@ -405,7 +447,7 @@ body.impmal-theme .voidship
     border-radius: 6px;
     background: var(--voidship-darkgreen);
     border-color: var(--voidship-green);
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     border: var(--voidship-border);
     padding: 3px 6px;
 }
@@ -428,7 +470,7 @@ body.impmal-theme .voidship
     border-radius: 6px;
     border-color: var(--voidship-green);
     border: var(--voidship-border);
-    color: #a9bcbc;
+    color: var(--voidship-grey);
     font-size: 11px;
     cursor: pointer;
     white-space: nowrap;
@@ -440,7 +482,7 @@ body.impmal-theme .voidship
 
 .voidship .modifiers-bonus-toggle:has(input:checked){
     background: rgba(88, 223, 166, 0.2);
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 .voidship .modifiers-bonus-actions{
@@ -540,12 +582,12 @@ body.impmal-theme .voidship
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .sheet-header .fate-points-row .value{
     font-weight: 600;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 .voidship .sheet-header .fate-points-row{
@@ -573,7 +615,7 @@ body.impmal-theme .voidship
 
 .voidship .hull-stat .value{
     font-weight: 600;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 
@@ -619,6 +661,7 @@ body.impmal-theme .voidship
     flex-wrap: wrap;
     gap: 4px;
     justify-content: center;
+    align-items: flex-end;
 }
 
 .voidship .points-pips .pip{
@@ -647,12 +690,58 @@ body.impmal-theme .voidship
     box-shadow: var(--voidship-pip-shadow);
 }
 
+.voidship .points-pips .pip-divider{
+  display: inline-block;
+  margin: -4px -8px 0;
+  width: 24px;
+  height: 19px;
+  background: var(--voidship-pip);          /* the rectangle color */
+  --r: 10px;                 /* radius of the cutout */
+  transform: translateY(2px);
+
+  /* Cut two semicircles out of the left/right sides, centered vertically */
+  -webkit-mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-pip) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-pip) 100%),
+    linear-gradient(var(--voidship-pip) 0 0);
+  -webkit-mask-composite: source-in;
+
+  mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-pip) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-pip) 100%),
+    linear-gradient(var(--voidship-pip) 0 0);
+  mask-composite: intersect;
+}
+
+.voidship .points-pips .pip-divider-inactive{
+  display: inline-block;
+  margin: -4px -8px 0;
+  width: 24px;
+  height: 19px;
+  background: var(--voidship-disabled-grey);          /* the rectangle color */
+  --r: 10px;                 /* radius of the cutout */
+  transform: translateY(2px);
+
+  /* Cut two semicircles out of the left/right sides, centered vertically */
+  -webkit-mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-disabled-grey) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-disabled-grey) 100%),
+    linear-gradient(var(--voidship-disabled-grey) 0 0);
+  -webkit-mask-composite: source-in;
+
+  mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-disabled-grey) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-disabled-grey) 100%),
+    linear-gradient(var(--voidship-disabled-grey) 0 0);
+  mask-composite: intersect;
+}
+
 
 .voidship .sheet-header .hull-name{
     background: none;
     border: none;
     padding: 0;
-    color: #DDD;
+    color: var(--voidship-grey);
     font-weight: 600;
     cursor: pointer;
 }
@@ -716,7 +805,7 @@ body.impmal-theme .voidship
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-combat-actions{
@@ -747,15 +836,26 @@ body.impmal-theme .voidship
     border-radius: 999px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     font-size: 0.8rem;
     line-height: 1.1;
     cursor: pointer;
 }
 
+.voidship .ship-combat-action-disabled {
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: var(--voidship-border);
+    background: var(--voidship-disabled-grey);
+    font-size: 0.8rem;
+    line-height: 1.1;
+    color: var(--voidship-black);
+    cursor: pointer;
+}
+
 .voidship .ship-combat-action:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
 }
 
 .voidship .ship-diagram{
@@ -773,7 +873,7 @@ body.impmal-theme .voidship
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("/modules/impmal-rtim/assets/voidcombat/shiphologram.webp");
+    background-image: url("/modules/impmal-rtim/assets/voidcombat/ui/shiphologram.webp");
     background-size: 50% auto;
     background-position: center;
     background-repeat: no-repeat;
@@ -833,7 +933,7 @@ body.impmal-theme .voidship
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    color: #d7e7e7;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-input-group{
@@ -847,7 +947,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
-    color: #9eb2b2;
+    color: var(--voidship-grey);
     text-align: left;
     flex: 0 0 auto;
 }
@@ -944,28 +1044,40 @@ body.impmal-theme .voidship
     border-radius: 4px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #ffffff;
+    color: var(--voidship-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voidship .weapon-slot-action-disabled{
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-disabled-grey);
+    color: var(--voidship-black);
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .voidship .weapon-slot-action:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
 }
 
 .voidship .weapon-slot-destroyed{
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #d65b5b;
+    color: var(--voidship-red);
 }
 .voidship .weapon-slot-damaged{
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #d6d65b;
+    color: var(--voidship-orange);
 }
 
 .voidship .weapon-location-sigil{
@@ -991,7 +1103,7 @@ body.impmal-theme .voidship
     width: 22px;
     height: 22px;
     transform: translate(-50%, -50%) rotate(180deg);
-    background-image: url("/modules/impmal-rtim/assets/voidcombat/shiphologram.webp");
+    background-image: url("/modules/impmal-rtim/assets/voidcombat/ui/shiphologram.webp");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -1001,7 +1113,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #b7c9c9;
+    color: var(--voidship-grey);
     margin-bottom: 0;
 }
 
@@ -1061,7 +1173,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
     margin-left: 1rem;
 }
 
@@ -1092,7 +1204,7 @@ body.impmal-theme .voidship
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.05em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .voidship-table-row.effect{
@@ -1105,7 +1217,7 @@ body.impmal-theme .voidship
 
 .voidship .ship-weapon-name{
     font-weight: 600;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-components-summary{
@@ -1128,12 +1240,12 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-components-value{
     font-weight: 700;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-components-title{
@@ -1141,7 +1253,7 @@ body.impmal-theme .voidship
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #cfe4e4;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-components-subtitle{
@@ -1149,7 +1261,7 @@ body.impmal-theme .voidship
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-components-list{
@@ -1180,7 +1292,7 @@ body.impmal-theme .voidship
     gap: 5px;
     align-items: center;
     font-weight: 700;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-component-name img{
@@ -1205,7 +1317,7 @@ body.impmal-theme .voidship
     gap: 8px;
     flex-wrap: wrap;
     font-size: 11px;
-    color: #b7c9c9;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-component-body{
@@ -1228,12 +1340,12 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-component-text{
     font-size: 12px;
-    color: #ffffff;
+    color: var(--voidship-white);
     word-break: break-word;
 }
 
@@ -1241,7 +1353,7 @@ body.impmal-theme .voidship
     padding: 10px;
     border-radius: 6px;
     border: var(--voidship-border);
-    color: #a9bcbc;
+    color: var(--voidship-grey);
     text-align: center;
 }
 
@@ -1284,7 +1396,7 @@ body.impmal-theme .voidship
     gap: 5px;
     font-size: 16px;
     font-weight: 700;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     align-items: center;
 }
 
@@ -1325,13 +1437,13 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #a9bcbc;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-role-text{
     font-size: 12px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--voidship-white);
     word-break: break-word;
 }
 
@@ -1350,13 +1462,13 @@ body.impmal-theme .voidship
     background: var(--voidship-dark);
     font-size: 0.7rem;
     font-weight: 600;
-    color: #e6f3f3;
+    color: var(--voidship-grey);
     cursor: pointer;
 }
 
 .voidship .ship-skill-button:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
 }
 
 .voidship .ship-role-cooldown{
@@ -1386,15 +1498,15 @@ body.impmal-theme .voidship
     border-radius: 4px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #ffffff;
+    color: var(--voidship-white);
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .voidship .ship-part-action:hover{
-    background: var(--impmal-lightblue);
-    color: #ffffff;
+    background: var(--voidship-button-hover);
+    color: var(--voidship-grey);
 }
 
 .voidship .make-test{
@@ -1415,7 +1527,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #c9b66d;
+    color: var(--voidship-orange);
 }
 
 .voidship .ship-crew-riots{
@@ -1423,7 +1535,7 @@ body.impmal-theme .voidship
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: #d65b5b;
+    color: var(--voidship-red);
 }
 
 @media (max-width: 900px) {
@@ -1452,13 +1564,24 @@ body.impmal-theme .voidship
   outline-offset: 3px;
 }
 
+.voidship .ship-role-button-unassigned {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--impmal-dark);
+}
+
 .voidship .ship-role-button{
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 4px 8px;
     border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: var(--voidship-border);
+    background: var(--impmal-darkgreen);
 }
 
     .voidship .ship-role-button img{
@@ -1527,7 +1650,7 @@ body.impmal-theme .voidship
   z-index: 2;
 
 
-  background-image: url("/modules/impmal-rtim/assets/voidcombat/crackedRole.webp");
+  background-image: url("/modules/impmal-rtim/assets/voidcombat/ui/crackedRole.webp");
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -1560,30 +1683,182 @@ body.impmal-theme .voidship
     border-radius: 8px;
     border: var(--voidship-border);
     background: var(--voidship-dark);
-    color: #a9bcbc;
+    color: var(--voidship-grey);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     cursor: pointer;
 }
 
+.voidship .ship-role-status-button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 22px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-grey);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.voidship .ship-role-status-button.selected{
+    background: var(--voidship-darkgreen);
+    border-color: var(--voidship-green);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status-button.selected[value="damaged"]{
+    background: var(--voidship-darkorange);
+    border-color: var(--voidship-orange);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status-button.selected[value="destroyed"]{
+    background: var(--voidship-darkred);
+    border-color: var(--voidship-red);
+    color: var(--voidship-grey);
+}
+
 .voidship .ship-role-status input:checked + label{
     background: var(--voidship-darkgreen);
     border-color: var(--voidship-green);
-    color: #e6f3f3;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-role-status input[value="damaged"]:checked + label{
     background: var(--voidship-darkorange);
     border-color: var(--voidship-orange);
-    color: #fff3e0;
+    color: var(--voidship-grey);
 }
 
 .voidship .ship-role-status input[value="destroyed"]:checked + label{
     background: var(--voidship-darkred);
     border-color: var(--voidship-red);
-    color: #ffe8e8;
+    color: var(--voidship-grey);
 }
 .voidship .collapsed{
   display: none;
+}
+
+.voidship.dialog-voidship .voidship-duel{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.voidship.dialog-voidship .voidship-duel-side{
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.voidship.dialog-voidship .voidship-duel-side-target{
+  flex-direction: row-reverse;
+}
+
+.voidship.dialog-voidship .voidship-duel-stats{
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.voidship.dialog-voidship .voidship-duel-stat{
+  display: flex;
+  align-items: center;
+}
+
+.voidship.dialog-voidship .voidship-duel-radios{
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  height: 16px;
+  width: 16px;
+  color: var(--voidship-disabled-color);
+}
+
+
+.voidship.dialog-voidship .voidship-duel-choice input{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice i{
+  font-size: 14px;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice input:checked + i{
+  color: var(--voidship-checked-color);
+}
+
+.voidship.dialog-voidship .voidship-duel-choice input:checked ~ i{
+  color: var(--voidship-checked-colorr);
+}
+
+.voidship.dialog-voidship .voidship-duel-choice input:checked{
+  outline: none;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice:has(input:checked){
+  box-shadow: 0 0 8px rgba(71, 223, 255, 0.4);
+  color: var(--voidship-checked-color);
+}
+
+
+.voidship.dialog-voidship .voidship-duel-ship{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.voidship.dialog-voidship .voidship-duel-ship-image{
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(71, 223, 255, 0.35));
+}
+
+.voidship .voidship-condition {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--condition);
+    padding: 5px;
+}
+.voidship .voidship-condition label  {
+    max-width: 100px;
+}
+.voidship .voidship-condition-button  {
+   background: 0;
+   width: 32px;
+   height: 32px;
+   padding: 0;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.voidship .voidship-condition-button img {
+    height: 32px;
+    width: 32px;
 }

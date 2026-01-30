@@ -48,7 +48,7 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
             fields: true
         },
         voidship : {
-            template : "modules/impmal-rtim/voidcombat/templates/tests/dialog-voidship.hbs",
+            template : "modules/impmal-rtim/voidcombat/templates/tests/voidship-dialog.hbs",
             fields: true
         },
         state : {
@@ -97,54 +97,18 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
             this.tooltips.add("disadvantage", 1, "Weapon is damaged");
         }
 
-        if (this.fields.useDetection)
-        {
-            this.fields.modifier += this.fields.detectionRating;
-            this.tooltips.add("modifier", this.fields.detectionRating, "Using Detection Rating");
-        }
-
-        if (this.fields.useEvasion)
-        {
-            this.fields.modifier += this.fields.evasionRating;
-            this.tooltips.add("modifier", this.fields.evasionRating, "Using Evasion Rating");
-        }
-
-        if (this.fields.useTurret)
-        {
-            this.fields.modifier += this.fields.turretRating;
-            this.tooltips.add("modifier", this.fields.turretRating, "Using Turret Rating");
-        }
-
-        if (this.fields.useHalfTurret)
-        {
-            this.fields.modifier -= this.fields.useHalfTurret;
-            this.tooltips.add("modifier", -this.fields.useHalfTurret, "Turret Rating Halved (Assault Boats)");
-        }
-
         if (this.fields.useWeaponRating)
         {
             this.fields.modifier += this.fields.weaponRating;
             this.tooltips.add("modifier", this.fields.weaponRating, "Using Weapon Rating");
         }
 
-        if (this.fields.useEnemyEvasion)
+        if (this.fields.useTargetEvasiveManeuvers)
         {
-            this.fields.modifier -= this.fields.enemyEvasionRating;
-            this.tooltips.add("modifier", -this.fields.enemyEvasionRating, "Using Enemy Evasion Rating");
-        }
-
-        if (this.fields.useEnemyTurret)
-        {
-            this.fields.modifier -= this.fields.enemyTurretRating;
-            this.tooltips.add("modifier", -this.fields.enemyTurretRating, "Using Enemy Turret Rating");
-        }
-
-        if (this.fields.useEnemyEvasiveManeuvers)
-        {
-            this.fields.SL -= this.fields.enemyEvasiveManeuversSL;
+            this.fields.SL -= this.fields.TargetEvasiveManeuversSL;
             this.disCount++;
             this.tooltips.add("disadvantage", 1, "Enemy Evasive Maneuvers");
-            this.tooltips.add("SL", -this.fields.enemyEvasiveManeuversSL, "Enemy Evasive Maneuvers");
+            this.tooltips.add("SL", -this.fields.TargetEvasiveManeuversSL, "Enemy Evasive Maneuvers");
         }
 
         if (this.fields.escortingSquadrons > 0)
@@ -174,6 +138,48 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
             this.tooltips.add("damage", this.fields.leftoverMovement, "Leftover MP");
         }
         
+        if (this.fields.useDetectionMode !== "none")
+        {
+            let detectionValue = this.fields.useDetectionMode === "half" ? Math.floor(this.fields.detectionRating/2) : this.fields.detectionRating
+            this.fields.modifier += detectionValue;
+            this.tooltips.add("modifier", detectionValue, this.fields.useDetectionMode === "half" ? "Using Half Detection Rating" : "Using Detection Rating");
+        }
+        
+        if (this.fields.useEvasionMode !== "none")
+        {
+            let evasionValue = this.fields.useEvasionMode === "half" ? Math.floor(this.fields.evasionRating/2) : this.fields.evasionRating
+            this.fields.modifier += evasionValue;
+            this.tooltips.add("modifier", evasionValue, this.fields.useEvasionMode === "half" ? "Using Half Evasion Rating" : "Using Evasion Rating");
+        }
+        
+        if (this.fields.useTurretMode !== "none")
+        {
+            let turretValue = this.fields.useTurretMode === "half" ? Math.floor(this.fields.turretRating/2) : this.fields.turretRating
+            this.fields.modifier += turretValue;
+            this.tooltips.add("modifier", turretValue, this.fields.useTurretMode === "half" ? "Using Half Turret Rating" : "Using Turret Rating");
+        }
+        
+        if (this.fields.useTargetDetectionMode !== "none")
+        {
+            let targetDetectionValue = this.fields.useTargetDetectionMode === "half" ? Math.floor(this.fields.targetDetectionRating/2) : this.fields.targetDetectionRating
+            this.fields.modifier -= targetDetectionValue;
+            this.tooltips.add("modifier", -targetDetectionValue, this.fields.useTargetDetectionMode === "half" ? "Using Half Target's Detection Rating" : "Using Target's Detection Rating");
+        }
+        
+        if (this.fields.useTargetEvasionMode !== "none")
+        {
+            let targetEvasionValue = this.fields.useTargetEvasionMode === "half" ? Math.floor(this.fields.targetEvasionRating/2) : this.fields.targetEvasionRating
+            this.fields.modifier -= targetEvasionValue;
+            this.tooltips.add("modifier", -targetEvasionValue, this.fields.useTargetEvasionMode === "half" ? "Using Half Target's Evasion Rating" : "Using Target's Evasion Rating");
+        }
+        
+        if (this.fields.useTargetTurretMode !== "none")
+        {
+            let targetTurretValue = this.fields.useTargetTurretMode === "half" ? Math.floor(this.fields.targetTurretRating/2) : this.fields.targetTurretRating
+            this.fields.modifier -= targetTurretValue;
+            this.tooltips.add("modifier", -targetTurretValue, this.fields.useTargetTurretMode === "half" ? "Using Half Target's Turret Rating" : "Using Target's Turret Rating");
+        }
+
         if (this.data.bonuses?.length !== 0)
         {   
             this.data.bonuses.map((bonus) =>{
@@ -206,6 +212,11 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
         }
     }
 
+    async _prepareContext(options) 
+    {
+        let context = await super._prepareContext(options);
+        return context
+    }
     /**
      * 
      * @param {string} characteristic Characteristic key, such as "ws" or "str"
@@ -256,18 +267,22 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
             dialogData.data.scripts = dialogData.data.scripts.concat(skillItem.getScripts("dialog").filter(i => !i.options.defending));
         }
 
+        dialogData.fields.useEvasionMode = context?.useEvasionMode ?? "none";
+        dialogData.fields.useDetectionMode = context?.useDetectionMode ?? "none";
+        dialogData.fields.useTurretMode = context?.useTurretMode ?? "none";
+        dialogData.fields.useTargetDetectionMode = context?.useTargetDetectionMode ?? "none";
+        dialogData.fields.useTargetEvasionMode = context?.useTargetEvasionMode ?? "none";
+        dialogData.fields.useTargetTurretMode = context?.useTargetTurretMode ?? "none";
+        dialogData.data.actorImg = actor.img;
+        dialogData.data.actorName = actor.name;
+
         let targetActor;
         if (context?.targetActorId)
         {
             targetActor = fromUuidSync(context.targetActorId);
         }
-
-        if (targetActor && (context?.type === "shooting" || context?.type === "torpedoSalvo"))
-        {
-            dialogData.fields.hasEnemyEvasiveManeuvers = targetActor.system.options.evasiveManeuvers.value ?? false;
-            dialogData.fields.useEnemyEvasiveManeuvers = targetActor.system.options.evasiveManeuvers.value ?? false;
-            dialogData.fields.enemyEvasiveManeuversSL = targetActor.system.options.evasiveManeuvers.slPenalty ?? 0;            
-        }
+        dialogData.data.targetImg = targetActor?.img ?? "";
+        dialogData.data.targetName = targetActor?.name ?? "";
 
         if (context?.type === "shooting")
         {
@@ -318,39 +333,17 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
         dialogData.fields.weaponId = context?.weaponId;
         dialogData.data.itemId = context?.itemId;
         dialogData.fields.itemId = context?.itemId;
-
-        dialogData.fields.inEvasiveManeuvers = context?.inEvasiveManeuvers ?? false;
-        dialogData.fields.useEvasiveManeuvers = context?.inEvasiveManeuvers ?? false;
-        
-        dialogData.fields.hasEnemyTurret = context?.hasEnemyTurret ?? false;
-        dialogData.fields.useEnemyTurret = context?.useEnemyTurret ?? false;
-        dialogData.fields.enemyTurretRating = targetActor?.system?.turretRating?.value || 0;        
-        
-        dialogData.fields.hasEnemyEvasion = context?.hasEnemyEvasion ?? false;
-        dialogData.fields.useEnemyEvasion = context?.useEnemyEvasion ?? false;
-        dialogData.fields.enemyEvasionRating = targetActor?.system?.evasionRating?.value || 0;
-        
-        dialogData.fields.hasTurret = context?.hasTurret ?? false;
-        dialogData.fields.useTurret = context?.useTurret ?? false;
-        dialogData.fields.turretRating = actor?.system?.turretRating?.value || 0;
         
         dialogData.fields.leftoverMovement = context?.leftoverMovement ?? 0;
         dialogData.data.leftoverMovement = context?.leftoverMovement ?? 0;
 
-        dialogData.fields.useHalfTurret = context?.useHalfTurret ?? false;
-        if (dialogData.fields.useHalfTurret)
-        {
-            dialogData.fields.assaultHalfTurret = Math.max(Math.ceil(dialogData.fields.turretRating/2), 0);
-            dialogData.fields.useAssaultHalfTurret = true;
-        }
-
-        dialogData.fields.hasDetection = context?.hasDetection ?? false;
-        dialogData.fields.useDetection = context?.useDetection ?? false;
+        dialogData.fields.turretRating = actor?.system?.turretRating?.value || 0;
         dialogData.fields.detectionRating = actor?.system?.detectionRating?.value || 0;
+        dialogData.fields.evasionRating = actor?.system?.evasionRating?.value || 0;
         
-        dialogData.fields.hasEvasion = context?.hasEvasion ?? false;
-        dialogData.fields.useEvasion = context?.useEvasion ?? false;
-        dialogData.fields.evasionRating = actor?.system?.evasionRating?.value;
+        dialogData.fields.targetDetectionRating = targetActor?.system?.detectionRating?.value || 0;    
+        dialogData.fields.targetTurretRating = targetActor?.system?.turretRating?.value || 0;      
+        dialogData.fields.targetEvasionRating = targetActor?.system?.evasionRating?.value || 0;
 
         log(`${this.prototype.constructor.name} - Dialog Data`, {args : dialogData});
         return dialogData;
@@ -422,5 +415,24 @@ export class VoidshipTestDialog extends CharacteristicTestDialog
             });
         }
         return super.submit(ev);
+    }
+    
+    get tooltipConfig() 
+    {
+        return foundry.utils.mergeObject(super.tooltipConfig, {
+            damage : {
+                label : "IMPMAL.Damage",
+                type : 1,
+                path : "fields.damage",
+            }
+        })
+    }
+
+    _defaultFields() 
+    {
+        let fields = super._defaultFields();
+        fields.hitLocation = "prow";
+        fields.damage = 0;
+        return fields;
     }
 }

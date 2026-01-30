@@ -26,11 +26,11 @@ export function registerOverride()
     Handlebars.registerHelper('max', (a, b) => Math.max(a, b));
     Handlebars.registerHelper('min', (a, b) => Math.min(a, b));
 
-    let old_renderHtml = ImpMalChatMessage.prototype.renderHTML;
+    // let old_renderHtml = ImpMalChatMessage.prototype.renderHTML;
 
-    ImpMalChatMessage.prototype.renderHTML = async function (options) {
-        let html = await old_renderHtml.call(this, options);
-        if (this.system?.test?.listeners) this.system.test.listeners(html);
-        return html;
-    };
+    // ImpMalChatMessage.prototype.renderHTML = async function (options) {
+    //     let html = await old_renderHtml.call(this, options);
+    //     if (this.system?.test?.listeners) this.system.test.listeners(html);
+    //     return html;
+    // };
 }

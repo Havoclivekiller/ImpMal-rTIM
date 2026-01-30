@@ -191,14 +191,18 @@
                     </div>
                     <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}">
                         <div class="ship-component-body">
+                            {{#if this.system.effect}}
                             <div class="ship-component-block">
                                 <div class="ship-component-label">{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</div>
                                 <div class="ship-component-text">{{this.system.effect}}</div>
                             </div>
+                            {{/if}}
+                            {{#if this.system.displayChangeSummary}}
                             <div class="ship-component-block">
                                 <div class="ship-component-label">{{localize "IMPMAL_RTIM.VoidCombat.Changes"}}</div>
                                 <div class="ship-component-text">{{this.system.displayChangeSummary}}</div>
                             </div>
+                            {{/if}}
                         </div>
                         {{#if this.system.notes.player}}
                         <div class="ship-component-body">
@@ -209,7 +213,7 @@
                         </div>
                         {{/if}}
                         {{#if (and this.system.notes.gm (isGM))}}
-                        <div class="ship-component-bodyy">
+                        <div class="ship-component-body">
                             <div class="ship-component-block">
                                 <div class="ship-component-label">{{localize "IMPMAL.GMNotes"}}</div>
                                 <div class="ship-component-text">{{{this.system.notes.gm}}}</div>

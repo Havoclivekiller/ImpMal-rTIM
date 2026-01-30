@@ -8,7 +8,6 @@ export class VoidshipCharacteristicModel extends foundry.abstract.DataModel
         schema.starting = new fields.NumberField({min: 0, initial: 20});
         schema.modifier = new fields.NumberField({initial: 0});
         schema.advances = new fields.NumberField({min: 0, initial: 0});
-        schema.modifierManual = new fields.NumberField({min: 0, initial: 0});
         schema.fatiguePenalty = new fields.NumberField({min: 0, initial: 0});
         return schema;
     }
@@ -16,7 +15,7 @@ export class VoidshipCharacteristicModel extends foundry.abstract.DataModel
 
     computeTotal() 
     {
-        this.total = Math.max(this.starting + this.modifier + this.advances - this.fatiguePenalty + this.modifierManual, 0);
+        this.total = Math.max(this.starting + this.modifier + this.advances - this.fatiguePenalty, 0);
     }
 
     computeBonus() 

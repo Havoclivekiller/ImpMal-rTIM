@@ -8,6 +8,7 @@ export class VoidShipSheet extends IMActorSheet {
 
     blockRangeCheck = false;
     blockMovementCheck = false;
+    skillShowRequired = true;
     collapsed = {};
 
     static DEFAULT_OPTIONS = {
@@ -31,8 +32,8 @@ export class VoidShipSheet extends IMActorSheet {
             removeBonus: this._onRemoveBonus,
             addBonusType: this._onAddBonusType,
             removeBonusType: this._onRemoveBonusType,
-            goSilent: this._onGoSilent,
-            defyDeath: this._onDefyDeath
+            defyDeath: this._onDefyDeath,
+            addCondition: this._onAddCondition,
         },
         position: {
             height: 900,
@@ -128,6 +129,8 @@ export class VoidShipSheet extends IMActorSheet {
         context.isCrewRiots = this.actor.system?.characteristics?.crew?.total <= 0 && this.actor.system?.fatigue?.value >= this.actor.system?.fatigue?.max;
         context.isFatigued = !context.isCrewRiots && this.actor.system?.fatigue?.value >= this.actor.system?.fatigue?.max;
         
+        context.skillShowRequired = this.skillShowRequired;
+
         context.weaponById = Object.fromEntries(
             weaponParts.map(item => [
                 item.id,
@@ -197,11 +200,33 @@ export class VoidShipSheet extends IMActorSheet {
         context.landingWeapons = weaponParts
             .filter(item => item.system?.weapon?.type === "landing");
         context.hasWeapons = weaponParts.length > 0;
-            
+
         context.crewTraits = shipParts.filter(item => item.system?.partType === "trait");
         context.hullName = hullPart?.name || "";
         context.hullId = hullPart?.id || "";
         context.hullEffect = hullPart?.system.effect;
+
+        let halfCalc = game.settings.get("impmal-rtim", "voidcombatSettings").floorMovementPoints ?
+        Math.floor(this.actor.system.movementPoints.max / 2) :
+        Math.ceil(this.actor.system.movementPoints.max / 2);
+        let hasHalf = Math.ceil(this.actor.system.movementPoints.value) > Math.floor(this.actor.system.movementPoints.value);
+        let halfIndex = Math.max(0, halfCalc - 1);
+        if (halfIndex <= Math.floor(this.actor.system.movementPoints.value) - 1) 
+        {
+            context.halfPointActiveIndex = halfIndex;
+        } 
+        else if (hasHalf && halfIndex === Math.floor(this.actor.system.movementPoints.value)) 
+        {
+            context.halfPointAfterHalf = true;
+        } 
+        else 
+        {
+            let inactiveIndex = halfIndex - Math.floor(this.actor.system.movementPoints.value) - (hasHalf ? 1 : 0);
+            if (inactiveIndex >= 0) 
+            {
+                context.halfPointInactiveIndex = inactiveIndex + 1;
+            }
+        }
 
         context.requiredSkills = ["piloting","ranged","presence","rapport","tech","awareness","navigation","logic"];
         context.shipPointsTotal = shipParts.reduce((total, item) => total + Number(item.system?.shipPoints || 0), 0);
@@ -241,6 +266,9 @@ export class VoidShipSheet extends IMActorSheet {
 
         context.roleParts = shipParts.filter(item => item.system?.partType === "role");
 
+        if (context.roleParts.length > 0) 
+            this.actor.system.computeRoleSkills(); //We do this again, due to order of operations (specialization will not be updated without it)
+
         return context;
     }
 
@@ -278,12 +306,20 @@ export class VoidShipSheet extends IMActorSheet {
 
         this.element.querySelectorAll("[data-action='editItemProperty']").forEach(element => 
         {
-            element.addEventListener("change", this.constructor._onEditItemProperty.bind(this));
+            element.addEventListener(element.type !== "button" ? "change" : "click", this.constructor._onEditItemProperty.bind(this));
         });
 
         this.element.querySelectorAll("[data-action='assignRoleMember']").forEach(element =>
         {
             element.addEventListener("change", this.constructor._onAssignRoleMember.bind(this));
+        });
+
+        this.element.querySelectorAll("[name='skillShowRequired']").forEach(element =>
+        {
+            element.addEventListener("change", () => { 
+                this.skillShowRequired = !this.skillShowRequired;
+                this.render(); 
+            });      
         });
 
     }
@@ -331,7 +367,7 @@ export class VoidShipSheet extends IMActorSheet {
     }
 
     async _onDropItem(data, ev) {
-        if (data?.type === "Item" && data?.uuid) {
+        if (data?.type === "Item" && data) {
             let item = await Item.implementation.fromDropData(data);
             if (item?.system?.partType === "hull") {
                 const existingHulls = this.actor.items.filter(existingItem =>
@@ -353,9 +389,8 @@ export class VoidShipSheet extends IMActorSheet {
                 const updates = { "system.hull.uuid": item.uuid };
                 const updateTrack = (path, baseValue, hasMax) => {
                     const modifier = Number(foundry.utils.getProperty(this.actor.system, `${path}.modifier`) ?? 0);
-                    const manual = Number(foundry.utils.getProperty(this.actor.system, `${path}.modifierManual`) ?? 0);
                     const base = Number(baseValue ?? 0);
-                    const total = base + modifier + manual;
+                    const total = base + modifier;
                     updates[`system.${path}.base`] = base;
                     if (hasMax)
                     {
@@ -409,7 +444,8 @@ export class VoidShipSheet extends IMActorSheet {
                 return;
             }
             if (item?.system?.partType === "critical" && item?.system?.critical?.type === "catastrophicDamage") {
-                this.actor.toggleStatusEffect("dead", { overlay: true });
+                if (game.settings.get("impmal-rtim", "voidcombatSettings").autoDefeated) 
+                    this.actor.toggleStatusEffect("dead", { overlay: true });
             }
         }
         return super._onDropItem(data, ev);
@@ -460,11 +496,16 @@ export class VoidShipSheet extends IMActorSheet {
         let items = (await ItemDialog.create(members, 1, {title : "Assign to Role", text: `Choose ship member`}));
         if (!items || items.length == 0)
         {
-            return;
+            assignee.uuid = "";
+            assignee.name = "";
+            assignee.img = "";
         }
-        assignee.uuid = items[0].uuid;
-        assignee.name = items[0].name;
-        assignee.img = items[0].img;
+        else
+        {
+            assignee.uuid = items[0].uuid;
+            assignee.name = items[0].name;
+            assignee.img = items[0].img;
+        }
 
         let roleItem = this.actor.items.get(target?.dataset?.id);
         roleItem.update({"system.role.assignee" : assignee});
@@ -545,8 +586,7 @@ export class VoidShipSheet extends IMActorSheet {
         const updates = { "system.hull.uuid": "" };
         const updateTrack = (path, hasMax) => {
             const modifier = Number(foundry.utils.getProperty(this.actor.system, `${path}.modifier`) ?? 0);
-            const manual = Number(foundry.utils.getProperty(this.actor.system, `${path}.modifierManual`) ?? 0);
-            const total = modifier + manual;
+            const total = modifier;
             updates[`system.${path}.base`] = 0;
             if (hasMax) {
                 updates[`system.${path}.max`] = total;
@@ -853,12 +893,40 @@ export class VoidShipSheet extends IMActorSheet {
         await this.actor.update({ "system.bonuses": bonuses });
     }
 
-    static async _onGoSilent(ev, target)
+    static async _onAddCondition(ev, target)
     {
-        ev.preventDefault();
-
-        if (!this.actor.hasCondition('silentRunning'))
-            await this.actor.addCondition('silentRunning');
+        switch (target.dataset.type)
+        {
+            case "evasiveManeuvers":
+                if (this.actor.hasCondition(target.dataset.type)) return;
+                let data = await foundry.applications.api.DialogV2.input({
+                window: { title: `Choose SL Penalty` },
+                content: `<input type="number" name="penalty" min="0" value="0">`,
+                ok: {
+                    label: "Save",
+                    icon: "fa-solid fa-floppy-disk",
+                }
+                });
+                await this.actor.addCondition('evasiveManeuvers', "", 
+                    {
+                        flags : {
+                            "impmal-rtim": {
+                                "slPenalty": data.penalty > 0 ? data.penalty : 0
+                            }, 
+                            "core": {
+                                "statusId": "evasiveManeuvers"
+                            }
+                        }
+                    });
+                break;
+            case "silentRunning":
+                if (this.actor.hasCondition(target.dataset.type)) return;
+                await this.actor.addCondition('silentRunning', "", { flags : { "core": { "statusId": "silentRunning" } } });                
+                break;
+            case "escortVoidship":
+                await this.actor.addCondition('escortVoidship');  
+                break;
+        }
     }
 
     static async _onUseReload(ev, target)
@@ -941,6 +1009,12 @@ export class VoidShipSheet extends IMActorSheet {
                 ui.notifications.warn(game.i18n.localize("IMPMAL_RTIM.VoidCombat.NoToken"));
                 return;
             }
+        }
+
+        if (game.paused)
+        {
+            ui.notifications.warn("Game is paused.");
+            return;
         }
 
         if (this.actor.system.movementPoints.value <= 0) {

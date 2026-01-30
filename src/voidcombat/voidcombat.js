@@ -70,7 +70,7 @@ Hooks.on('init', () => {
     });
 
     IMPMAL.conditions.push({
-        img: "modules/impmal-rtim/assets/voidcombat/escortVoidship.webp",
+        img: "modules/impmal-rtim/assets/voidcombat/conditions/escortVoidship.webp",
         id: "escortVoidship",
         name: "IMPMAL_RTIM.VoidCombat.EscortVoidship",
         system : {
@@ -83,8 +83,10 @@ Hooks.on('init', () => {
                         trigger: "prePrepareDerivedData",
                     }
                 ]
-        },
-        img: "modules/impmal-rtim/assets/voidcombat/silentRunning.webp",
+        }
+    });
+    IMPMAL.conditions.push({
+        img: "modules/impmal-rtim/assets/voidcombat/conditions/silentRunning.webp",
         id: "silentRunning",
         name: "IMPMAL_RTIM.VoidCombat.SilentRunning",
         system : {
@@ -99,6 +101,39 @@ Hooks.on('init', () => {
                                 submissionScript : ``
                         }
                     }
+                ]
+        }
+    });
+    IMPMAL.conditions.push({
+        img: "modules/impmal-rtim/assets/voidcombat/conditions/evasiveManeuvers.webp",
+        id: "evasiveManeuvers",
+        name: "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers",
+        system : {
+                scriptData: [
+                    {
+                        label : "Disadvantage on all tests",
+                        script: "args.disCount++;",
+                        trigger: "dialog",
+                        options: {
+                                hideScript: ``,
+                                activateScript: `return true;`,
+                        }
+                    },
+                    {
+                        label : "Disadvantage and SL penalty on all tests",
+                        script: `args.disCount++;
+                        let flag = this.effect.getFlag("impmal-rtim", "slPenalty");
+                        if (flag > 0)
+                        {
+                            args.fields.SL -= Number(flag);
+                        }`,
+                        trigger: "dialog",
+                        options: {
+                                hideScript: ``,
+                                activateScript: `return args.context.type === "shooting";`,
+                                targeter: true
+                        }
+                    },
                 ]
         },
     });

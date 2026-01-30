@@ -1,3 +1,24 @@
-2026/01/28-08:37:22.764 72cc Recovering log #760
-2026/01/28-08:37:22.769 72cc Delete type=0 #760
-2026/01/28-08:37:22.769 72cc Delete type=3 #757
+2026/01/30-15:18:29.538 2b98 Recovering log #785
+2026/01/30-15:18:29.538 2b98 Level-0 table #787: started
+2026/01/30-15:18:29.541 2b98 Level-0 table #787: 21833 bytes OK
+2026/01/30-15:18:29.546 2b98 Delete type=0 #785
+2026/01/30-15:18:29.546 2b98 Delete type=3 #784
+2026/01/30-15:18:29.824 9288 Moved #787 to level-1 21833 bytes OK: files[ 0 1 1 0 0 0 0 ]
+2026/01/30-15:21:13.887 9288 Compacting 1@1 + 1@2 files
+2026/01/30-15:21:13.904 9288 Generated table #789@1: 1497 keys, 1043498 bytes
+2026/01/30-15:21:13.904 9288 Compacted 1@1 + 1@2 files => 1043498 bytes
+2026/01/30-15:21:13.905 9288 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/30-15:21:13.905 9288 Delete type=2 #779
+2026/01/30-15:21:13.906 9288 Delete type=2 #787
+2026/01/30-19:39:14.648 9288 Level-0 table #791: started
+2026/01/30-19:39:14.652 9288 Level-0 table #791: 34274 bytes OK
+2026/01/30-19:39:14.653 9288 Delete type=0 #788
+2026/01/30-19:39:14.655 9288 Manual compaction at level-0 from '!folders!04AM22rf0XD621bz' @ 72057594037927935 : 1 .. '!items.effects!zZt4lbAbsMPM0dBe.5K9SZ5P4ew94rYA4' @ 0 : 0; will stop at (end)
+2026/01/30-19:39:14.655 9288 Manual compaction at level-1 from '!folders!04AM22rf0XD621bz' @ 72057594037927935 : 1 .. '!items.effects!zZt4lbAbsMPM0dBe.5K9SZ5P4ew94rYA4' @ 0 : 0; will stop at '!items.effects!X21KXl7RiJOfkbeL.yfFFvtmXKJerk9HL' @ 7278 : 1
+2026/01/30-19:39:14.655 9288 Compacting 1@1 + 1@2 files
+2026/01/30-19:39:14.669 9288 Generated table #792@1: 1497 keys, 1043367 bytes
+2026/01/30-19:39:14.669 9288 Compacted 1@1 + 1@2 files => 1043367 bytes
+2026/01/30-19:39:14.671 9288 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/30-19:39:14.671 9288 Delete type=2 #789
+2026/01/30-19:39:14.671 9288 Delete type=2 #791
+2026/01/30-19:39:14.678 9288 Manual compaction at level-1 from '!items.effects!X21KXl7RiJOfkbeL.yfFFvtmXKJerk9HL' @ 7278 : 1 .. '!items.effects!zZt4lbAbsMPM0dBe.5K9SZ5P4ew94rYA4' @ 0 : 0; will stop at (end)

@@ -15,16 +15,16 @@
         <label>{{localize "IMPMAL_RTIM.VoidCombat.Status"}}</label>
         <div class="form-fields">
             <label class="modifiers-bonus-toggle">
-                <input type="checkbox" data-id="{{this.id}}" data-path="system.active" name="system.active" {{checked system.active}}>
+                <input type="checkbox" data-id="{{system.id}}" data-path="system.active" name="system.active" {{checked system.active}}>
                 <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
-            </label>  
+            </label>        
             <div class="ship-role-status">
-                <input type="radio" id="weapon-status-default-{{this.id}}" name="system.status" value="default" {{checked (eq system.status "default")}}>
-                <label class="item-status" for="weapon-status-default-{{this.id}}"><i class="fa-solid fa-heart"></i></label>
-                <input type="radio" id="weapon-status-damaged-{{this.id}}" name="system.status" value="damaged" {{checked (eq system.status "damaged")}}>
-                <label class="item-status" for="weapon-status-damaged-{{this.id}}"><i class="fa-solid fa-heart-crack"></i></label>
-                <input type="radio" id="weapon-status-destroyed-{{this.id}}" name="system.status" value="destroyed" {{checked (eq system.status "destroyed")}}>
-                <label class="item-status" for="weapon-status-destroyed-{{this.id}}"><i class="fa-regular fa-heart"></i></label>
+                <button class="ship-role-status-button {{#if (eq this.system.status "default")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="default" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Default"}}">
+                    <i class="fa-solid fa-heart"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "damaged")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="damaged" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Damaged"}}">
+                    <i class="fa-solid fa-heart-crack"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "destroyed")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="destroyed" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Destroyed"}}">
+                    <i class="fa-regular fa-heart"></i></button>
             </div>
         </div>
     </div>

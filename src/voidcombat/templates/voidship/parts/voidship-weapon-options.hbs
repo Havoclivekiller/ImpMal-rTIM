@@ -27,7 +27,7 @@
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CheckRangeFull"}}">
         <i class="fa-solid fa-eye"></i>
     </button>
-    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="reloadNovaCannon" data-id="{{id}}"
+    <button type="button" class="weapon-slot-action{{#if (or (gt @root.system.actionCosts.reloadNovaCannon.value @root.system.actionPoints.value) reloaded)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadNovaCannon" data-id="{{id}}"
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadNovaCannon"}}">
         <i class="fa-solid fa-rotate-right"></i>
     </button>
@@ -36,7 +36,7 @@
 {{#if (eq type "landing")}}
 <div class="weapon-slot-actions">
     <div class="item-label-img"><img src="{{img}}"></div>
-    <button type="button" class="weapon-slot-action" data-action="useReload" data-id="{{id}}"
+    <button type="button" class="weapon-slot-action{{#if (not reloaded)}}-disabled{{/if}}" data-action="useReload" data-id="{{id}}"
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.LaunchSquadron"}}">
         <i class="fa-solid fa-shuttle-space"></i>
     </button>
@@ -56,7 +56,7 @@
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.AssaultBoardingTest"}}">
         <i class="fa-solid fa-truck-ramp-box"></i>
     </button>
-    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="reloadSquadrons" data-id="{{id}}"
+    <button type="button" class="weapon-slot-action{{#if (or (gt @root.system.actionCosts.reloadSquadrons.value @root.system.actionPoints.value) reloaded)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadSquadrons" data-id="{{id}}"
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadSquadrons"}}">
         <i class="fa-solid fa-rotate-right"></i>
     </button>
@@ -65,7 +65,7 @@
 {{#if (eq type "torpedo")}}
 <div class="weapon-slot-actions">
     <div class="item-label-img"><img src="{{img}}"></div>
-    <button type="button" class="weapon-slot-action" data-action="useReload" data-id="{{id}}"
+    <button type="button" class="weapon-slot-action{{#if (not reloaded)}}-disabled{{/if}}" data-action="useReload" data-id="{{id}}"
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.LaunchTorpedoSalvo"}}">
         <i class="fa-solid fa-shuttle-space"></i>
     </button>
@@ -73,7 +73,7 @@
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.TorpedoSalvoTest"}}">
         <i class="fa-solid fa-location-arrow"></i>
     </button>
-    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="reloadTorpedoes" data-id="{{id}}"
+    <button type="button" class="weapon-slot-action{{#if (or (gt @root.system.actionCosts.reloadTorpedoes.value @root.system.actionPoints.value) reloaded)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadTorpedoes" data-id="{{id}}"
         data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadTorpedoes"}}">
         <i class="fa-solid fa-rotate-right"></i>
     </button>

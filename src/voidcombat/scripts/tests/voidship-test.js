@@ -115,7 +115,7 @@ export class VoidshipTest extends CharacteristicTest
             await message.system.renderContent();
         }
 
-        if (!this.context.executionComputed && this.result.outcome === "success")
+        if (!this.context.executionComputed && (this.result.outcome === "success" || this.context.type === "evasiveManeuvers"))
         {   
             this.context.voidshipMessage = await this.computeActionExecution({apCost, type : this.context.type, result : this.result, actor : this.actor, item : this.item});
             
@@ -151,6 +151,8 @@ export class VoidshipTest extends CharacteristicTest
                 return VoidshipMessageModel.postScan({ actor : data.actor, result : data.result });
             case "restartShields":
                 return VoidshipMessageModel.postRestartShields({ actor : data.actor, result : data.result});
+            case "evasiveManeuvers":
+                return this.computeEvasiveManeuvers(data);
         }       
         if (data.item)
         {
@@ -167,6 +169,22 @@ export class VoidshipTest extends CharacteristicTest
             }     
         } 
 
+    }
+
+    async computeEvasiveManeuvers(data)
+    {
+        if (!data.actor.hasCondition('evasiveManeuvers'))
+            await data.actor.addCondition('evasiveManeuvers', "", 
+                {
+                    flags : {
+                        "impmal-rtim": {
+                            "slPenalty": data.result.SL < 0 ? 0 : data.result.SL
+                        }, 
+                        "core": {
+                            "statusId": "evasiveManeuvers"
+                        }
+                    }
+                });
     }
     
     async computeFatigueChange(actor, value)
@@ -203,7 +221,8 @@ export class VoidshipTest extends CharacteristicTest
         if (data.type !== "silentRunning" && data.type !== "ramming" && data.type !== "evasiveManeuvers" &&
             data.actor.system.actionCosts[data.type])
         {
-            await data.actor.update({[`system.actionCosts.${data.type}.byTurn`] : data.actor.system.actionCosts[data.type].byTurn + 1});
+            if (data.actor.inCombat && game.settings.get("impmal-rtim", "voidcombatSettings").increaseAPCost)
+                await data.actor.update({[`system.actionCosts.${data.type}.byTurn`] : data.actor.system.actionCosts[data.type].byTurn + 1});
         }
 
         let movementCost = data.actor.system.getMovementCost(data.type) ?? 0;

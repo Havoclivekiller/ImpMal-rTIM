@@ -200,6 +200,34 @@ export class VoidshipOpposedTestResult extends OpposedTestResult
             }
         }
 
+        let target = defenderTest?.actor ?? attackerTest.targetTokens?.[0]?.actor;
+
+        let sizeDamage = 0;
+        switch (game.settings.get("impmal-rtim", "voidcombatSettings").voidshipSizeBonus)
+        {
+            default:
+            case "default":
+                if (attackerTest?.actor?.system.size.value >= (target?.system.size.value * 2)) 
+                    sizeDamage = attackerTest.actor.system.size.value;
+                break;
+            case "shipDiff":
+                if (attackerTest?.actor?.system.size.value >= (target?.system.size.value * 2))
+                    sizeDamage = attackerTest.actor.system.size.value - target.system.size.value;
+                break;
+            case "shipDiffAll":
+                if (attackerTest?.actor?.system.size.value > target?.system.size.value) 
+                    sizeDamage = attackerTest.actor.system.size.value - target.system.size.value;
+                break;
+            case "noDamage":
+                sizeDamage = 0;
+                break;
+        }
+        if (sizeDamage > 0)
+        {
+            damage += sizeDamage;
+            this._tooltips.damage.size = {label : "IMPMAL_RTIM.VoidCombat.SizeDifference", value : sizeDamage};
+        }
+
         return damage;
     }
 

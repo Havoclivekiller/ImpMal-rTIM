@@ -62,20 +62,23 @@
                 <div class="points-pips" data-action="adjustPoints" data-points="movement">
                     {{#times (floor system.movementPoints.value)}}
                     <span class="pip pip-active"></span>
+                    {{#if (eq this ../halfPointActiveIndex)}}<span class="pip-divider{{#if (eq (calc ../system.movementPoints.value "-" this) 1)}}-inactive{{/if}}" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementDivider"}}" aria-hidden="true"></span>{{/if}}
                     {{/times}}
                     {{#if (ne (ceil system.movementPoints.value) system.movementPoints.value)}}
                     <span class="pip pip-half"></span>
+                    {{#if halfPointAfterHalf}}<span class="pip-divider-inactive" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementDivider"}}" aria-hidden="true"></span>{{/if}}
                     {{/if}}
                     {{#times (calc system.movementPoints.max "-" (ceil system.movementPoints.value))}}
+                    {{#if (eq this ../halfPointInactiveIndex)}}<span class="pip-divider-inactive" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementDivider"}}" aria-hidden="true"></span>{{/if}}
                     <span class="pip pip-inactive"></span>
                     {{/times}}
                 </div>
             </div>
             <div class="points-buttons">
-                <button type="button" class="ship-combat-action" data-action="toggleMovementPreview" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.FatePoints"}}">
+                <button type="button" class="ship-combat-action" data-action="toggleMovementPreview" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementPreview"}}">
                     <i class="fa-solid fa-route"></i>
                 </button>
-                <button type="button" class="ship-combat-action" data-action="toggleMovementMove" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.FatePoints"}}">
+                <button type="button" class="ship-combat-action" data-action="toggleMovementMove" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementMove"}}">
                     <i class="fa-solid fa-location-arrow"></i>
                 </button>
                 <button type="button" class="ship-combat-action" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.MovementReset"}}" data-action="fixProperty" data-property="movementPoints">

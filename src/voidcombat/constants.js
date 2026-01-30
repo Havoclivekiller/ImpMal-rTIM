@@ -158,7 +158,7 @@ export const VOIDSHIP_CONFIG = {
                     display: "IMPMAL_RTIM.VoidCombat.Combat"
                 },
                 noncombat: {
-                    key: "supplemental",
+                    key: "noncombat",
                     display: "IMPMAL_RTIM.VoidCombat.NonCombat"
                 }
             },

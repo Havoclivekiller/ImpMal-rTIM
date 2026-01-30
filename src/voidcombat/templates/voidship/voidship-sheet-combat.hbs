@@ -6,29 +6,33 @@
         <div class="ship-combat-actions-group">
             <div class="ship-combat-actions-buttons">
                 {{#if notMinion}}
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="repair" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Repair"}}"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.Repair"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.repair.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="repair" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Repair"}}"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.Repair"}} 
                 {{#if system.actionCosts.repair.value}}({{system.actionCosts.repair.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="rally" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Rally"}}"><i class="fa-solid fa-person-harassing"></i>{{localize "IMPMAL_RTIM.VoidCombat.Rally"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.rally.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="rally" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Rally"}}"><i class="fa-solid fa-person-harassing"></i>{{localize "IMPMAL_RTIM.VoidCombat.Rally"}} 
                 {{#if system.actionCosts.rally.value}}({{system.actionCosts.rally.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="scan" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Scan"}}"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.Scan"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.scan.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="scan" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Scan"}}"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.Scan"}} 
                 {{#if system.actionCosts.scan.value}}({{system.actionCosts.scan.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="boarding" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Boarding"}}"><i class="fa-solid fa-person-rifle"></i>{{localize "IMPMAL_RTIM.VoidCombat.Boarding"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.boarding.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="boarding" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Boarding"}}"><i class="fa-solid fa-person-rifle"></i>{{localize "IMPMAL_RTIM.VoidCombat.Boarding"}} 
                 {{#if system.actionCosts.boarding.value}}({{system.actionCosts.boarding.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="reloadSpecial" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadSpecial"}}"><i class="fa-solid fa-rotate-right"></i>{{localize "IMPMAL_RTIM.VoidCombat.ReloadSpecial"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.reloadSpecial.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadSpecial" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadSpecial"}}"><i class="fa-solid fa-rotate-right"></i>{{localize "IMPMAL_RTIM.VoidCombat.ReloadSpecial"}} 
                 {{#if system.actionCosts.reloadSpecial.value}}({{system.actionCosts.reloadSpecial.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="restartShields" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RestartShields"}}"><i class="fa-solid fa-shield-virus"></i>{{localize "IMPMAL_RTIM.VoidCombat.RestartShields"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.restartShields.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="restartShields" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RestartShields"}}"><i class="fa-solid fa-shield-virus"></i>{{localize "IMPMAL_RTIM.VoidCombat.RestartShields"}} 
                 {{#if system.actionCosts.restartShields.value}}({{system.actionCosts.restartShields.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="seek" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Seek"}}"><i class="fa-brands fa-cloudscale"></i>{{localize "IMPMAL_RTIM.VoidCombat.Seek"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.seek.value system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="seek" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Seek"}}"><i class="fa-brands fa-cloudscale"></i>{{localize "IMPMAL_RTIM.VoidCombat.Seek"}} 
                 {{#if system.actionCosts.seek.value}}({{system.actionCosts.seek.value}} {{localize "IMPMAL_RTIM.VoidCombat.AP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="evasiveManeuvers" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.EvasiveManeuvers"}}"><i class="fa-solid fa-arrows-turn-to-dots"></i>{{localize "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers"}} 
+                
+                {{#unless system.options.noManeuvers}}
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.evasiveManeuvers.value system.movementPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="evasiveManeuvers" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.EvasiveManeuvers"}}"><i class="fa-solid fa-arrows-turn-to-dots"></i>{{localize "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers"}} 
                 {{#if system.actionCosts.evasiveManeuvers.value}}({{system.actionCosts.evasiveManeuvers.value}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="ramming" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Ramming"}}"><i class="fa-solid fa-car-burst"></i>{{localize "IMPMAL_RTIM.VoidCombat.Ramming"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.ramming.value system.movementPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="ramming" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Ramming"}}"><i class="fa-solid fa-car-burst"></i>{{localize "IMPMAL_RTIM.VoidCombat.Ramming"}} 
                 {{#if system.actionCosts.ramming.value}}(+{{system.actionCosts.ramming.value}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}}){{/if}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="silentRunning" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.SilentRunning"}}"><i class="fa-solid fa-user-ninja"></i>{{localize "IMPMAL_RTIM.VoidCombat.SilentRunning"}} 
+                <button type="button" class="ship-combat-action{{#if (gt system.actionCosts.silentRunning.value system.movementPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="silentRunning" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.SilentRunning"}}"><i class="fa-solid fa-user-ninja"></i>{{localize "IMPMAL_RTIM.VoidCombat.SilentRunning"}} 
                 {{#if system.actionCosts.silentRunning.value}}({{system.actionCosts.silentRunning.value}} {{localize "IMPMAL_RTIM.VoidCombat.MP"}}){{/if}}</button>
+                {{/unless}}
+
                 {{else}}
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="repairMinion" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RepairMinion"}}"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.RepairMinion"}}</button>
-                <button type="button" class="ship-combat-action" data-action="makeTest" data-type="scanMinion" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ScanMinion"}}"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.ScanMinion"}}</button>
+                <button type="button" class="ship-combat-action{{#if (gt 1 system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="repairMinion" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.RepairMinion"}}"><i class="fa-solid fa-screwdriver-wrench"></i>{{localize "IMPMAL_RTIM.VoidCombat.RepairMinion"}}</button>
+                <button type="button" class="ship-combat-action{{#if (gt 1 system.actionPoints.value)}}-disabled{{/if}}" data-action="makeTest" data-type="scanMinion" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ScanMinion"}}"><i class="fa-solid fa-satellite-dish"></i>{{localize "IMPMAL_RTIM.VoidCombat.ScanMinion"}}</button>
                 {{/if}}
             </div>
         </div>
@@ -44,7 +48,7 @@
                     <div style="width:25px"></div>
             </div>
             {{#each criticalParts}}
-            <div class="voidship-table-row-border voidship-table-row" data-uuid="{{this.uuid}}">
+            <div class="voidship-table-row-border voidship-table-row list-row" data-uuid="{{this.uuid}}">
                 <div class="voidship-table-cell voidship-text-left">
                     <div class="item-label-img"><img src="{{this.img}}"><label>{{this.name}}</label></div>
                 </div>

@@ -47,11 +47,16 @@ export function registerHooks() {
         if (!document?.object) {
             return;
         }
-        if (!document.object._voidshipMovementPreview) {
+        if (!document.object._voidshipMovementPreview && !document._voidshipMovementPreview) {
             return;
         }
         if ("x" in change || "y" in change || "rotation" in change) {
-            VoidshipTokenHandler.clearMovementPreview(document.object);
+            if (document?.object?._voidshipMovementPreview) {
+                VoidshipTokenHandler.clearMovementPreview(document.object);
+            }
+            else if (document?._voidshipMovementPreview) {
+                VoidshipTokenHandler.clearMovementPreview(document);
+            }
         }
     });
 
@@ -59,12 +64,18 @@ export function registerHooks() {
         if (document?.object?._voidshipMovementPreview) {
             VoidshipTokenHandler.clearMovementPreview(document.object);
         }
+        else if (document?._voidshipMovementPreview) {
+            VoidshipTokenHandler.clearMovementPreview(document);
+        }
     });
 
     Hooks.on("canvasReady", () => {
         canvas.tokens?.placeables?.forEach((token) => {
             if (token._voidshipMovementPreview) {
                 VoidshipTokenHandler.clearMovementPreview(token);
+            }
+            if (token.document?._voidshipMovementPreview) {
+                VoidshipTokenHandler.clearMovementPreview(token.document);
             }
         });
         VoidshipTokenHandler.bindCanvasClick();

@@ -18,7 +18,6 @@ export class VoidshipModel extends StandardActorModel {
             return new fields.SchemaField({
             base: new fields.NumberField({ min : min, initial: 0 }),
             modifier: new fields.NumberField({ initial: 0 }),
-            modifierManual: new fields.NumberField({ initial: 0 }),
             value: new fields.NumberField({ min : min, initial: 0 }),
         })
         };
@@ -27,7 +26,6 @@ export class VoidshipModel extends StandardActorModel {
             value: new fields.NumberField({ initial: 0 }),
             base: new fields.NumberField({ min : min, initial: 0 }),
             modifier: new fields.NumberField({ initial: 0 }),
-            modifierManual: new fields.NumberField({ initial: 0 }),
             max: new fields.NumberField({ min : min, initial: 0 }),
         })
         };
@@ -36,7 +34,6 @@ export class VoidshipModel extends StandardActorModel {
             value: new fields.NumberField({ initial: 0 }),
             base: new fields.NumberField({ min : 0, initial: 0 }),
             modifier: new fields.NumberField({ initial: 0 }),
-            modifierManual: new fields.NumberField({ initial: 0 }),
             max: new fields.NumberField({ min : 0, initial: 0 }),
             uuid: new fields.StringField({ initial: "" }),
         });
@@ -49,11 +46,6 @@ export class VoidshipModel extends StandardActorModel {
             fated : new fields.BooleanField({ initial: false }),
             noActionPoints : new fields.BooleanField({ initial: false }),
             noExperiencePoints : new fields.BooleanField({ initial: true }),
-            evasiveManeuvers : new fields.SchemaField({
-                value : new fields.BooleanField({ initial: false }),
-                resetOnStart : new fields.BooleanField({ initial: false }),
-                slPenalty : new fields.NumberField({ initial: 0 })
-            }),
             restartShieldsDifficulty : new fields.StringField({ initial: "routine" }),
             fireResistance : new fields.NumberField({ initial: 0 }),
             minionTargetUuid : new fields.StringField({ initial: "" }),
@@ -67,6 +59,7 @@ export class VoidshipModel extends StandardActorModel {
                 amountRoles : new fields.NumberField({ initial: 2 }),
                 roleIds: new fields.ArrayField(new fields.StringField({ initial: "" })),
             }),
+            noManeuvers : new fields.BooleanField({ initial: false }),
         });
         schema.bonuses = new fields.ArrayField(new fields.SchemaField({
             SL : new fields.NumberField({ initial: 0 }),
@@ -88,7 +81,6 @@ export class VoidshipModel extends StandardActorModel {
             current: new fields.NumberField({ min : 0, initial: 0 }),
             base: new fields.NumberField({ initial: 0 }),
             modifier: new fields.NumberField({ initial: 0 }),
-            modifierManual: new fields.NumberField({ initial: 0 }),
             value: new fields.NumberField({ initial: 0 }),
         })
         schema.detectionRating = createValueSchema();
@@ -122,7 +114,6 @@ export class VoidshipModel extends StandardActorModel {
             return new fields.SchemaField({
                 base: new fields.NumberField({ min : 0, initial: 0 }),
                 modifier: new fields.NumberField({ initial: 0 }),
-                modifierManual: new fields.NumberField({ initial: 0 }),
                 value: new fields.NumberField({ min : 0, initial: 0 }),
                 assigned: new fields.ArrayField(new fields.StringField({ initial: "" }))
         })
@@ -142,7 +133,6 @@ export class VoidshipModel extends StandardActorModel {
             base: new fields.NumberField({ initial: base }),
             byTurn: new fields.NumberField({ initial: 0 }),
             modifier: new fields.NumberField({ initial: 0 }),
-            modifierManual: new fields.NumberField({ initial: 0 }),
             value: new fields.NumberField({ initial: 0 }),
         })
         };
@@ -199,38 +189,38 @@ export class VoidshipModel extends StandardActorModel {
         super.computeDerived();
         const skills = this.skills || {};
         Object.keys(skills).forEach((key) => {
-            foundry.utils.setProperty(this, `skills.${key}.characteristic`, "crew");
+            this.skills[key].characteristic = "crew";
         });
         const updateTotalValue = (path) => {
-            const base = Number(foundry.utils.getProperty(this, `${path}.base`) ?? 0);
-            const modifier = Number(foundry.utils.getProperty(this, `${path}.modifier`) ?? 0);
-            const manual = Number(foundry.utils.getProperty(this, `${path}.modifierManual`) ?? 0);
-            foundry.utils.setProperty(this, `${path}.value`, base + modifier + manual);
+            this[path].value = this[path].base + this[path].modifier;
         };
         const updateTotalMax = (path) => {
-            const base = Number(foundry.utils.getProperty(this, `${path}.base`) ?? 0);
-            const modifier = Number(foundry.utils.getProperty(this, `${path}.modifier`) ?? 0);
-            const manual = Number(foundry.utils.getProperty(this, `${path}.modifierManual`) ?? 0);
-            foundry.utils.setProperty(this, `${path}.max`, base + modifier + manual);
+            this[path].max = this[path].base + this[path].modifier;
+        };
+        const updateSubTotalValue = (path, sub) => {
+            this[path][sub].value = this[path][sub].base + this[path][sub].modifier;
+        };
+        const updateSubTotalMax = (path, sub) => {
+            this[path][sub].max = this[path][sub].base + this[path][sub].modifier;
         };
         let hull = this.parent?.items?.filter(item => item.system?.partType === "hull")[0];
         if (hull)
         {
-            foundry.utils.setProperty(this, "system.hull.base", hull.system.hull.hull);
-            foundry.utils.setProperty(this, "system.speedRating.base", hull.system.hull.speedRating);
-            foundry.utils.setProperty(this, "system.turnRating.base", hull.system.hull.turnRating);
-            foundry.utils.setProperty(this, "system.evasionRating.base", hull.system.hull.evasionRating);
-            foundry.utils.setProperty(this, "system.detectionRating.base", hull.system.hull.detectionRating);
-            foundry.utils.setProperty(this, "system.turretRating.base", hull.system.hull.turretRating);
-            foundry.utils.setProperty(this, "system.supplemental.base", hull.system.hull.supplemental);
+            this.hull.base = hull.system.hull.value;
+            this.speedRating.base = hull.system.hull.speedRating;
+            this.turnRating.base = hull.system.hull.turnRating;
+            this.evasionRating.base = hull.system.hull.evasionRating;
+            this.detectionRating.base = hull.system.hull.detectionRating;
+            this.turretRating.base = hull.system.hull.turretRating;
+            this.supplemental.base = hull.system.hull.supplemental;
             ["fore", "port", "starboard", "aft", "average"].forEach((key) =>
             {
-                foundry.utils.setProperty(this, `system.shields.${key}.base`, hull.system.hull.shields[key]);
-                foundry.utils.setProperty(this, `system.armour.${key}.base`, hull.system.hull.armour[key]);
+                this.shields[key].base = hull.system.hull.shields[key];
+                this.armour[key].base = hull.system.hull.armour[key];
             });
             ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) =>
             {
-                foundry.utils.setProperty(this, `system.weaponSlots.${key}.base`, hull.system.hull.weapons[key]);
+                this.weaponSlots[key].base = hull.system.hull.weapons[key];
             });
         }
         
@@ -255,27 +245,22 @@ export class VoidshipModel extends StandardActorModel {
                     applyDelta(`${path}.modifier`, value);
                 }
             });
-            const rammingDamage = Number(changes.rammingDamage ?? 0);
-            if (rammingDamage) {
-                applyDelta(`options.rammingDamage`, rammingDamage);
+            if (changes.rammingDamage ?? 0) {
+                applyDelta(`options.rammingDamage`, changes.rammingDamage);
             }
-            const shieldChanges = changes.shields || {};
-            const armourChanges = changes.armour || {};
             const locationKeys = ["fore", "port", "starboard", "aft", "average"];
-            if (Number(shieldChanges.all ?? 0)) {
-                const delta = Number(shieldChanges.all ?? 0);
-                locationKeys.forEach((key) => applyDelta(`shields.${key}.modifier`, delta));
+            if (changes.shields?.all ?? 0) {
+                locationKeys.forEach((key) => applyDelta(`shields.${key}.modifier`, changes.shields.all));
             }
-            if (Number(armourChanges.all ?? 0)) {
-                const delta = Number(armourChanges.all ?? 0);
-                locationKeys.forEach((key) => applyDelta(`armour.${key}.modifier`, delta));
+            if (changes.armour?.all ?? 0) {
+                locationKeys.forEach((key) => applyDelta(`armour.${key}.modifier`, changes.armour.all));
             }
             locationKeys.forEach((key) => {
-                const shieldDelta = Number(shieldChanges[key] ?? 0);
+                const shieldDelta = Number(changes.shields[key] ?? 0);
                 if (shieldDelta) {
                     applyDelta(`shields.${key}.modifier`, shieldDelta);
                 }
-                const armourDelta = Number(armourChanges[key] ?? 0);
+                const armourDelta = Number(changes.armour[key] ?? 0);
                 if (armourDelta) {
                     applyDelta(`armour.${key}.modifier`, armourDelta);
                 }
@@ -312,32 +297,19 @@ export class VoidshipModel extends StandardActorModel {
         updateTotalValue("evasionRating");
         updateTotalValue("turretRating");
         ["fore", "port", "starboard", "aft", "average"].forEach((key) => {
-            updateTotalMax(`shields.${key}`);
-            updateTotalValue(`armour.${key}`);
+            updateSubTotalMax("shields", key);
+            updateSubTotalValue("armour", key);
         });
         
         ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) => {
-            const base = Number(foundry.utils.getProperty(this, `weaponSlots.${key}.base`) ?? 0);
-            const modifier = Number(foundry.utils.getProperty(this, `weaponSlots.${key}.modifier`) ?? 0);
-            const manual = Number(foundry.utils.getProperty(this, `weaponSlots.${key}.modifierManual`) ?? 0);
-            foundry.utils.setProperty(this, `weaponSlots.${key}.value`, base + modifier + manual);
+            this.weaponSlots[key].value = this.weaponSlots[key].base + this.weaponSlots[key].modifier;
         });
 
-        const gained = Number(foundry.utils.getProperty(this, "crewExperience.gained") ?? 0);
-        const spent = Number(foundry.utils.getProperty(this, "crewExperience.spent") ?? 0);
-        foundry.utils.setProperty(this, "crewExperience.remaining", gained - spent);
-
-        Object.keys(skills).forEach((key) => {
-            this.skills[key].computeTotal(this.characteristics);
-        });
+        foundry.utils.setProperty(this, "crewExperience.remaining", this.crewExperience.gained - this.crewExperience.spent);
         
 
         const updateActionCostsValue = (path) => {
-            const base = Number(foundry.utils.getProperty(this, `actionCosts.${path}.base`) ?? 0);
-            const byTurn = Number(foundry.utils.getProperty(this, `actionCosts.${path}.byTurn`) ?? 0);
-            const modifier = Number(foundry.utils.getProperty(this, `actionCosts.${path}.modifier`) ?? 0);
-            const manual = Number(foundry.utils.getProperty(this, `actionCosts.${path}.modifierManual`) ?? 0);
-            foundry.utils.setProperty(this, `actionCosts.${path}.value`, Math.max(base + byTurn + modifier + manual, 0));
+            this.actionCosts[path].value = this.actionCosts[path].base + this.actionCosts[path].modifier + this.actionCosts[path].byTurn;
         };
 
         this.actionCosts.evasiveManeuvers.base = this.movementPoints.max;
@@ -359,6 +331,38 @@ export class VoidshipModel extends StandardActorModel {
 
         this.combat.initiative = this.evasionRating.value + this.detectionRating.value;
 
+        this.computeRoleSkills();
+
+        this.runScripts("postPrepareDerivedData", this);
+
+        //Some values can't be below their min.
+        let checkMinValue = (path, min) => {
+            let currentValue = this[path].value;
+            if (currentValue < min)
+                this[path].value = min;
+        };
+        let checkMinValueSubPath = (path, subpath, min) => {
+            let currentValue = this[path][subpath].value;
+            if (currentValue < min)
+                this[path][subpath].value = min;
+        };
+        checkMinValue("turnRating",1);
+        checkMinValue("size",1);
+        checkMinValue("supplemental",0);
+        checkMinValue("movementPoints",0);
+        checkMinValue("actionPoints",0);
+        ["fore", "port", "starboard", "aft", "average"].forEach((key) => {
+            checkMinValueSubPath("shields",key,0);
+            checkMinValueSubPath("armour",key,0);
+        });
+        ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) => {
+            checkMinValueSubPath("weaponSlots",key,0);
+        });
+
+    }
+
+    computeRoleSkills()
+    {
         let getSkillSpecialisation = (skillKey, specKey) => {
             let spec = this.parent.system.skills[skillKey]?.specialisations?.find(i => i.name.slugify() == specKey?.slugify());
             if (spec)
@@ -366,7 +370,6 @@ export class VoidshipModel extends StandardActorModel {
                 return spec;
             } 
         };
-        
         let roleItems = this.parent?.items?.filter(item => item.system?.partType === "role");
         const takeHigher = (obj, path, change) => {
             let current = Number(foundry.utils.getProperty(obj, path) ?? 0);
@@ -401,33 +404,9 @@ export class VoidshipModel extends StandardActorModel {
             });
         }
 
-
-        this.runScripts("postPrepareDerivedData", this);
-
-        //Some values can't be below their min.
-        let checkMinValue = (path, min) => {
-            let currentValue = this[path].value;
-            if (currentValue < min)
-                this[path].value = min;
-        };
-        let checkMinValueSubPath = (path, subpath, min) => {
-            let currentValue = this[path][subpath].value;
-            if (currentValue < min)
-                this[path][subpath].value = min;
-        };
-        checkMinValue("turnRating",1);
-        checkMinValue("size",1);
-        checkMinValue("supplemental",0);
-        checkMinValue("movementPoints",0);
-        checkMinValue("actionPoints",0);
-        ["fore", "port", "starboard", "aft", "average"].forEach((key) => {
-            checkMinValue("shields",key,0);
-            checkMinValue("armour",key,0);
+        Object.keys(this.skills).forEach((key) => {
+            this.skills[key].computeTotal(this.characteristics);
         });
-        ["prow", "port", "starboard", "aft", "dorsal", "keel"].forEach((key) => {
-            checkMinValue("weaponSlots",key,0);
-        });
-
     }
 
     get displayWeapons() {
@@ -443,63 +422,9 @@ export class VoidshipModel extends StandardActorModel {
 
     async _onUpdate(changed, options, userId) {
         await super._onUpdate(changed, options, userId);
-        const crewChanged = Boolean(foundry.utils.getProperty(changed, "system.characteristics.crew"));
-        if (crewChanged && this.parent?.sheet) {
-            this.parent.sheet.render(false);
-        }
-        const weaponSlotsChanged = Boolean(foundry.utils.getProperty(changed, "system.weaponSlots"));
-        if (weaponSlotsChanged) {
-            const updates = [];
-            const assigned = this.weaponSlots || {};
-            const slotKeys = ["prow", "port", "starboard", "aft", "dorsal", "keel"];
-            const assignedByLoc = Object.fromEntries(slotKeys.map((loc) => {
-                const value = Number(assigned[loc]?.value ?? 0);
-                const current = Array.isArray(assigned[loc]?.assigned) ? assigned[loc].assigned : [];
-                const normalized = current.slice(0, value);
-                while (normalized.length < value) {
-                    normalized.push("");
-                }
-                return [loc, normalized];
-            }));
-            const used = new Map();
-            slotKeys.forEach((loc) => {
-                assignedByLoc[loc] = assignedByLoc[loc].map((id) => {
-                    if (!id) {
-                        return "";
-                    }
-                    if (used.has(id)) {
-                        return "";
-                    }
-                    used.set(id, loc);
-                    return id;
-                });
-            });
-            let needsUpdate = false;
-            slotKeys.forEach((loc) => {
-                const next = assignedByLoc[loc];
-                const current = Array.isArray(assigned[loc]?.assigned) ? assigned[loc].assigned : [];
-                if (next.length !== current.length || next.some((value, idx) => value !== current[idx])) {
-                    updates.push({ [`system.weaponSlots.${loc}.assigned`]: next });
-                    needsUpdate = true;
-                }
-            });
-            const itemUpdates = this.parent?.items
-                ?.filter(item => item.system?.partType === "weapon")
-                .map(item => {
-                    const loc = slotKeys.find((key) => assignedByLoc[key].includes(item.id)) || "";
-                    if (item.system?.weapon?.location === loc) {
-                        return null;
-                    }
-                    needsUpdate = true;
-                    return item.update({ "system.weapon.location": loc });
-                }) || [];
-            const filteredItemUpdates = itemUpdates.filter(Boolean);
-            if (needsUpdate && this.parent) {
-                await this.parent.update(Object.assign({}, ...updates));
-            }
-            if (filteredItemUpdates.length) {
-                await Promise.all(filteredItemUpdates);
-            }
+        if (userId != game.user.id)
+        {
+            return;
         }
     }
 
@@ -874,10 +799,7 @@ export class VoidshipModel extends StandardActorModel {
             updateObj["system.hull.value"] = this.hull.value;
         }
 
-        if (this.options.evasiveManeuvers.resetOnStart){
-            updateObj["system.options.evasiveManeuvers.value"] = false;
-            updateObj["system.options.evasiveManeuvers.slPenalty"] = 0;            
-        }        
+            
         const roleItems = this.parent?.items?.filter(item => item.system?.partType === "role") || [];
         roleItems.forEach((item) => {
             let updateItem = {};
@@ -898,6 +820,12 @@ export class VoidshipModel extends StandardActorModel {
             }
         });
 
+        
+        if (this.parent.hasCondition('evasiveManeuvers'))
+        {
+            this.parent.removeCondition('evasiveManeuvers');
+        }
+
         this.parent.update(updateObj);
     }
 
@@ -909,10 +837,7 @@ export class VoidshipModel extends StandardActorModel {
         updateObj["system.movementPoints.value"] = this.movementPoints.max;
         updateObj["system.turnRating.current"] = 0;
 
-        if (this.options.evasiveManeuvers.resetOnStart){
-            updateObj["system.options.evasiveManeuvers.value"] = false;
-            updateObj["system.options.evasiveManeuvers.slPenalty"] = 0;            
-        }        
+            
         
         updateObj["system.options.restartShieldsDifficulty"] = "routine";         
         updateObj["system.options.defyDeath.resetOnEnd"] = 0; 

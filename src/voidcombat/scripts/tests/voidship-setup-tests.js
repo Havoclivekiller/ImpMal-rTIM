@@ -58,8 +58,7 @@ export class VoidshipSetupTests
             voidshipTest: true, 
             type: "seek", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.SeekAction")}`,
-            hasDetection: true, 
-            useDetection: true, 
+            useDetectionMode: "full", 
         };
         
         return this.setupVoidshipTest({itemId : spec?.id, key}, context);
@@ -112,7 +111,6 @@ export class VoidshipSetupTests
             voidshipTest: true, 
             type: "evasiveManeuvers", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.EvasiveManeuvers")}`,  
-            hasEvasion: true 
         };
         
         return this.setupVoidshipTest({itemId : spec?.id, key}, context);
@@ -142,8 +140,7 @@ export class VoidshipSetupTests
             voidshipTest: true, 
             type: "rammingOpposed", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedRamming")}`, 
-            hasEvasion: true,
-            useEvasion: true
+            useEvasionMode: "full", 
         };
         
         return this.setupVoidshipAttackTest({itemId : spec?.id, key}, context);
@@ -281,8 +278,7 @@ export class VoidshipSetupTests
         let context = { 
             voidshipTest: true, 
             type: "scan",
-            hasDetection: true, 
-            useDetection: true, 
+            useDetectionMode: "full", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.ScanAction")}`, 
         };
         
@@ -305,7 +301,7 @@ export class VoidshipSetupTests
         
         this.actor.update({"system.options.minionTargetUuid": targetToken.actor.uuid, "system.actionPoints.value": 0});
         
-        ui.notifications.warn(game.i18n.format("IMPMAL_RTIM.VoidCombat.MinionTarget", { target: targetToken.name }));
+        ui.notifications.info(game.i18n.format("IMPMAL_RTIM.VoidCombat.MinionTarget", { target: targetToken.name }));
     }
     
     static setupBoardingTest(actor, fromAction=false) {
@@ -366,8 +362,7 @@ export class VoidshipSetupTests
         let context = { 
             voidshipTest: true, 
             type: "opposedBoarding",
-            hasTurret: true, 
-            useTurret: true, 
+            useTurretMode: "full", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedBoarding")}`, 
         };
         
@@ -461,9 +456,7 @@ export class VoidshipSetupTests
             weaponType: item.system.weapon.type,
             weaponId: item.id, 
             hasDamage: true,
-            inEvasiveManeuvers: this.actor.system.options.evasiveManeuvers.value,
-            hasDetection: true, 
-            useDetection: true, 
+            useDetectionMode: "full", 
             difficulty: "hard",
             targetCriticalFatigue: true,
             hasWeaponDamaged: item.system.status === "damaged", 
@@ -542,8 +535,7 @@ export class VoidshipSetupTests
         let context = { 
             voidshipTest: true, 
             type: "opposedTorpedoSalvo",
-            hasTurret: true, 
-            useTurret: true, 
+            useTurretMode: "full", 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedTorpedoSalvoTest")}`, 
             targetCriticalFatigue: true,
         };
@@ -638,9 +630,7 @@ export class VoidshipSetupTests
         let context = { 
             voidshipTest: true, 
             type: "opposedAssaultBoarding",
-            hasTurret: true, 
-            useTurret: true, 
-            useHalfTurret: true,
+            useTargetTurretMode: "half",
             targetCriticalFatigue: true,
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedAssaultBoardingTest")}`, 
         };
@@ -736,8 +726,7 @@ export class VoidshipSetupTests
             voidshipTest: true, 
             appendTitle: ` - ${game.i18n.localize("IMPMAL_RTIM.VoidCombat.OpposedBomberRunTest")}`,
             type: "bomberRunOpposed", 
-            hasTurret: true, 
-            useTurret: true, 
+            useTurretMode: "full", 
             targetCriticalFatigue: true,
          };
         
@@ -862,11 +851,8 @@ export class VoidshipSetupTests
             weaponId: item.id, 
             hasDamage: true,
             useHalfRange: useHalfRange,
-            inEvasiveManeuvers: this.actor.system.options.evasiveManeuvers.value,
-            hasDetection: true, 
-            useDetection: true, 
-            hasEnemyEvasion: true, 
-            useEnemyEvasion: true, 
+            useDetectionMode: "full", 
+            useTargetEvasionMode: "full", 
             targetCriticalFatigue: true,
             hasWeaponDamaged: item.system.status === "damaged", 
             useWeaponDamaged: item.system.status === "damaged", 
@@ -892,12 +878,6 @@ export class VoidshipSetupTests
         let context = { 
             voidshipTest: true, 
             type: "skill", 
-            inEvasiveManeuvers: this.actor.system.options.evasiveManeuvers.value,
-            hasDetection: true, 
-            hasEvasion: true, 
-            hasTurret: true, 
-            hasEnemyEvasion: hasTarget, 
-            hasEnemyTurret: hasTarget, 
             targetActorId : targetToken?.actor?.uuid };
         
         return this.setupVoidshipTest({itemId : specId, key : skill}, context);        

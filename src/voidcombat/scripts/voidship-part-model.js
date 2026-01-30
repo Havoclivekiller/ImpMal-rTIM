@@ -255,8 +255,45 @@ export class VoidShipPartModel extends StandardItemModel {
         return entries.join(", ");
     }
 
+    async _preUpdate(changed, options, userId)
+    {
+        await super._preUpdate(changed, options, userId);
+        if (this.partType === "role") 
+        {
+            if (changed.system?.status !== undefined)
+            {
+                if ((changed.system?.status === "destroyed" || changed.system?.status === "damaged") && this.active)
+                {
+                    foundry.utils.setProperty(changed, "system.active", false);
+                }
+                if (changed.system?.status === "default" && !this.active)
+                {
+                    foundry.utils.setProperty(changed, "system.active", true);
+                }
+            }
+        }
+        if (this.partType === "weapon" || this.partType === "component") 
+        {
+            if (changed.system?.status !== undefined)
+            {
+                if (changed.system?.status === "destroyed" && this.active)
+                {
+                    foundry.utils.setProperty(changed, "system.active", false);
+                }
+                if ((changed.system?.status === "default" || changed.system?.status === "damaged") && !this.active)
+                {
+                    foundry.utils.setProperty(changed, "system.active", true);
+                }
+            }
+        }
+    }
+
     async _onUpdate(changed, options, userId) {
         await super._onUpdate(changed, options, userId);
+        if (userId != game.user.id)
+        {
+            return;
+        }
 
         if (this.partType === "hull" && this.parent.parent)
         {
@@ -285,44 +322,6 @@ export class VoidShipPartModel extends StandardItemModel {
                 updateBase(`weaponSlots.${key}`, value);
             });
             await this.parent.parent.update(updates);
-        }
-        if (this.partType === "role") 
-        {
-            if (changed.system?.status !== undefined)
-            {
-                let updateData = {};
-                if (this.status !== "default" && this.active)
-                {
-                    foundry.utils.setProperty(updateData, "system.active", false);
-                }
-                if (this.status === "default" && !this.active)
-                {
-                    foundry.utils.setProperty(updateData, "system.active", true);
-                }
-                if (!foundry.utils.isEmpty(updateData))
-                {
-                    this.parent.update(updateData);
-                }
-            }
-        }
-        if (this.partType === "weapon" || this.partType === "component") 
-        {
-            if (changed.system?.status !== undefined)
-            {
-                let updateData = {};
-                if (this.status === "destroyed" && this.active)
-                {
-                    foundry.utils.setProperty(updateData, "system.active", false);
-                }
-                if (this.status === "default" && !this.active)
-                {
-                    foundry.utils.setProperty(updateData, "system.active", true);
-                }
-                if (!foundry.utils.isEmpty(updateData))
-                {
-                    this.parent.update(updateData);
-                }
-            }
         }
     }
 }

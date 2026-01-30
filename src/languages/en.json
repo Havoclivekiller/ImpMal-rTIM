@@ -93,7 +93,8 @@
   "IMPMAL_RTIM.VoidCombat.DealFatigue": "Deal Fatigue",
   "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon": "Damage one random Component (Role) or Weapon",
   "IMPMAL_RTIM.VoidCombat.EvasiveManeuvers": "Evasive Maneuvers",
-  "IMPMAL_RTIM.VoidCombat.EnemyEvasiveManeuvers": "Enemy Evasive Maneuvers",
+  "IMPMAL_RTIM.VoidCombat.SizeDifference": "Size Difference",
+  "IMPMAL_RTIM.VoidCombat.TargetEvasiveManeuvers": "Target's Evasive Maneuvers",
   "IMPMAL_RTIM.VoidCombat.Ramming": "Ramming!",
   "IMPMAL_RTIM.VoidCombat.SilentRunning": "Silent Running",
   "IMPMAL_RTIM.VoidCombat.Role": "Role",
@@ -144,6 +145,8 @@
   "IMPMAL_RTIM.VoidCombat.Arc": "Arc",
   "IMPMAL_RTIM.VoidCombat.WideArc": "Wide Arc",
   "IMPMAL_RTIM.VoidCombat.Range": "Range",
+  "IMPMAL_RTIM.VoidCombat.Half": "Half",
+  "IMPMAL_RTIM.VoidCombat.Full": "Full",
   "IMPMAL_RTIM.VoidCombat.HalfRange": "Half Range",
   "IMPMAL_RTIM.VoidCombat.Salvos": "Salvos",
   "IMPMAL_RTIM.VoidCombat.Rating": "Rating",
@@ -213,9 +216,9 @@
   "IMPMAL_RTIM.VoidCombat.Shields": "Shields",
   "IMPMAL_RTIM.VoidCombat.Armour": "Armour",
   "IMPMAL_RTIM.VoidCombat.Average": "Average",
-  "IMPMAL_RTIM.VoidCombat.FixAllShields": "Fix all Shields",
-  "IMPMAL_RTIM.VoidCombat.FixBlocks": "Fix Blocks",
-  "IMPMAL_RTIM.VoidCombat.ResetActionCost": "Rest AP Cost",
+  "IMPMAL_RTIM.VoidCombat.ResetShields": "Shields",
+  "IMPMAL_RTIM.VoidCombat.ResetBlocks": "Blocks",
+  "IMPMAL_RTIM.VoidCombat.ResetActionCost": "AP Cost",
   "IMPMAL_RTIM.VoidCombat.GoSilentRunning": "Go Silent Running",
   "IMPMAL_RTIM.VoidCombat.RemoveAllBonuses": "Remove all hidden Bonuses",
   "IMPMAL_RTIM.VoidCombat.Bonuses": "Bonuses",
@@ -237,8 +240,9 @@
   "IMPMAL_RTIM.VoidCombat.AddUsage": "Add Usage",
   "IMPMAL_RTIM.VoidCombat.NextEndTurn": "Next End Turn",
   "IMPMAL_RTIM.VoidCombat.NextTest": "Next Test",
-  "IMPMAL_RTIM.VoidCombat.FixHull": "Fix Hull",
-  "IMPMAL_RTIM.VoidCombat.FixDefyDeath": "Fix Defy Death",
+  "IMPMAL_RTIM.VoidCombat.Reset": "Reset",
+  "IMPMAL_RTIM.VoidCombat.ResetHull": "Hull",
+  "IMPMAL_RTIM.VoidCombat.ResetDefyDeath": "Defy Death",
   "IMPMAL_RTIM.VoidCombat.HullType": "Hull Type",
   "IMPMAL_RTIM.VoidCombat.Hull": "Hull",
   "IMPMAL_RTIM.VoidCombat.HullIntegrity": "Hull Integrity",
@@ -376,10 +380,9 @@
   "IMPMAL_RTIM.VoidCombat.OptionsInfoNoFatigue": "No Fatigue (Take 2 Hull Damage)",
   "IMPMAL_RTIM.VoidCombat.OptionsInfoAutoTests": "AutoTests (SL)",
   "IMPMAL_RTIM.VoidCombat.OptionsInfoFated": "Fated (Fate Points)",
-  "IMPMAL_RTIM.VoidCombat.OptionsInfoEvasiveManeuvers": "Using Evasive Maneuvers (Disadvantage)",
   "IMPMAL_RTIM.VoidCombat.OptionsInfoNoExperiencePoints": "Ship has no Experience Points",
   "IMPMAL_RTIM.VoidCombat.OptionsInfoDefyDeath": "Ship has Defy Death",
-  "IMPMAL_RTIM.VoidCombat.OptionsInfoFireResistance": "Fire Resistance (>100 is immune), how much can have before damage",
+  "IMPMAL_RTIM.VoidCombat.OptionsInfoFireResistance": "Fire Resistance",
   "IMPMAL_RTIM.VoidCombat.OptionsInfoNoActionPoints": "Do not use Action Points",
   "IMPMAL_RTIM.VoidCombat.FatePoints": "Fate Points",
   "IMPMAL_RTIM.VoidCombat.Disabled": "Disabled",
@@ -405,6 +408,7 @@
   "IMPMAL_RTIM.VoidCombat.RestartShieldsActionDifficultyTooHigh": "Restart Shields can't be used no more!",
   "IMPMAL_RTIM.VoidCombat.RoleActionOnCooldown": "Role Action still on Cooldown!",
   "IMPMAL_RTIM.VoidCombat.OnlyGM": "Only for Gamemaster!",
+  "IMPMAL_RTIM.VoidCombat.OnlyOwner": "Only for Owner!",
   "IMPMAL_RTIM.VoidCombat.WeaponIsDeactivated": "Weapon is Deactivated!",
   "IMPMAL_RTIM.VoidCombat.RoleIsDeactivated": "Role is Deactivated!",
   "IMPMAL_RTIM.VoidCombat.RemovePart": "Remove Item",
@@ -442,6 +446,7 @@
     "NonCombatSupplementalComponents": "Non-Combat Supplemental Components. Typically each takes 0.5 point of Space.",
     "ShipType": "Type of the Ship. Only Minion has changes. You can change this in Modifiers tab.",
     "FatePoints": "If a Ship is Fated, it has Fate Points. These can be used for rolls (Advantage, reroll, etc).",
+    "MovementDivider": "Divider for Movement Points. Before a ship can end their turn, they need to spend at least half its Movement Points.",
     "MovementPoints": "Movement Points available to the ship. Left click to add, right click to remove.<br>Movement Points are typically based on the ship's Speed Rating.<br>These are reset at the start of the turn. Remember, the ship must use at least half each turn!",
     "MovementPreview": "Click to see a preview of movement available to the ship. It will disappear after 2 seconds.<br> Preview doesn't take into account Zones that modify movement.",
     "MovementMove": "Click to start movement, then click on the highlighted hexes to move the ship. Movement Points will deducted automatically, then the ship will move.<br> Preview doesn't take into account Zones that modify movement.",
@@ -458,11 +463,12 @@
     "Supplemental": "How many Supplemental Components can the ship have (used as Space in Components tab).",
     "WeaponsConfiguration": "What weapon slots are available for the ship.",
     "CrewExperience": "Crew Experience.<br>You can spend 100xp to buy Crew Traits or multiple of 500xp to increase Crew Rating.",
-    "FixHull": "Restore Hull Integrity to maximum.",
-    "FixDefyDeath": "Resets Defy Death countdown and usage, doesn't reactivate Roles.",
-    "FixAllShields": "Restore all Shields to maximum.",
+    "ResetHull": "Restore Hull Integrity to maximum.",
+    "ResetDefyDeath": "Resets Defy Death countdown and usage, doesn't reactivate Roles.",
+    "ResetShields": "Restore all Shields to maximum.",
+    "FireResistance": "Each point will ignore damage from OnFire! stacks at the start of the turn. If you set it to >100, the ship is considered Immune.",
     "GoSilentRunning": "Add Silent Running effect.",
-    "FixBlocks": "Used to fix sheet blocks for previews.",
+    "ResetBlocks": "Used to fix sheet blocks for previews.",
     "ResetActionCost": "Used to reset 'turn by turn' stacking Action cost.",
     "RoleActive": "When a role is Inactive, it can't be used.",
     "StatusDefault": "Component is operating normally.",
@@ -505,6 +511,26 @@
     "VoidshipCatastrophicTable": {
       "Label": "Voidship Catastrophic Table",
       "Hint": "Requires Reload"
+    },
+    "VoidshipSizeBonus": {
+      "Label": "Size Damage Bonus",
+      "Hint": "Typically, when a target is half the size of the attacker, the attacker adds it's Size to damage calculations.",
+      "Default": "Default",
+      "ShipDiff": "Only Size difference in damage",
+      "ShipDiffAll": "Add Size difference damage to all",
+      "NoDamage": "No additional damage due to Size"
+    },
+    "AutoDefeated": {
+      "Label": "Auto Defeated Status",
+      "Hint": "Automatically add Defeated/Dead status when Catastrophic Damage item is added to the sheet."
+    },
+    "FloorMovementPoints": {
+      "Label": "Use Floor to calculate half Movement Points",
+      "Hint": "Uses Math.floor to calculate half of Movement Points. Otherwise, it will use ceil."
+    },
+    "IncreaseAPCost": {
+      "Label": "Combat Action Cost Increase",
+      "Hint": "Typically, when trying to use the same Action in the same turn, the cost increases by 1, stacking."
     }
   },
   "IMPMAL_RTIM.VoidCombat.AutoCalc": 
@@ -547,7 +573,7 @@
     "MovementSound":
     {
       "Label": "Movement Sound",
-      "Hint": "Path to a movement sound, used when token is moving by button."
+      "Hint": "Path to a movement sound, used when token is moving by button. The token must move at least 3 hexes for the sound to play."
     }
   }
 }

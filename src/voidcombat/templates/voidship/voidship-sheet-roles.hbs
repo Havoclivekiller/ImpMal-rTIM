@@ -15,18 +15,12 @@
                         <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
                     </label>            
                     <div class="ship-role-status">
-                        <input type="radio" id="role-status-default-{{this.id}}" name="system.status.{{this.id}}"
-                            value="default" data-id="{{this.id}}" data-path="system.status"
-                            data-action="editItemProperty" {{checked (eq this.system.status "default")}}>
-                        <label class="item-status" for="role-status-default-{{this.id}}"><i class="fa-solid fa-heart" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.StatusDefault"}}"></i></label>
-                        <input type="radio" id="role-status-damaged-{{this.id}}" name="system.status.{{this.id}}"
-                            value="damaged" data-id="{{this.id}}" data-path="system.status"
-                            data-action="editItemProperty" {{checked (eq this.system.status "damaged")}}>
-                        <label class="item-status" for="role-status-damaged-{{this.id}}" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.StatusDamaged"}}"><i class="fa-solid fa-heart-crack"></i></label>
-                        <input type="radio" id="role-status-destroyed-{{this.id}}" name="system.status.{{this.id}}"
-                            value="destroyed" data-id="{{this.id}}" data-path="system.status"
-                            data-action="editItemProperty" {{checked (eq this.system.status "destroyed")}}>
-                        <label class="item-status" for="role-status-destroyed-{{this.id}}" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.StatusDestroyed"}}"><i class="fa-regular fa-heart"></i></label>
+                        <button class="ship-role-status-button {{#if (eq this.system.status "default")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{this.id}}" value="default" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Default"}}">
+                            <i class="fa-solid fa-heart"></i></button>
+                        <button class="ship-role-status-button {{#if (eq this.system.status "damaged")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{this.id}}" value="damaged" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Damaged"}}">
+                            <i class="fa-solid fa-heart-crack"></i></button>
+                        <button class="ship-role-status-button {{#if (eq this.system.status "destroyed")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{this.id}}" value="destroyed" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Destroyed"}}">
+                            <i class="fa-regular fa-heart"></i></button>
                     </div>
                     <button type="button" class="ship-part-action make-test" data-action="makeTest" data-type="role" data-id="{{this.id}}" title="{{localize "IMPMAL_RTIM.VoidCombat.MakeTest"}}">
                         <i class="fa-solid fa-dice"></i>
@@ -120,7 +114,7 @@
                         <span>{{this.system.role.assignee.name}}</span>
                     </button>
                     {{else}}
-                    <button type="button" class="ship-role-button" data-action="assignRoleMember" data-id="{{id}}">
+                    <button type="button" class="ship-role-button-unassigned" data-action="assignRoleMember" data-id="{{id}}">
                         {{localize "IMPMAL_RTIM.VoidCombat.Unassigned"}}
                     </button>
                     {{/if}}
