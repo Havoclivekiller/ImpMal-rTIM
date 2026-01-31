@@ -25,7 +25,7 @@ For now, this module has (no automation for Homebrew unless stated otherwise):
 - rTIM: The Commorragh Love Potion - Rules for Poisons/Drugs. Just the rules (this was never finished).
 - rTIM: Green iz da Best! - ORKS! ORKS! ORKS! Rules, items and rolltables.
 - rTIM: Power of Change - More Mutations, Malignancies and even Gifts from Gods. Rules, rolltables and items.
-- rTIM: Boogaloo in Space - Fully automated Void Combat. Yes, you heard that right! Go fight in the endless void!
+- rTIM: Boogaloo in Space - Fully automated Void Combat. Yes, you heard that right! Go fight in the endless void! Check out the [Wiki](https://github.com/Havoclivekiller/ImpMal-rTIM/wiki/Boogaloo-in-Space)
  
 ## House Rules
 Were moved to https://github.com/Havoclivekiller/ImpMal-Community
