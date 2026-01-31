@@ -1002,6 +1002,8 @@ export class VoidShipSheet extends IMActorSheet {
     static async _onToggleMovementMove(ev, target) {
         ev.preventDefault();
 
+        if (this.blockMovementCheck) return;
+
         let token = this.actor.token;
         if (!token) {
             token = this.actor.getActiveTokens()[0];

@@ -144,24 +144,6 @@
             </div>
         </div>
         {{/if}}
-        <div class="form-group">
-            <label>{{localize "IMPMAL.Skill"}}</label>
-            <div class="form-fields">
-                <select name="system.role.assignee.skillOne.key">
-                    {{selectOptions (config "skills") selected=system.role.assignee.skillOne.key blank=""}}
-                </select>
-                <input type="text" name="system.role.assignee.skillOne.specialisation" value="{{system.role.assignee.skillOne.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
-            </div>
-        </div>  
-        <div class="form-group">
-            <label>{{localize "IMPMAL.Skill"}}</label>
-            <div class="form-fields">
-                <select name="system.role.assignee.skillTwo.key">
-                    {{selectOptions (config "skills") selected=system.role.assignee.skillTwo.key blank=""}}
-                </select>
-                <input type="text" name="system.role.assignee.skillTwo.specialisation" value="{{system.role.assignee.skillTwo.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
-            </div>
-        </div>  
         
     </fieldset>
 
