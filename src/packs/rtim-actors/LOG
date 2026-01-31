@@ -1,8 +1,24 @@
-2025/04/23-09:37:43.254 2518 Recovering log #232
-2025/04/23-09:37:43.259 2518 Delete type=0 #232
-2025/04/23-09:37:43.259 2518 Delete type=3 #230
-2025/04/23-09:38:39.053 b64 Level-0 table #237: started
-2025/04/23-09:38:39.053 b64 Level-0 table #237: 0 bytes OK
-2025/04/23-09:38:39.057 b64 Delete type=0 #235
-2025/04/23-09:38:39.063 b64 Manual compaction at level-0 from '!actors!c8yov6IoMYLaw5Ea' @ 72057594037927935 : 1 .. '!folders!jLbog1x27SR1dPli' @ 0 : 0; will stop at (end)
-2025/04/23-09:38:39.063 b64 Manual compaction at level-1 from '!actors!c8yov6IoMYLaw5Ea' @ 72057594037927935 : 1 .. '!folders!jLbog1x27SR1dPli' @ 0 : 0; will stop at (end)
+2026/01/30-15:18:29.620 3db8 Recovering log #674
+2026/01/30-15:18:29.621 3db8 Level-0 table #676: started
+2026/01/30-15:18:29.628 3db8 Level-0 table #676: 146230 bytes OK
+2026/01/30-15:18:29.632 3db8 Delete type=0 #674
+2026/01/30-15:18:29.632 3db8 Delete type=3 #673
+2026/01/30-15:18:29.858 9288 Moved #676 to level-1 146230 bytes OK: files[ 0 1 1 0 0 0 0 ]
+2026/01/30-15:55:04.852 9288 Compacting 1@1 + 1@2 files
+2026/01/30-15:55:04.860 9288 Generated table #678@1: 137 keys, 140044 bytes
+2026/01/30-15:55:04.861 9288 Compacted 1@1 + 1@2 files => 140044 bytes
+2026/01/30-15:55:04.861 9288 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/30-15:55:04.862 9288 Delete type=2 #668
+2026/01/30-15:55:04.862 9288 Delete type=2 #676
+2026/01/30-19:39:14.678 9288 Level-0 table #680: started
+2026/01/30-19:39:14.684 9288 Level-0 table #680: 325003 bytes OK
+2026/01/30-19:39:14.685 9288 Delete type=0 #677
+2026/01/30-19:39:14.691 9288 Manual compaction at level-0 from '!actors!2sJkI4fXz2UvdGpB' @ 72057594037927935 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at (end)
+2026/01/30-19:39:14.691 9288 Manual compaction at level-1 from '!actors!2sJkI4fXz2UvdGpB' @ 72057594037927935 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at '!actors.items.effects!vzOq5acEOKJcA0Ji.rxN5cKY8gVAvJMnn.3fXLz37okhTHxTop' @ 444 : 1
+2026/01/30-19:39:14.691 9288 Compacting 1@1 + 1@2 files
+2026/01/30-19:39:14.697 9288 Generated table #681@1: 222 keys, 233451 bytes
+2026/01/30-19:39:14.697 9288 Compacted 1@1 + 1@2 files => 233451 bytes
+2026/01/30-19:39:14.698 9288 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/30-19:39:14.698 9288 Delete type=2 #678
+2026/01/30-19:39:14.698 9288 Delete type=2 #680
+2026/01/30-19:39:14.709 9288 Manual compaction at level-1 from '!actors.items.effects!vzOq5acEOKJcA0Ji.rxN5cKY8gVAvJMnn.3fXLz37okhTHxTop' @ 444 : 1 .. '!folders!xGNW9XujsuAconhh' @ 0 : 0; will stop at (end)

@@ -1,7 +1,7 @@
 {
     "id": "impmal-rtim",
     "title": "ImpMal - rTIM",
-    "version": "1.0.6",
+    "version": "1.1.0",
     "manifest": "REPLACED BY BUILD",
     "url": "REPLACED BY BUILD",
     "download": "REPLACED BY BUILD",
@@ -18,8 +18,14 @@
             }
         ]
     },
-    "esmodules": ["baseBuilding/baseBuilding.js", "settings/settings.js"],
-    "styles": [],
+    "esmodules": [
+        "baseBuilding/baseBuilding.js",
+        "voidcombat/voidcombat.js",
+        "settings/settings.js"
+    ],
+    "styles": [
+        "styles/impmal-rtim.css"
+    ],
     "languages": [
         {
             "lang": "en",
@@ -39,7 +45,9 @@
                 "rtim-journalentries",
                 "rtim-macros",
                 "rtim-actors"
-            ]
+            ],
+            "color": null,
+            "folders": []
         }
     ],
     "packs": [
@@ -52,7 +60,8 @@
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
-            }
+            },
+            "flags": {}
         },
         {
             "name": "rtim-rolltables",
@@ -63,7 +72,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         },
         {
             "name": "rtim-cards",
@@ -74,7 +84,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         },
         {
             "name": "rtim-journalentries",
@@ -85,7 +96,8 @@
             "ownership": {
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
-            }
+            },
+            "flags": {}
         },
         {
             "name": "rtim-macros",
@@ -96,7 +108,8 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         },
         {
             "name": "rtim-actors",
@@ -107,15 +120,25 @@
                 "PLAYER": "OBSERVER",
                 "ASSISTANT": "OWNER"
             },
-            "system": "impmal"
+            "system": "impmal",
+            "flags": {}
         }
     ],
+    "socket": true,
     "documentTypes": {
         "Actor": {
-            "baseBuilding": {}
+            "baseBuilding": {},
+            "voidshipSheet": {}
         },
         "Item": {
-            "module": {}
+            "module": {},
+            "voidshipPart": {}
+        },
+        "ChatMessage": {
+            "voidshipMessage": {},
+            "voidshipOpposedMessage": {}
         }
-    }
+    },
+    "description": "",
+    "flags": {}
 }

@@ -1,0 +1,197 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+    <div class="crew-grid">
+        <div class="details-row hull-stats">
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CrewRating"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.CrewRating"}}</span>
+                <span class="value">{{system.characteristics.crew.total}} ({{system.characteristics.crew.bonus}})</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Hull"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.Hull"}}</span>
+                <span class="value">{{system.hull.value}}/{{system.hull.max}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Size"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.Size"}}</span>
+                <span class="value">{{system.size.value}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.SpeedRating"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.SpeedRating"}}</span>
+                <span class="value">{{system.speedRating.value}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.TurnRating"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.TurnRating"}}</span>
+                <span class="value">{{system.turnRating.value}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.EvasionRating"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.EvasionRating"}}</span>
+                <span class="value">{{system.evasionRating.value}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.DetectionRating"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.DetectionRating"}}</span>
+                <span class="value">{{system.detectionRating.value}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.TurretRating"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.TurretRating"}}</span>
+                <span class="value">{{system.turretRating.value}}</span>
+            </div>
+            <div class="hull-stat" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.Supplemental"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.Supplemental"}}</span>
+                <span class="value">{{system.supplemental.value}}</span>
+            </div>
+            <div class="hull-stat" style="grid-column: span 3" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.WeaponsConfiguration"}}">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.WeaponsConfiguration"}}</span>
+                <span class="value">{{system.displayWeapons}}</span>
+            </div>
+            {{#if hullEffect}}
+            <div class="hull-stat" style="grid-column: span 6">
+                <span class="label">{{localize "IMPMAL_RTIM.VoidCombat.Special"}}</span>
+                <span class="value">{{hullEffect}}</span>
+            </div>
+            {{/if}}
+        </div>
+        <div class="crew-row crew-row-top">
+                <div class="crew-experience-row">
+                    <div class="crew-card-title">{{localize "IMPMAL_RTIM.VoidCombat.CrewRating"}}</div>
+                    <div class="crew-field">
+                        <div class="crew-label">{{localize "IMPMAL_RTIM.VoidCombat.Base"}}</div>
+                        <input type="number" name="system.characteristics.crew.starting" value="{{system.characteristics.crew.starting}}">
+                    </div>
+                    <div class="crew-field">
+                        <div class="crew-label">{{localize "IMPMAL_RTIM.VoidCombat.Total"}}</div>
+                        <div class="crew-static">{{system.characteristics.crew.total}}</div>
+                    </div>
+                    <div class="crew-field">
+                        <div class="crew-label">{{localize "IMPMAL_RTIM.VoidCombat.Bonus"}}</div>
+                        <div class="crew-static">{{system.characteristics.crew.bonus}}</div>
+                    </div>
+                </div>
+            {{#unless system.options.noExperiencePoints}}
+                <div class="crew-experience-row">
+                    <div class="crew-card-title" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CrewExperience"}}">{{localize "IMPMAL_RTIM.VoidCombat.CrewExperience"}}</div>
+                    <div class="crew-field">
+                        <div class="crew-label">{{localize "IMPMAL_RTIM.VoidCombat.Gained"}}</div>
+                        <input type="number" name="system.crewExperience.gained" value="{{system.crewExperience.gained}}">
+                    </div>
+                    <div class="crew-field">
+                        <div class="crew-label">{{localize "IMPMAL_RTIM.VoidCombat.Spent"}}</div>
+                        <input type="number" name="system.crewExperience.spent" value="{{system.crewExperience.spent}}">
+                    </div>
+                    <div class="crew-field">
+                        <div class="crew-label">{{localize "IMPMAL_RTIM.VoidCombat.Remaining"}}</div>
+                        <div class="crew-static">{{system.crewExperience.remaining}}</div>
+                    </div>
+                </div>
+            {{/unless}}
+        </div>
+        {{#if crewTraits}}
+        <div class="crew-row crew-row-bottom">
+            <h5 class="ship-components-subtitle" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CrewTraits"}}">{{localize "IMPMAL_RTIM.VoidCombat.CrewTraits"}}</h5>
+            <div class="voidship-table" style="--voidship-table-cols: 1fr 3fr auto;">
+                <div class="voidship-table-head">
+                    <div class="voidship-table-cell">{{localize "IMPMAL_RTIM.VoidCombat.Name"}}</div>
+                    <div class="voidship-table-cell voidship-table-center">{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</div>
+                    <div style="width:25px"></div>
+                </div>
+                {{#each crewTraits}}
+                <div class="voidship-table-row-border list-row" data-uuid="{{this.uuid}}">
+                    <div class="voidship-table-row">
+                        <div class="voidship-table-cell voidship-text-left">
+                            <div class="item-label-img" data-action="expandRow" data-collapseid="{{this.id}}"><img src="{{this.img}}"><label>{{this.name}}</label></div>
+                        </div>
+                        <div class="voidship-table-cell voidship-text-left">
+                            {{this.system.effect}}
+                        </div>
+                        <div class="voidship-table-cell ship-weapon-actions voidship-table-center">
+                            <div class="list-controls">
+                                <a class="list-control context-menu"><i class="fa-regular fa-ellipsis-vertical"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-content {{#if (lookup ../collapsed this.id)}}collapsed{{else}}expanded{{/if}}"> 
+                        {{#if this.system.notes.player}}
+                        <div class="voidship-table-row effect">
+                            <div class="voidship-table-label">{{localize "IMPMAL.Notes"}}</div>
+                            <div class="voidship-table-cell">{{{this.system.notes.player}}}</div>
+                        </div>
+                        {{/if}}
+                        {{#if (and this.system.notes.gm (isGM))}}
+                        <div class="voidship-table-row effect">
+                            <div class="voidship-table-label">{{localize "IMPMAL.GMNotes"}}</div>
+                            <div class="voidship-table-cell">{{{this.system.notes.gm}}}</div>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{> sheetButtons document=this}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
+    </div>
+    <div class="ship-members">
+        <h5 class="ship-components-subtitle">{{localize "IMPMAL_RTIM.VoidCombat.ShipMembers"}}</h5>
+        {{#each playerCharacters}}
+        <div class="ship-member" data-action="openShipMember" data-uuid="{{uuid}}">
+            <img class="ship-member-portrait" src="{{img}}" alt="{{name}}" width="64" height="64">
+            <div class="ship-member-content">
+                <div class="ship-member-name">{{name}}</div>
+                <div class="ship-member-stats">
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Origin"}}</div>
+                        <div class="ship-member-value">{{origin}}</div>
+                    </div>
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Faction"}}</div>
+                        <div class="ship-member-value">{{faction}}</div>
+                    </div>
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Role"}}</div>
+                        <div class="ship-member-value">{{role}}</div>
+                    </div>
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Species"}}</div>
+                        <div class="ship-member-value">{{species}}</div>
+                    </div>
+                </div>
+            </div>
+            {{#if (or (isGM) (settings "playerExperienceEditing"))}}
+            <button type="button" class="ship-member-remove" data-action="removeShipMember" data-uuid="{{uuid}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemoveCharacter"}}">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+    <div class="ship-members">
+        {{#each alliedCharacters}}
+        <div class="ship-member" data-action="openShipMember" data-uuid="{{uuid}}">
+            <img class="ship-member-portrait" src="{{img}}" alt="{{name}}" width="64" height="64">
+            <div class="ship-member-content">
+                <div class="ship-member-name">{{name}}</div>
+                <div class="ship-member-stats">
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Origin"}}</div>
+                        <div class="ship-member-value">{{origin}}</div>
+                    </div>
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Faction"}}</div>
+                        <div class="ship-member-value">{{faction}}</div>
+                    </div>
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Role"}}</div>
+                        <div class="ship-member-value">{{role}}</div>
+                    </div>
+                    <div class="ship-member-stat">
+                        <div class="ship-member-label">{{localize "IMPMAL.Species"}}</div>
+                        <div class="ship-member-value">{{species}}</div>
+                    </div>
+                </div>
+            </div>
+            {{#if (or (isGM) (settings "playerExperienceEditing"))}}
+            <button type="button" class="ship-member-remove" data-action="removeShipMember" data-uuid="{{uuid}}" title="{{localize "IMPMAL_RTIM.VoidCombat.RemoveCharacter"}}">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+</section>

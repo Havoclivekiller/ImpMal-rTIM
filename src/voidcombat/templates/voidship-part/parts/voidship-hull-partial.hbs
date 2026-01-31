@@ -1,0 +1,190 @@
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.HullType"}}</label>
+        <div class="form-fields">
+            <select name="system.hull.type" {{#if parent.actor}}disabled{{/if}}>
+                {{#select system.hull.type}}
+                    {{#each (config "RTIM.voidship.hullTypes")}}
+                    <option value="{{this.key}}">{{this.display}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Hull"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.value" value="{{system.hull.value}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Size"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.size" value="{{system.hull.size}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.SpeedRating"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.speedRating" value="{{system.hull.speedRating}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.TurnRating"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.turnRating" value="{{system.hull.turnRating}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.EvasionRating"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.evasionRating" value="{{system.hull.evasionRating}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.DetectionRating"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.detectionRating" value="{{system.hull.detectionRating}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.TurretRating"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.turretRating" value="{{system.hull.turretRating}}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Supplemental"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.hull.supplemental" value="{{system.hull.supplemental}}">
+        </div>
+    </div>
+
+    <div class="form-group stacked">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</label>
+        <div class="form-fields">
+            <textarea name="system.effect">{{system.effect}}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group item-traits stacked">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.WeaponsConfiguration"}}</label>
+        <div class="form-fields">
+            <input type="text" name="system.displayWeapons" value="{{system.displayWeapons}}" disabled>
+        </div>
+    </div>
+
+    <fieldset>
+        <legend>{{localize "IMPMAL_RTIM.VoidCombat.WeaponsConfiguration"}}</legend>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Dorsal"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.weapons.dorsal" value="{{system.hull.weapons.dorsal}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Prow"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.weapons.prow" value="{{system.hull.weapons.prow}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.weapons.port" value="{{system.hull.weapons.port}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.weapons.starboard" value="{{system.hull.weapons.starboard}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.weapons.aft" value="{{system.hull.weapons.aft}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Keel"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.weapons.keel" value="{{system.hull.weapons.keel}}">
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>{{localize "IMPMAL_RTIM.VoidCombat.Shields"}}</legend>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Fore"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.shields.fore" value="{{system.hull.shields.fore}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.shields.aft" value="{{system.hull.shields.aft}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.shields.port" value="{{system.hull.shields.port}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.shields.starboard" value="{{system.hull.shields.starboard}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.shields.average" value="{{system.hull.shields.average}}">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>{{localize "IMPMAL_RTIM.VoidCombat.Armour"}}</legend>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Fore"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.armour.fore" value="{{system.hull.armour.fore}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Aft"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.armour.aft" value="{{system.hull.armour.aft}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Port"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.armour.port" value="{{system.hull.armour.port}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Starboard"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.armour.starboard" value="{{system.hull.armour.starboard}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Average"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.hull.armour.average" value="{{system.hull.armour.average}}">
+            </div>
+        </div>
+    </fieldset>

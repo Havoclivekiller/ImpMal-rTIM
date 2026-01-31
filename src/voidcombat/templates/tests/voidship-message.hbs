@@ -1,0 +1,14 @@
+<div class="impmal reward voidship">
+{{#unless failed}}
+    {{#unless (eq targetName "")}}<div class="reason"><label>{{localize "IMPMAL_RTIM.VoidCombat.Target"}}: {{targetName}}</label></div>{{/unless}}
+        {{{innerHtml}}}
+    {{#if hasUsages}}<div style="position: relative;"><div class="reason"><label>{{localize "IMPMAL_RTIM.VoidCombat.Usages"}}: {{usages}}</label>
+    </div>   
+    <button style="position:absolute;right:0;top:50%;transform:translateY(-50%)" data-action="addUsage" type="button" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.AddUsage'}}"><i class="fa-solid fa-plus"></i> </button>
+    </div> 
+    {{/if}}
+    {{#if (gt critical 0)}}{{{criticalBtn}}}{{/if}}
+{{else}}
+    <div class="reason"><label>{{localize "IMPMAL_RTIM.VoidCombat.TestFailed"}}</label></div>
+{{/unless}}
+</div>

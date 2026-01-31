@@ -1,0 +1,167 @@
+
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Status"}}</label>
+        <div class="form-fields">
+            <label class="modifiers-bonus-toggle">
+                <input type="checkbox" data-id="{{system.id}}" data-path="system.active" name="system.active" {{checked system.active}}>
+                <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
+            </label>       
+            <div class="ship-role-status">
+                <button class="ship-role-status-button {{#if (eq this.system.status "default")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="default" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Default"}}">
+                    <i class="fa-solid fa-heart"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "damaged")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="damaged" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Damaged"}}">
+                    <i class="fa-solid fa-heart-crack"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "destroyed")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="destroyed" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Destroyed"}}">
+                    <i class="fa-regular fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Upgraded"}}</label>
+        <div class="form-fields">
+            <input type="checkbox" name="system.role.upgraded" {{checked system.role.upgraded}}>
+        </div>
+    </div>
+
+    <div class="form-group stacked">
+        {{#if system.role.upgraded}}
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.BonusUpgrade"}}</label>
+        <div class="form-fields">
+            <textarea name="system.role.bonusUpgraded">{{system.role.bonusUpgraded}}</textarea>
+        </div>
+        {{else}}
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Bonus"}}</label>
+        <div class="form-fields">
+            <textarea name="system.role.bonus">{{system.role.bonus}}</textarea>
+        </div>
+        {{/if}}
+    </div>
+
+    <fieldset>
+        {{#if system.role.upgraded}}
+        <legend>{{localize "IMPMAL_RTIM.VoidCombat.ActionUpgrade"}}</legend>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Name"}}</label>
+            <div class="form-fields">
+                <input type="text" name="system.role.actionUpgraded.name" value="{{system.role.actionUpgraded.name}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Cooldown"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.role.actionUpgraded.cooldownCount" value="{{system.role.actionUpgraded.cooldownCount}}">
+                /
+                <input type="number" name="system.role.actionUpgraded.cooldown" value="{{system.role.actionUpgraded.cooldown}}">
+            </div>
+        </div>
+        <div class="form-group stacked">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Description"}}</label>
+            <div class="form-fields">
+                <textarea name="system.role.actionUpgraded.description">{{system.role.actionUpgraded.description}}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL.Difficulty"}}</label>
+            <div class="form-fields">
+                <select name="system.role.actionUpgraded.difficulty">
+                    {{#select system.role.actionUpgraded.difficulty}}
+                        <option value=""></option>
+                        {{#each (config "difficulties")}}
+                            <option value="{{@key}}">{{this.name}} ({{numberFormat this.modifier
+                                sign=true}})
+                            </option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL.Skill"}}</label>
+            <div class="form-fields">
+                <select name="system.role.actionUpgraded.skill.key">
+                    {{selectOptions (config "skills") selected=system.role.actionUpgraded.skill.key blank=""}}
+                </select>
+                <input type="text" name="system.role.actionUpgraded.skill.specialisation" value="{{system.role.actionUpgraded.skill.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
+            </div>
+        </div>        
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Opposed"}}</label>
+            <div class="form-fields">
+                <input type="checkbox" name="system.role.actionUpgraded.opposed" {{checked system.role.actionUpgraded.opposed}}>
+            </div>
+        </div>
+        {{else}}
+        <legend>{{localize "IMPMAL_RTIM.VoidCombat.Action"}}</legend>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Name"}}</label>
+            <div class="form-fields">
+                <input type="text" name="system.role.action.name" value="{{system.role.action.name}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Cooldown"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.role.action.cooldownCount" value="{{system.role.action.cooldownCount}}">
+                /
+                <input type="number" name="system.role.action.cooldown" value="{{system.role.action.cooldown}}">
+            </div>
+        </div>
+        <div class="form-group stacked">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Description"}}</label>
+            <div class="form-fields">
+                <textarea name="system.role.action.description">{{system.role.action.description}}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL.Difficulty"}}</label>
+            <div class="form-fields">
+                <select name="system.role.action.difficulty">
+                    {{#select system.role.action.difficulty}}
+                        <option value=""></option>
+                        {{#each (config "difficulties")}}
+                            <option value="{{@key}}">{{this.name}} ({{numberFormat this.modifier
+                                sign=true}})
+                            </option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL.Skill"}}</label>
+            <div class="form-fields">
+                <select name="system.role.action.skill.key">
+                    {{selectOptions (config "skills") selected=system.role.action.skill.key blank=""}}
+                </select>
+                <input type="text" name="system.role.action.skill.specialisation" value="{{system.role.action.skill.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
+            </div>
+        </div>        
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Opposed"}}</label>
+            <div class="form-fields">
+                <input type="checkbox" name="system.role.action.opposed" {{checked system.role.action.opposed}}>
+            </div>
+        </div>
+        {{/if}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL.Skill"}}</label>
+            <div class="form-fields">
+                <select name="system.role.assignee.skillOne.key">
+                    {{selectOptions (config "skills") selected=system.role.assignee.skillOne.key blank=""}}
+                </select>
+                <input type="text" name="system.role.assignee.skillOne.specialisation" value="{{system.role.assignee.skillOne.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
+            </div>
+        </div>  
+        <div class="form-group">
+            <label>{{localize "IMPMAL.Skill"}}</label>
+            <div class="form-fields">
+                <select name="system.role.assignee.skillTwo.key">
+                    {{selectOptions (config "skills") selected=system.role.assignee.skillTwo.key blank=""}}
+                </select>
+                <input type="text" name="system.role.assignee.skillTwo.specialisation" value="{{system.role.assignee.skillTwo.specialisation}}" placeholder="{{localize 'IMPMAL.Specialisation'}}">
+            </div>
+        </div>  
+        
+    </fieldset>
+

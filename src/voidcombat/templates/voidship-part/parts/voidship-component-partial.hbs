@@ -1,0 +1,92 @@
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.ComponentType"}}</label>
+        <div class="form-fields">
+            <select name="system.component.type" {{#if parent.actor}}disabled{{/if}}>
+                {{#select system.component.type}}
+                    {{#each (config "RTIM.voidship.componentTypes")}}
+                    <option value="{{this.key}}">{{this.display}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Status"}}</label>
+        <div class="form-fields">
+            <label class="modifiers-bonus-toggle">
+                <input type="checkbox" data-id="{{system.id}}" data-path="system.active" name="system.active" {{checked system.active}}>
+                <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
+            </label>         
+            <div class="ship-role-status">
+                <button class="ship-role-status-button {{#if (eq this.system.status "default")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="default" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Default"}}">
+                    <i class="fa-solid fa-heart"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "damaged")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="damaged" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Damaged"}}">
+                    <i class="fa-solid fa-heart-crack"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "destroyed")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="destroyed" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Destroyed"}}">
+                    <i class="fa-regular fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+
+    {{#if (eq system.component.type "essential")}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.EssentialType"}}</label>
+            <div class="form-fields">
+                <select name="system.component.subtypeEssential" {{#if parent.actor}}disabled{{/if}}>
+                {{#select system.component.subtypeEssential}}
+                    {{#each (config "RTIM.voidship.componentEssentialTypes")}}
+                    <option value="{{this.key}}">{{this.display}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if (eq system.component.type "supplemental")}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.SupplementalType"}}</label>
+            <div class="form-fields">
+                <select name="system.component.subtypeSupplemental" {{#if parent.actor}}disabled{{/if}}>
+                {{#select system.component.subtypeSupplemental}}
+                    {{#each (config "RTIM.voidship.componentSupplementalTypes")}}
+                    <option value="{{this.key}}">{{this.display}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </div>
+        </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Space"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.space" value="{{system.space}}">
+        </div>
+    </div>
+
+    <div class="form-group stacked">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</label>
+        <div class="form-fields">
+            <textarea name="system.effect">{{system.effect}}</textarea>
+        </div>
+    </div>
+
+    {{#if (and (eq system.component.subtypeEssential "plasmaDrives") (eq system.component.type "essential"))}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.SpeedRating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.component.changes.speedRating" value="{{system.component.changes.speedRating}}">
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if (and (eq system.component.subtypeEssential "augerArrays") (eq system.component.type "essential"))}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.DetectionRating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.component.changes.detectionRating" value="{{system.component.changes.detectionRating}}">
+            </div>
+        </div>
+    {{/if}}

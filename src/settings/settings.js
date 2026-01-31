@@ -1,3 +1,5 @@
+import { registerActiveEffects } from "./active-effects.js";
+
 Hooks.on('init', () => {
     registerSettings();
 
@@ -9,7 +11,9 @@ Hooks.on('init', () => {
         exaltation: "Exaltation",
         revelation: "Revelation",
         cosmeticmutation: "Cosmetic Mutation"
-    });
+    });   
+    
+    registerActiveEffects();
 });
 
 function registerSettings() {

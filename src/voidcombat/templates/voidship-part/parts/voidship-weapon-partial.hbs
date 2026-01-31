@@ -1,0 +1,201 @@
+
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.WeaponType"}}</label>
+        <div class="form-fields">
+            <select name="system.weapon.type" {{#if parent.actor}}disabled{{/if}}>
+                {{#select system.weapon.type}}
+                    {{#each (config "RTIM.voidship.weaponTypes")}}
+                    <option value="{{this.key}}">{{this.display}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Status"}}</label>
+        <div class="form-fields">
+            <label class="modifiers-bonus-toggle">
+                <input type="checkbox" data-id="{{system.id}}" data-path="system.active" name="system.active" {{checked system.active}}>
+                <span>{{#if system.active}}{{localize "IMPMAL_RTIM.VoidCombat.Active"}}{{else}}{{localize "IMPMAL_RTIM.VoidCombat.Deactivated"}}{{/if}}</span>
+            </label>        
+            <div class="ship-role-status">
+                <button class="ship-role-status-button {{#if (eq this.system.status "default")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="default" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Default"}}">
+                    <i class="fa-solid fa-heart"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "damaged")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="damaged" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Damaged"}}">
+                    <i class="fa-solid fa-heart-crack"></i></button>
+                <button class="ship-role-status-button {{#if (eq this.system.status "destroyed")}}selected{{/if}}" type="button" data-path="system.status" data-action="editItemProperty" data-id="{{system.id}}" value="destroyed" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Destroyed"}}">
+                    <i class="fa-regular fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <fieldset>
+    <legend>{{localize "IMPMAL_RTIM.VoidCombat.GeneralStats"}}</legend>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.ArmourMultiplier"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.weapon.armour.mult" value="{{system.weapon.armour.mult}}">
+            <input type="number" name="system.weapon.armour.change" value="{{system.weapon.armour.change}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.ShieldMultiplier"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.weapon.shield.mult" value="{{system.weapon.shield.mult}}">
+            <input type="number" name="system.weapon.shield.change" value="{{system.weapon.shield.change}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.HullMultiplier"}}</label>
+        <div class="form-fields">
+            <input type="number" name="system.weapon.hull.mult" value="{{system.weapon.hull.mult}}">
+            <input type="number" name="system.weapon.hull.change" value="{{system.weapon.hull.change}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Restrictions"}}</label>
+        <div class="form-fields">
+            <input type="text" name="system.restrictions" value="{{system.restrictions}}">
+        </div>
+    </div>
+    <div class="form-group stacked">
+        <label>{{localize "IMPMAL_RTIM.VoidCombat.Effect"}}</label>
+        <div class="form-fields">
+            <textarea name="system.effect">{{system.effect}}</textarea>
+        </div>
+    </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>{{localize "IMPMAL_RTIM.VoidCombat.SpecificStats"}}</legend>
+    {{#if (or (eq system.weapon.type "macro") (eq system.weapon.type "lance") (eq system.weapon.type "nova") (eq system.weapon.type "other"))}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Damage"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.damage" value="{{system.weapon.damage}}">+
+                <input type="text" name="system.weapon.damageFormula" value="{{system.weapon.damageFormula}}">+
+                <select name="system.weapon.damageSL">
+                    {{#select system.weapon.damageSL}}
+                    <option value="true">{{localize "IMPMAL.SL"}}</option>
+                    <option value="false">-</option>
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.WideArc"}}</label>
+            <div class="form-fields">
+                <input type="checkbox" name="system.weapon.wideArc" {{checked system.weapon.wideArc}}>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Range"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.range" value="{{system.weapon.range}}">
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if (eq system.weapon.type "torpedo")}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Salvos"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.torpedo.salvos.value" value="{{system.weapon.torpedo.salvos.value}}">
+                <span>/</span>
+                <input type="number" name="system.weapon.torpedo.salvos.total" value="{{system.weapon.torpedo.salvos.total}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Damage"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.damage" value="{{system.weapon.damage}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Rating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.rating" value="{{system.weapon.rating}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.SpeedRating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.torpedo.speedRating" value="{{system.weapon.torpedo.speedRating}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.TurnRating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.torpedo.turnRating" value="{{system.weapon.torpedo.turnRating}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.ThermalPenetration"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.torpedo.thermal" value="{{system.weapon.torpedo.thermal}}">
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if (eq system.weapon.type "landing")}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.AssaultBoats"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.landing.housing.assault.value" value="{{system.weapon.landing.housing.assault.value}}">
+                <span>/</span>
+                <input type="number" name="system.weapon.landing.housing.assault.total" value="{{system.weapon.landing.housing.assault.total}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Bombers"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.landing.housing.bombers.value" value="{{system.weapon.landing.housing.bombers.value}}">
+                <span>/</span>
+                <input type="number" name="system.weapon.landing.housing.bombers.total" value="{{system.weapon.landing.housing.bombers.total}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Fighters"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.landing.housing.fighters.value" value="{{system.weapon.landing.housing.fighters.value}}">
+                <span>/</span>
+                <input type="number" name="system.weapon.landing.housing.fighters.total" value="{{system.weapon.landing.housing.fighters.total}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Other"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.landing.housing.other.value" value="{{system.weapon.landing.housing.other.value}}">
+                <span>/</span>
+                <input type="number" name="system.weapon.landing.housing.other.total" value="{{system.weapon.landing.housing.other.total}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.BomberDamage"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.damage" value="{{system.weapon.damage}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.SpeedRating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.landing.speedRating" value="{{system.weapon.landing.speedRating}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Rating"}}</label>
+            <div class="form-fields">
+                <input type="number" name="system.weapon.rating" value="{{system.weapon.rating}}">
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if (or (eq system.weapon.type "torpedo") (eq system.weapon.type "landing") (eq system.weapon.type "nova") (eq system.weapon.type "other"))}}
+        <div class="form-group">
+            <label>{{localize "IMPMAL_RTIM.VoidCombat.Reloaded"}}</label>
+            <div class="form-fields">
+                <input type="checkbox" name="system.weapon.reloaded" {{checked system.weapon.reloaded}}>
+            </div>
+        </div>
+    {{/if}}
+    </fieldset>

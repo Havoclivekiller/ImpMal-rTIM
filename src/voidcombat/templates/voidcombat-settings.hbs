@@ -1,0 +1,10 @@
+    <div>
+        {{formGroup schema.fields.randomDamaged name="randomDamaged" value=(lookup settings "randomDamaged") localize=true}}
+        {{formGroup schema.fields.tokenDragMove name="tokenDragMove" value=(lookup settings "tokenDragMove") localize=true}}
+        {{formGroup schema.fields.voidshipSizeBonus name="voidshipSizeBonus" value=(lookup settings "voidshipSizeBonus") blank=false choices=sizeLabels localize=true}}
+        {{formGroup schema.fields.autoDefeated name="autoDefeated" value=(lookup settings "autoDefeated") localize=true}}
+        {{formGroup schema.fields.increaseAPCost name="increaseAPCost" value=(lookup settings "increaseAPCost") localize=true}}
+        {{formGroup schema.fields.floorMovementPoints name="floorMovementPoints" value=(lookup settings "floorMovementPoints") localize=true}}
+        {{formGroup schema.fields.voidshipCriticalTable name="voidshipCriticalTable" value=(lookup settings "voidshipCriticalTable") choices=tables localize=true}}
+        {{formGroup schema.fields.voidshipCatastrophicTable name="voidshipCatastrophicTable" value=(lookup settings "voidshipCatastrophicTable") choices=tables localize=true}}
+    </div>

@@ -1,0 +1,93 @@
+
+{{#if (or (eq type "macro") (eq type "lance") (eq type "other"))}}
+<div class="weapon-slot-actions">
+    <div class="item-label-img"><img src="{{img}}"></div>
+    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="shooting" data-id="{{id}}" data-type="{{type}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ShootingTest"}}">
+        <i class="fa-solid fa-crosshairs"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="weaponCheckRange" data-id="{{id}}" data-half="false"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CheckRangeFull"}}">
+        <i class="fa-solid fa-eye"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="weaponCheckRange" data-id="{{id}}" data-half="true"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CheckRangeHalf"}}">
+        <i class="fa-solid fa-eye-low-vision"></i>
+    </button>
+</div>
+{{/if}}
+{{#if (eq type "nova")}}
+<div class="weapon-slot-actions">
+    <div class="item-label-img"><img src="{{img}}"></div>
+    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="nova" data-id="{{id}}" data-type="{{type}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.NovaCannonTest"}}">
+        <i class="fa-solid fa-meteor"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="weaponCheckRange" data-id="{{id}}" data-half="false"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.CheckRangeFull"}}">
+        <i class="fa-solid fa-eye"></i>
+    </button>
+    <button type="button" class="weapon-slot-action{{#if (or (gt @root.system.actionCosts.reloadNovaCannon.value @root.system.actionPoints.value) reloaded)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadNovaCannon" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadNovaCannon"}}">
+        <i class="fa-solid fa-rotate-right"></i>
+    </button>
+</div>
+{{/if}}
+{{#if (eq type "landing")}}
+<div class="weapon-slot-actions">
+    <div class="item-label-img"><img src="{{img}}"></div>
+    <button type="button" class="weapon-slot-action{{#if (not reloaded)}}-disabled{{/if}}" data-action="useReload" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.LaunchSquadron"}}">
+        <i class="fa-solid fa-shuttle-space"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="dogFight" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.DogfightTest"}}">
+        <i class="fa-solid fa-jet-fighter"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="useReload" data-type="escortVoidship" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.EscortVoidship"}}">
+        <i class="fa-solid fa-person-walking-arrow-loop-left"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="bomberRun" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.BomberRunTest"}}">
+        <i class="fa-solid fa-bomb"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="assaultBoarding" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.AssaultBoardingTest"}}">
+        <i class="fa-solid fa-truck-ramp-box"></i>
+    </button>
+    <button type="button" class="weapon-slot-action{{#if (or (gt @root.system.actionCosts.reloadSquadrons.value @root.system.actionPoints.value) reloaded)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadSquadrons" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadSquadrons"}}">
+        <i class="fa-solid fa-rotate-right"></i>
+    </button>
+</div>
+{{/if}}
+{{#if (eq type "torpedo")}}
+<div class="weapon-slot-actions">
+    <div class="item-label-img"><img src="{{img}}"></div>
+    <button type="button" class="weapon-slot-action{{#if (not reloaded)}}-disabled{{/if}}" data-action="useReload" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.LaunchTorpedoSalvo"}}">
+        <i class="fa-solid fa-shuttle-space"></i>
+    </button>
+    <button type="button" class="weapon-slot-action" data-action="makeTest" data-type="torpedoSalvo" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.TorpedoSalvoTest"}}">
+        <i class="fa-solid fa-location-arrow"></i>
+    </button>
+    <button type="button" class="weapon-slot-action{{#if (or (gt @root.system.actionCosts.reloadTorpedoes.value @root.system.actionPoints.value) reloaded)}}-disabled{{/if}}" data-action="makeTest" data-type="reloadTorpedoes" data-id="{{id}}"
+        data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.Tooltip.ReloadTorpedoes"}}">
+        <i class="fa-solid fa-rotate-right"></i>
+    </button>
+</div>
+{{/if}}
+{{#if damaged}}
+<div class="weapon-slot-damaged">{{localize "IMPMAL_RTIM.VoidCombat.WeaponDamaged"}}</div>
+{{/if}}
+{{#if destroyed}}
+<div class="weapon-slot-destroyed">{{localize "IMPMAL_RTIM.VoidCombat.WeaponDestroyed"}}</div>
+{{/if}}
+{{#unless active}}
+<div class="weapon-slot-damaged">{{localize "IMPMAL_RTIM.VoidCombat.WeaponInactive"}}</div>
+{{/unless}}
+{{#unless reloaded}}
+<div class="weapon-slot-damaged">{{localize "IMPMAL_RTIM.VoidCombat.NeedsReload"}}</div>
+{{/unless}}

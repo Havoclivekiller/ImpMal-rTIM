@@ -1,0 +1,1864 @@
+body.theme-light .voidship{
+    --voidship-border: 1px solid #ada2c485;
+    --voidship-dark: #a8a4c1;
+    --voidship-disabled-grey: #b6b0b4;
+    --voidship-gradientbackground: linear-gradient(180deg, #a39db3 0%, #a7a3b7 100%);
+    --voidship-pip: #362851;
+    --voidship-pip-shadow: 0 0 6px #584a7599;
+    --voidship-halfpip: linear-gradient(90deg, #362851 0%, #362851 50%, #122c2f 50%, #122c2f 100%);
+    --voidship-darkred:#7a0f0f;
+    --voidship-red:#b13232;
+    --voidship-orange: #d6861a;
+    --voidship-darkorange: #b36b00;
+    --voidship-green: #43b96a;
+    --voidship-darkgreen: #1f6f3b;
+    --voidship-button-hover: var(--color-warm-2);
+    --voidship-button-hover-border: var(--color-light-3);
+    --voidship-white: #000000;
+    --voidship-black: #ffffff;
+    --voidship-grey: #515656;
+    
+
+}
+
+body.theme-dark .voidship{
+    --voidship-border: 1px solid #584a7585;
+    --voidship-dark: #1d1c25;
+    --voidship-disabled-grey: #332d31;
+    --voidship-gradientbackground: linear-gradient(180deg, #201c29 0%, #302f35 100%);
+    --voidship-pip: #c5aef3;
+    --voidship-pip-shadow: 0 0 6px #584a7599;
+    --voidship-halfpip: linear-gradient(90deg, #c5aef3 0%, #c5aef3 50%, #122c2f 50%, #122c2f 100%);
+    --voidship-darkred:#7a0f0f;
+    --voidship-red:#b13232;
+    --voidship-orange: #d6861a;
+    --voidship-darkorange: #b36b00;
+    --voidship-green: #43b96a;
+    --voidship-darkgreen: #1f6f3b;
+    --voidship-button-hover: var(--color-warm-2);
+    --voidship-button-hover-border: var(--color-light-3);
+    --voidship-white: #ffffff;
+    --voidship-black: #000000;
+    --voidship-grey: #e6f3f3;
+    
+
+}
+
+body.impmal-theme .voidship
+{
+    --voidship-border: 1px solid #1c7b8485;
+    --voidship-dark: #0f2629;
+    --voidship-disabled-grey: #595959;
+    --voidship-gradientbackground: linear-gradient(180deg, #122b2f 0%, #16373b 100%);
+    --voidship-pip: #47DFFF;
+    --voidship-pip-shadow: 0 0 6px rgba(71, 223, 255, 0.6);
+    --voidship-halfpip: linear-gradient(90deg, #47DFFF 0%, #47DFFF 50%, #122c2f 50%, #122c2f 100%);
+    --voidship-darkred:#7a0f0f;
+    --voidship-red:#b13232;
+    --voidship-orange: #d6861a;
+    --voidship-darkorange: #b36b00;
+    --voidship-green: #43b96a;
+    --voidship-darkgreen: #1f6f3b;
+    --voidship-button-hover: var(--impmal-lightblue);
+    --voidship-button-hover-border: var(--impmal-lightgreen);
+    --voidship-checked-color: var(--impmal-lightgreen);
+    --voidship-disabled-color: var(--impmal-darkgreen);
+}
+
+.voidship textarea{
+    field-sizing: content;
+}
+
+.voidship .ship-members{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.voidship .ship-member{
+    display: grid;
+    grid-template-columns: 56px 1fr 36px;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+}
+
+.voidship .ship-member-portrait{
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    object-fit: cover;
+}
+
+.voidship .ship-member-content{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.voidship .ship-member-name{
+    font-weight: 700;
+    color: var(--voidship-grey);
+    line-height: 1.1;
+}
+
+.voidship .ship-member-stats{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 6px;
+}
+
+.voidship .ship-member-stat{
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+}
+
+.voidship .ship-member-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-member-value{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--voidship-white);
+}
+
+.voidship .ship-member-remove{
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.voidship .ship-member-remove:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
+}
+
+.voidship .crew-grid{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.voidship .crew-experience-row{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+}
+
+.voidship .crew-experience-row .crew-card-title{
+    margin: 0;
+    padding-right: 6px;
+}
+
+.voidship .crew-experience-row .crew-field{
+    min-width: 0;
+}
+
+.voidship .crew-row{
+    display: grid;
+    gap: 8px;
+}
+
+.voidship .crew-row-top{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.voidship .crew-row-bottom{
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.voidship .crew-card{
+    padding: 12px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+}
+
+.voidship .crew-card-title{
+    margin-bottom: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--voidship-grey);
+}
+
+.voidship .crew-field{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width:100%;
+    text-align: center;
+}
+
+.voidship .crew-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .crew-static{
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-grey);
+    font-weight: 600;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voidship .modifiers-grid{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 8px 0 16px;
+}
+
+.voidship .modifiers-card{
+    padding: 12px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+}
+
+.voidship .modifiers-title{
+    margin-bottom: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--voidship-grey);
+}
+
+.voidship .modifiers-fields{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+}
+
+.voidship .modifiers-row-3{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.voidship .modifiers-column{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 8px 0 16px;
+}
+
+.voidship .modifiers-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.voidship .modifiers-buttons > div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.voidship .modifiers-button
+{
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 999px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-grey);
+    font-size: 11px;
+    line-height: 1.1;
+    cursor: pointer;
+}
+
+.voidship .modifiers-button:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
+}
+
+
+.voidship .ship-role-status-button:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
+}
+
+.voidship .modifiers-field{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 4px;
+}
+
+.voidship .modifiers-field input{
+    width: 3rem;
+}
+
+.voidship .modifiers-options{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px 14px;
+}
+
+.voidship .modifiers-checkbox{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--voidship-grey);
+    font-size: 12px;
+}
+
+.voidship .modifiers-checkbox input{
+    margin: 0;
+}
+
+.voidship .modifiers-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .modifiers-bonuses{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.voidship .modifiers-bonuses-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.voidship .modifiers-bonus-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+}
+
+.voidship .modifiers-bonus-field{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.voidship .modifiers-bonus-group{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 120px;
+    flex: 1 1 auto;
+}
+
+.voidship .modifiers-bonus-group-numbers{
+    flex: 0 1 140px;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.voidship .modifiers-bonus-group-flags{
+    flex: 0 1 140px;
+}
+
+.voidship .modifiers-bonus-group-remove{
+    flex: 0 1 240px;
+}
+
+.voidship .modifiers-bonus-group-types{
+    flex: 1 1 200px;
+}
+
+.voidship .modifiers-bonus-group-comment{
+    flex: 1 1 240px;
+}
+
+.voidship .modifiers-bonus-types{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.voidship .modifiers-bonus-type{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.voidship .modifiers-bonus-type input{
+    width: 120px;
+}
+
+.voidship .modifiers-bonus-inline{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.voidship .modifiers-bonus-inline-label{
+    font-size: 11px;
+    color: var(--voidship-grey);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.voidship .modifiers-bonus-inline-label-checked{
+    border-radius: 6px;
+    background: var(--voidship-darkgreen);
+    border-color: var(--voidship-green);
+    color: var(--voidship-grey);
+    border: var(--voidship-border);
+    padding: 3px 6px;
+}
+
+.voidship .modifiers-bonus-turns{
+    width: 72px;
+}
+
+.voidship .modifiers-bonus-toggle-list{
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: 6px 8px;
+}
+
+.voidship .modifiers-bonus-toggle{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    border-color: var(--voidship-green);
+    border: var(--voidship-border);
+    color: var(--voidship-grey);
+    font-size: 11px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.voidship .modifiers-bonus-toggle input{
+    display: none;
+}
+
+.voidship .modifiers-bonus-toggle:has(input:checked){
+    background: rgba(88, 223, 166, 0.2);
+    color: var(--voidship-grey);
+}
+
+.voidship .modifiers-bonus-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voidship .sheet-header .details-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+}
+
+.voidship .sheet-header .hull-meta-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.voidship .sheet-header .hull-meta-left{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.voidship .sheet-header .hull-meta-right{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.voidship .sheet-header .hull-meta-right .voidship-faction-group{
+    width: 200px;
+}
+
+.voidship .sheet-header .voidship-faction-row{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: right;
+}
+
+.voidship .sheet-header .voidship-faction-item{
+    flex: 0 1 auto;
+}
+.voidship .sheet-header .voidship-img
+{
+    margin: auto;
+}
+.voidship .sheet-header .voidship-faction-item a{
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.1;
+    padding: 0;
+    margin: 0;
+    white-space: normal;
+}
+
+.voidship .sheet-header .voidship-faction-clear{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+}
+
+.application.impmal.actor.voidship .voidship-header{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    column-gap: 12px;
+    row-gap: 10px;
+}
+
+.voidship .sheet-header .hull-row{
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.voidship .sheet-header .hull-row .label{
+    border-radius: 6px;
+    padding: 6px 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+}
+
+.voidship .sheet-header .details-row .label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .sheet-header .fate-points-row .value{
+    font-weight: 600;
+    color: var(--voidship-grey);
+}
+
+.voidship .sheet-header .fate-points-row{
+    max-width: 200px;
+}
+
+.voidship .hull-stats{
+    display: grid;
+    grid-template-columns: repeat(6, minmax(120px, 1fr));
+}
+
+.voidship .hull-stat{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 8px;
+    min-height: 60px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    text-align: center;
+}
+
+.voidship .hull-stat .value{
+    font-weight: 600;
+    color: var(--voidship-grey);
+}
+
+
+
+.application.impmal.actor.voidship .voidship-header .points-row{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+    gap: 8px;
+}
+
+.voidship .points-block{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 6px 8px;
+    min-height: 60px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    text-align: center;
+}
+
+.voidship .points-main{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1 1 auto;
+}
+
+.voidship .points-buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+}
+
+.voidship .points-pips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.voidship .points-pips .pip{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+}
+
+.voidship .points-pips .pip-half{
+    background: var(--voidship-halfpip);
+    border-color: var(--voidship-pip);
+    box-shadow: var(--voidship-pip-shadow);
+}
+
+.voidship .points-pips .pip-active{
+    background: var(--voidship-pip);
+    border-color: var(--voidship-pip);
+    box-shadow: var(--voidship-pip-shadow);
+}
+
+.voidship .points-pips .pip-inactive{
+    opacity: 0.6;
+    border-color: var(--voidship-pip);
+    box-shadow: var(--voidship-pip-shadow);
+}
+
+.voidship .points-pips .pip-divider{
+  display: inline-block;
+  margin: -4px -8px 0;
+  width: 24px;
+  height: 19px;
+  background: var(--voidship-pip);          /* the rectangle color */
+  --r: 10px;                 /* radius of the cutout */
+  transform: translateY(2px);
+
+  /* Cut two semicircles out of the left/right sides, centered vertically */
+  -webkit-mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-pip) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-pip) 100%),
+    linear-gradient(var(--voidship-pip) 0 0);
+  -webkit-mask-composite: source-in;
+
+  mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-pip) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-pip) 100%),
+    linear-gradient(var(--voidship-pip) 0 0);
+  mask-composite: intersect;
+}
+
+.voidship .points-pips .pip-divider-inactive{
+  display: inline-block;
+  margin: -4px -8px 0;
+  width: 24px;
+  height: 19px;
+  background: var(--voidship-disabled-grey);          /* the rectangle color */
+  --r: 10px;                 /* radius of the cutout */
+  transform: translateY(2px);
+
+  /* Cut two semicircles out of the left/right sides, centered vertically */
+  -webkit-mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-disabled-grey) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-disabled-grey) 100%),
+    linear-gradient(var(--voidship-disabled-grey) 0 0);
+  -webkit-mask-composite: source-in;
+
+  mask:
+    radial-gradient(circle var(--r) at 0 50%,    transparent 99%, var(--voidship-disabled-grey) 100%),
+    radial-gradient(circle var(--r) at 100% 50%, transparent 99%, var(--voidship-disabled-grey) 100%),
+    linear-gradient(var(--voidship-disabled-grey) 0 0);
+  mask-composite: intersect;
+}
+
+
+.voidship .sheet-header .hull-name{
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--voidship-grey);
+    font-weight: 600;
+    cursor: pointer;
+}
+.voidship .sheet-header .hull-name:hover{
+  animation: textShadow 1.6s infinite;
+}
+
+.voidship .sheet-header .hull-remove{
+    border: 0;
+    background: 0;
+    border-radius: 4px;
+    margin-left: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.voidship .ship-combat-grid{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.voidship .ship-combat-card{
+    padding: 12px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+}
+
+.voidship .ship-weapon-locations-header{
+    display: block;
+    text-align: center;
+}
+
+.voidship .ship-combat-header{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    margin-bottom: 8px;
+    gap: 12px;
+    text-align: center;
+}
+
+.voidship .ship-combat-header .ship-stat-block{
+    align-items: center;
+}
+
+.voidship .ship-combat-header .ship-input-pair{
+    justify-content: center;
+}
+
+.voidship .ship-stat-block{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.voidship .ship-stat-label{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-combat-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+.voidship .ship-combat-actions-group{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 2px;
+}
+
+.voidship .ship-combat-actions-buttons{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+}
+
+.voidship .ship-combat-action{
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-grey);
+    font-size: 0.8rem;
+    line-height: 1.1;
+    cursor: pointer;
+}
+
+.voidship .ship-combat-action-disabled {
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: var(--voidship-border);
+    background: var(--voidship-disabled-grey);
+    font-size: 0.8rem;
+    line-height: 1.1;
+    color: var(--voidship-black);
+    cursor: pointer;
+}
+
+.voidship .ship-combat-action:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
+}
+
+.voidship .ship-diagram{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(3, auto);
+    gap: 2px;
+    align-items: center;
+    justify-items: center;
+    position: relative;
+    min-height: 300px;
+}
+
+.voidship .ship-diagram::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/modules/impmal-rtim/assets/voidcombat/ui/shiphologram.webp");
+    background-size: 50% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotate(180deg);
+    transform-origin: center;
+    z-index: 0;
+}
+
+.voidship .ship-diagram > *{
+    position: relative;
+    z-index: 1;
+}
+
+.voidship .ship-side{
+    padding: 8px;
+    width: 100%;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.voidship .ship-side-front{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.voidship .ship-side-left{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.voidship .ship-side-right{
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.voidship .ship-side-back{
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.voidship .ship-side-average-shields{
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.voidship .ship-side-average-armour{
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.voidship .ship-side-label{
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-input-group{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.voidship .ship-input-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--voidship-grey);
+    text-align: left;
+    flex: 0 0 auto;
+}
+
+.voidship .ship-input-pair{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.voidship .ship-input-pair-space{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;    
+}
+
+.voidship .ship-input-pair > div{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.voidship .ship-input-pair input[type="number"]{
+    width: 44px;
+    min-width: 0;
+}
+
+.voidship .ship-side .ship-input-pair{
+    width: 100%;
+}
+
+.voidship .ship-side .ship-input-pair input[type="number"]{
+    flex: 1 1 0;
+    width: 100%;
+}
+
+.voidship .weapon-location-grid{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.voidship .weapon-location-card{
+    position: relative;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.voidship .weapon-location-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 60px;
+}
+
+.voidship .weapon-location-right{
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+    align-items: center;
+}
+
+.voidship .weapon-slot-row{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.voidship .weapon-slot-actions{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.voidship .weapon-slot-action{
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voidship .weapon-slot-action-disabled{
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-disabled-grey);
+    color: var(--voidship-black);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voidship .weapon-slot-action:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
+}
+
+.voidship .weapon-slot-destroyed{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-red);
+}
+.voidship .weapon-slot-damaged{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-orange);
+}
+
+.voidship .weapon-location-sigil{
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.voidship .weapon-location-sigil::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--weapon-arc);
+    opacity: 0.55;
+}
+
+.voidship .weapon-location-sigil::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -50%) rotate(180deg);
+    background-image: url("/modules/impmal-rtim/assets/voidcombat/ui/shiphologram.webp");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.voidship .weapon-location-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+    margin-bottom: 0;
+}
+
+.voidship .weapon-location-card select{
+    width: 100%;
+}
+
+.voidship .weapon-location-card.arc-prow{
+    --weapon-arc: conic-gradient(from -15deg, rgba(36, 210, 198, 0.8) 0deg 30deg, transparent 30deg 360deg);
+}
+
+.voidship .weapon-location-card.arc-port{
+    --weapon-arc: conic-gradient(from 225deg, rgba(36, 210, 198, 0.8) 0deg 90deg, transparent 90deg 360deg);
+}
+
+.voidship .weapon-location-card.arc-starboard{
+    --weapon-arc: conic-gradient(from 45deg, rgba(36, 210, 198, 0.8) 0deg 90deg, transparent 90deg 360deg);
+}
+
+.voidship .weapon-location-card.arc-aft{
+    --weapon-arc: conic-gradient(from 165deg, rgba(36, 210, 198, 0.8) 0deg 30deg, transparent 30deg 360deg);
+}
+
+.voidship .weapon-location-card.arc-keel{
+    --weapon-arc: conic-gradient(from 0deg, rgba(36, 210, 198, 0.8) 0deg 360deg);
+}
+
+.voidship .weapon-location-card.arc-dorsal{
+    --weapon-arc: conic-gradient(from -135deg, rgba(36, 210, 198, 0.8) 0deg 270deg, transparent 270deg 360deg);
+}
+
+.voidship .voidship-table{
+    --voidship-table-cols: 1fr;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.voidship .voidship-table-head,
+.voidship .voidship-table-row{
+    display: grid;
+    grid-template-columns: var(--voidship-table-cols);
+    gap: 0;
+}
+
+.voidship .voidship-table-row-border{
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+    margin-bottom: 4px;
+}
+
+.voidship .voidship-table-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+    margin-left: 1rem;
+}
+
+.voidship .voidship-table-head{
+    background: var(--voidship-dark);
+}
+.voidship .voidship-table-row:last-child{
+    border-bottom: none;
+}
+
+.voidship .voidship-table-cell{
+    padding: 8px 10px;
+    text-align: left;
+}
+.voidship .voidship-table-center{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.voidship .voidship-text-left{
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.voidship .voidship-table-head .voidship-table-cell{
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--voidship-grey);
+}
+
+.voidship .voidship-table-row.effect{
+    grid-template-columns: 1fr;
+}
+
+.voidship .voidship-table-row.effect .voidship-table-cell{
+    grid-column: 1 / -1;
+}
+
+.voidship .ship-weapon-name{
+    font-weight: 600;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-components-summary{
+    display: inline-block;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+.voidship .ship-components-space{
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.voidship .ship-components-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-components-value{
+    font-weight: 700;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-components-title{
+    margin: 8px 0 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-components-subtitle{
+    margin: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-components-list{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+}
+
+.voidship .ship-component-card{
+    padding: 10px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+}
+
+.voidship .ship-component-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.voidship .ship-component-name{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-weight: 700;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-component-name img{
+    max-height: 32px;
+    max-width: 32px;
+}
+
+.voidship .item-label-img{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.voidship .item-label-img img{
+    max-height: 32px;
+    max-width: 32px;
+}
+
+.voidship .ship-component-meta{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-component-body{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+.voidship .ship-component-block{
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.voidship .ship-component-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-component-text{
+    font-size: 12px;
+    color: var(--voidship-white);
+    word-break: break-word;
+}
+
+.voidship .ship-component-empty{
+    padding: 10px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    color: var(--voidship-grey);
+    text-align: center;
+}
+
+.voidship .ship-role-list{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.voidship .ship-role-card{
+    padding: 12px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-gradientbackground);
+    box-shadow: inset 0 0 0 1px #0c2225;
+}
+
+.voidship .ship-role-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    gap: 8px;
+}
+
+.voidship .ship-role-header-actions{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.voidship .ship-role-header-actions select{
+    flex: 0 1 180px;
+    min-width: 140px;
+}
+
+.voidship .ship-role-name{
+    display: flex;
+    gap: 5px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--voidship-grey);
+    align-items: center;
+}
+
+.voidship .ship-role-name img{
+    max-height: 32px;
+    max-width: 32px;
+}
+
+.voidship .ship-role-tag{
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid gold;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: gold;
+    background: var(--voidship-dark);
+}
+
+.voidship .ship-role-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2px;
+}
+
+.voidship .ship-role-block{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    min-width: 0;
+}
+
+.voidship .ship-role-label{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-text{
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--voidship-white);
+    word-break: break-word;
+}
+
+.voidship .ship-skills-grid{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.voidship .ship-skill-button{
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--voidship-grey);
+    cursor: pointer;
+}
+
+.voidship .ship-skill-button:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-white);
+}
+
+.voidship .ship-role-cooldown{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 26px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.voidship .ship-role-description{
+    margin-top: 4px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+}
+
+.voidship .ship-part-action{
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voidship .ship-part-action:hover{
+    background: var(--voidship-button-hover);
+    color: var(--voidship-grey);
+}
+
+.voidship .make-test{
+    border-radius: 8px;
+    width: 48px;
+}
+
+.voidship .ship-part-action.danger{
+    border-color: var(--voidship-darkred);
+}
+
+.voidship .ship-weapon-actions{
+    white-space: nowrap;
+}
+
+.voidship .ship-fatigued{
+    margin-top: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-orange);
+}
+
+.voidship .ship-crew-riots{
+    margin-top: 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--voidship-red);
+}
+
+@media (max-width: 900px) {
+    .voidship .ship-combat-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+.voidship .criticalButton p > a{
+  gap: .5rem;
+
+  padding: .3rem .5rem;
+  
+  border-color: var(--impmal-lightgreen);
+    border-radius: 0px;
+    background: var(--impmal-darkgreen);
+    box-shadow: 0 0 5px var(--impmal-lightgreen);
+}
+
+.voidship .criticalButton p > a:hover{
+  filter: brightness(0.95);
+}
+
+.voidship .criticalButton p > a:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.voidship .ship-role-button-unassigned {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--impmal-dark);
+}
+
+.voidship .ship-role-button{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: var(--voidship-border);
+    background: var(--impmal-darkgreen);
+}
+
+    .voidship .ship-role-button img{
+        width: 28px;
+        height: 28px;
+        object-fit: cover;
+        border-radius: 4px
+    }
+
+    .voidship .voidshipOption{
+        height: auto;
+    }
+
+    
+.voidship .critical-voidship{
+  text-wrap: nowrap;
+  border: 1px solid #555;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2px 5px;
+  margin: 0px 3px 3px 3px;
+  border-color: var(--impmal-lightgreen);
+  border-radius: 0px;
+  background: var(--impmal-darkgreen);
+  box-shadow: 0 0 5px var(--impmal-lightgreen);
+  text-align: center;
+}
+.voidship .critical-voidship i{
+  margin-right: 3px;
+}
+
+.voidship .self-damage{    
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: stretch;
+	align-content: stretch;
+    width: 100%;
+}
+
+.voidship .nova{
+    padding: 4px;
+}
+.voidship .panel{
+  position: relative;
+  overflow: hidden;
+}
+
+.voidship .panel-content{
+  position: relative;
+  z-index: 1;
+}
+
+.voidship .panel.is-disabled .panel-overlay{
+  opacity: 0.7;
+}
+
+.voidship .panel.is-disabled .panel-content{
+  opacity: 0.6;
+}
+
+.voidship .panel-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+
+  background-image: url("/modules/impmal-rtim/assets/voidcombat/ui/crackedRole.webp");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  pointer-events: none;
+
+  /* makes cracks feel like light/glass */
+  mix-blend-mode: normal;
+}
+
+.voidship .ship-role-status{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.voidship .ship-role-status input{
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.voidship .ship-role-status label{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 22px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-grey);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.voidship .ship-role-status-button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 22px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    border: var(--voidship-border);
+    background: var(--voidship-dark);
+    color: var(--voidship-grey);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.voidship .ship-role-status-button.selected{
+    background: var(--voidship-darkgreen);
+    border-color: var(--voidship-green);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status-button.selected[value="damaged"]{
+    background: var(--voidship-darkorange);
+    border-color: var(--voidship-orange);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status-button.selected[value="destroyed"]{
+    background: var(--voidship-darkred);
+    border-color: var(--voidship-red);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status input:checked + label{
+    background: var(--voidship-darkgreen);
+    border-color: var(--voidship-green);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status input[value="damaged"]:checked + label{
+    background: var(--voidship-darkorange);
+    border-color: var(--voidship-orange);
+    color: var(--voidship-grey);
+}
+
+.voidship .ship-role-status input[value="destroyed"]:checked + label{
+    background: var(--voidship-darkred);
+    border-color: var(--voidship-red);
+    color: var(--voidship-grey);
+}
+.voidship .collapsed{
+  display: none;
+}
+
+.voidship.dialog-voidship .voidship-duel{
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.voidship.dialog-voidship .voidship-duel-side{
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.voidship.dialog-voidship .voidship-duel-side-target{
+  flex-direction: row-reverse;
+}
+
+.voidship.dialog-voidship .voidship-duel-stats{
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.voidship.dialog-voidship .voidship-duel-stat{
+  display: flex;
+  align-items: center;
+}
+
+.voidship.dialog-voidship .voidship-duel-radios{
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  height: 16px;
+  width: 16px;
+  color: var(--voidship-disabled-color);
+}
+
+
+.voidship.dialog-voidship .voidship-duel-choice input{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice i{
+  font-size: 14px;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice input:checked + i{
+  color: var(--voidship-checked-color);
+}
+
+.voidship.dialog-voidship .voidship-duel-choice input:checked ~ i{
+  color: var(--voidship-checked-colorr);
+}
+
+.voidship.dialog-voidship .voidship-duel-choice input:checked{
+  outline: none;
+}
+
+.voidship.dialog-voidship .voidship-duel-choice:has(input:checked){
+  box-shadow: 0 0 8px rgba(71, 223, 255, 0.4);
+  color: var(--voidship-checked-color);
+}
+
+
+.voidship.dialog-voidship .voidship-duel-ship{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.voidship.dialog-voidship .voidship-duel-ship-image{
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(71, 223, 255, 0.35));
+}
+
+.voidship .voidship-condition {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--condition);
+    padding: 5px;
+}
+.voidship .voidship-condition label  {
+    max-width: 100px;
+}
+.voidship .voidship-condition-button  {
+   background: 0;
+   width: 32px;
+   height: 32px;
+   padding: 0;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.voidship .voidship-condition-button img {
+    height: 32px;
+    width: 32px;
+}
