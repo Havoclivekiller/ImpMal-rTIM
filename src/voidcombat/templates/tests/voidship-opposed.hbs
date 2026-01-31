@@ -61,22 +61,22 @@
                 {{#if applied}}
                 <button data-action="applyDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
                 {{else}}
-                    <button data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
+                    <button data-action="applyDamage" type="button" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
                 {{/if}}
             
                 {{#if (and attackerTest.context.targetCriticalFatigue attackerTest.result.critical)}}
                     {{#if appliedFatigue}}
-                    <button data-action="applyFatigue" class="apply-damage applied" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}"><i class="fa-solid fa-check"></i></button>
+                    <button data-action="applyFatigue" type="button" class="apply-damage applied" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}"><i class="fa-solid fa-check"></i></button>
                     {{else}}
-                    <button data-action="applyFatigue" class="apply-damage" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}"><i class="fa-solid fa-face-tired"></i></button>
+                    <button data-action="applyFatigue" type="button" class="apply-damage" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}"><i class="fa-solid fa-face-tired"></i></button>
                     {{/if}}
                 {{/if}}  
                 
                 {{#if (gte result.SL 5)}}
                     {{#if appliedComponent}}
-                    <button data-action="applyDamageComponent" class="apply-damage applied" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon"}}"><i class="fa-solid fa-check"></i></button>
+                    <button data-action="applyDamageComponent" type="button" class="apply-damage applied" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon"}}"><i class="fa-solid fa-check"></i></button>
                     {{else}}
-                    <button data-action="applyDamageComponent" class="apply-damage" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon"}}"><i class="fa-solid fa-virus-slash"></i></button>
+                    <button data-action="applyDamageComponent" type="button" class="apply-damage" data-tooltip="{{localize "IMPMAL_RTIM.VoidCombat.DamageComponentWeapon"}}"><i class="fa-solid fa-virus-slash"></i></button>
                     {{/if}}
                 {{/if}}
             {{/if}}
@@ -150,9 +150,9 @@
                     {{/if}}
                 </div>
                 {{#if applied}}
-                <button data-action="applyDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
+                <button type="button" data-action="applyDamage" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
                 {{else}}
-                <button data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
+                <button type="button" data-action="applyDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL.ApplyDamage'}}"><i class="fa-solid fa-user-minus"></i></button>
                 {{/if}}
             </div>
             <div class="flexrow">
@@ -165,12 +165,12 @@
                 {{#if appliedSelf}}
                 <button data-action="applySelfDamage" type="button" class="apply-damage applied"><i class="fa-solid fa-check"></i></a>
                 {{else}}
-                <button data-action="applySelfDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.ApplySelfDamage'}}"><i class="fa-solid fa-bandage"></i></button>
+                <button type="button" data-action="applySelfDamage" class="apply-damage" data-tooltip="{{localize 'IMPMAL_RTIM.VoidCombat.ApplySelfDamage'}}"><i class="fa-solid fa-bandage"></i></button>
                 {{/if}}
             </div>   
             
             {{#if (and context.targetCriticalFatigue result.critical)}}
-            <button data-action="testButton">{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}</button>
+            <button type="button" data-action="testButton">{{localize "IMPMAL_RTIM.VoidCombat.DealFatigue"}}</button>
             {{/if}}         
         </div>
         {{else}}
