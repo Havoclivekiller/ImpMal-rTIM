@@ -167,4 +167,21 @@ Hooks.on('init', () => {
         
     });
 
+
+    Object.defineProperty(IMPMAL, 'restartShieldsDifficulty', {
+        get() {
+            let difficulties = foundry.utils.deepClone(game.impmal.config.difficulties);
+
+            for (let d in difficulties) {
+                let name = difficulties[d].name;
+                let modifier = difficulties[d].modifier;
+                difficulties[d] = `${name} (${modifier >= 0 ? "+" : ""}${modifier})`;
+            }
+
+            difficulties["disabled"] = game.i18n.localize("IMPMAL_RTIM.VoidCombat.Disabled");
+
+            return difficulties;
+        }
+    });
+
 });

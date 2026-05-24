@@ -65,14 +65,7 @@
             <label>{{localize "IMPMAL.Difficulty"}}</label>
             <div class="form-fields">
                 <select name="system.role.actionUpgraded.difficulty">
-                    {{#select system.role.actionUpgraded.difficulty}}
-                        <option value=""></option>
-                        {{#each (config "difficulties")}}
-                            <option value="{{@key}}">{{this.name}} ({{numberFormat this.modifier
-                                sign=true}})
-                            </option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (config "difficultyChoices") selected=this.system.role.actionUpgraded.difficulty}}
                 </select>
             </div>
         </div>
@@ -117,14 +110,7 @@
             <label>{{localize "IMPMAL.Difficulty"}}</label>
             <div class="form-fields">
                 <select name="system.role.action.difficulty">
-                    {{#select system.role.action.difficulty}}
-                        <option value=""></option>
-                        {{#each (config "difficulties")}}
-                            <option value="{{@key}}">{{this.name}} ({{numberFormat this.modifier
-                                sign=true}})
-                            </option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (config "difficultyChoices") selected=this.system.role.action.difficulty}}
                 </select>
             </div>
         </div>

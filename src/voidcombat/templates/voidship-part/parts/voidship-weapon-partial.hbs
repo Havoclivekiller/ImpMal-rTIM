@@ -2,12 +2,8 @@
     <div class="form-group">
         <label>{{localize "IMPMAL_RTIM.VoidCombat.WeaponType"}}</label>
         <div class="form-fields">
-            <select name="system.weapon.type" {{#if parent.actor}}disabled{{/if}}>
-                {{#select system.weapon.type}}
-                    {{#each (config "RTIM.voidship.weaponTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                    {{/each}}
-                {{/select}}
+            <select name="system.weapon.type" {{#if parent.actor}} disabled{{/if}}>
+                {{selectOptions (config "RTIM.voidship.weaponTypes") selected=this.system.weapon.type labelAttr="display" localize=true}}
             </select>
         </div>
     </div>
@@ -74,12 +70,8 @@
             <div class="form-fields">
                 <input type="number" name="system.weapon.damage" value="{{system.weapon.damage}}">+
                 <input type="text" name="system.weapon.damageFormula" value="{{system.weapon.damageFormula}}">+
-                <select name="system.weapon.damageSL">
-                    {{#select system.weapon.damageSL}}
-                    <option value="true">{{localize "IMPMAL.SL"}}</option>
-                    <option value="false">-</option>
-                    {{/select}}
-                </select>
+                <input type="checkbox" name="system.weapon.damageSL" {{checked system.weapon.damageSL}}>
+                <label class="{{#unless system.weapon.damageSL}}inactive{{/unless}}">+{{localize "IMPMAL.SL"}}</label>
             </div>
         </div>
         <div class="form-group">

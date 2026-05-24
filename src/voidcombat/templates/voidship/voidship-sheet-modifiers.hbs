@@ -4,13 +4,9 @@
         <div class="modifiers-options">
             <div class="modifiers-field">
                 <label class="modifiers-label" style="font-size: 1em;width:100%">{{localize "IMPMAL_RTIM.VoidCombat.ShipType"}}
-                <select name="system.shipType">
-                    {{#select system.shipType}}
-                        {{#each (config "RTIM.voidship.shipTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                        {{/each}}
-                    {{/select}}
-                </select></label>
+                    <select name="system.shipType">
+                        {{selectOptions (config "RTIM.voidship.shipTypes") selected=this.system.shipType labelAttr="display" localize=true}}
+                    </select></label>
             </div>
             <div class="modifiers-buttons">
                 <label class="modifiers-label" style="font-size: 1em;width:100%">{{localize "IMPMAL_RTIM.VoidCombat.Reset"}}</label>
@@ -70,14 +66,7 @@
             <div class="modifiers-field">
                 <label class="modifiers-label" style="font-size: 1em;width:100%">{{localize "IMPMAL_RTIM.VoidCombat.RestartShieldsActionDifficulty"}}              
                 <select name="system.options.restartShieldsDifficulty">
-                    {{#select system.options.restartShieldsDifficulty}}
-                        {{#each (config "difficulties")}}
-                            <option value="{{@key}}">{{this.name}} ({{numberFormat this.modifier
-                                sign=true}})
-                            </option>
-                        {{/each}}
-                        <option value="disabled">{{localize "IMPMAL_RTIM.VoidCombat.Disabled"}}</option>
-                    {{/select}}
+                        {{selectOptions (config "restartShieldsDifficulty") selected=this.system.options.restartShieldsDifficulty }}
                 </select>
                 </label> 
             </div>
