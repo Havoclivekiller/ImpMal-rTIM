@@ -2,12 +2,8 @@
     <div class="form-group">
         <label>{{localize "IMPMAL_RTIM.VoidCombat.HullType"}}</label>
         <div class="form-fields">
-            <select name="system.hull.type" {{#if parent.actor}}disabled{{/if}}>
-                {{#select system.hull.type}}
-                    {{#each (config "RTIM.voidship.hullTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                    {{/each}}
-                {{/select}}
+            <select name="system.hull.type" {{#if parent.actor}} disabled{{/if}}>
+                {{selectOptions (config "RTIM.voidship.hullTypes") selected=this.system.hull.type labelAttr="display" localize=true}}
             </select>
         </div>
     </div>

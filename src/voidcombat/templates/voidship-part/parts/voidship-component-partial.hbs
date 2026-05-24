@@ -2,12 +2,8 @@
     <div class="form-group">
         <label>{{localize "IMPMAL_RTIM.VoidCombat.ComponentType"}}</label>
         <div class="form-fields">
-            <select name="system.component.type" {{#if parent.actor}}disabled{{/if}}>
-                {{#select system.component.type}}
-                    {{#each (config "RTIM.voidship.componentTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                    {{/each}}
-                {{/select}}
+            <select name="system.component.type" {{#if parent.actor}} disabled{{/if}}>
+                {{selectOptions (config "RTIM.voidship.componentTypes") selected=this.system.component.type labelAttr="display" localize=true}}
             </select>
         </div>
     </div>
@@ -33,12 +29,8 @@
         <div class="form-group">
             <label>{{localize "IMPMAL_RTIM.VoidCombat.EssentialType"}}</label>
             <div class="form-fields">
-                <select name="system.component.subtypeEssential" {{#if parent.actor}}disabled{{/if}}>
-                {{#select system.component.subtypeEssential}}
-                    {{#each (config "RTIM.voidship.componentEssentialTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                    {{/each}}
-                {{/select}}
+                <select name="system.component.subtypeEssential" {{#if parent.actor}} disabled{{/if}}>
+                    {{selectOptions (config "RTIM.voidship.componentEssentialTypes") selected=this.system.component.subtypeEssential labelAttr="display" localize=true}}
                 </select>
             </div>
         </div>
@@ -48,12 +40,8 @@
         <div class="form-group">
             <label>{{localize "IMPMAL_RTIM.VoidCombat.SupplementalType"}}</label>
             <div class="form-fields">
-                <select name="system.component.subtypeSupplemental" {{#if parent.actor}}disabled{{/if}}>
-                {{#select system.component.subtypeSupplemental}}
-                    {{#each (config "RTIM.voidship.componentSupplementalTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                    {{/each}}
-                {{/select}}
+                <select name="system.component.subtypeSupplemental" {{#if parent.actor}} disabled{{/if}}>
+                    {{selectOptions (config "RTIM.voidship.componentSupplementalTypes") selected=this.system.component.subtypeSupplemental labelAttr="display" localize=true}}
                 </select>
             </div>
         </div>

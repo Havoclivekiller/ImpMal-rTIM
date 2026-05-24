@@ -2,12 +2,8 @@
     <div class="form-group">
         <label>{{localize "IMPMAL_RTIM.VoidCombat.CriticalType"}}</label>
         <div class="form-fields">
-            <select name="system.critical.type" {{#if parent.actor}}disabled{{/if}}>
-                {{#select system.critical.type}}
-                    {{#each (config "RTIM.voidship.criticalTypes")}}
-                    <option value="{{this.key}}">{{this.display}}</option>
-                    {{/each}}
-                {{/select}}
+            <select name="system.critical.type" {{#if parent.actor}} disabled{{/if}}>
+                {{selectOptions (config "RTIM.voidship.criticalTypes") selected=this.system.critical.type labelAttr="display" localize=true}}
             </select>
         </div>
     </div>

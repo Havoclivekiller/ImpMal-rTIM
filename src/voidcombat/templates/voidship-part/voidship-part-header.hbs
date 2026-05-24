@@ -9,12 +9,8 @@
                     <div class="field" style="grid-column: 5 / span 8"><input type="number" name="system.shipPoints" value="{{system.shipPoints}}"></div>
                 </div>
 
-                <select name="system.partType" data-action="changeShipType" {{#if this.actor}}disabled{{/if}}>
-                    {{#select system.partType}}
-                        {{#each (config "RTIM.voidship.partTypes")}}
-                        <option value="{{this.key}}">{{this.display}}</option>
-                        {{/each}}
-                    {{/select}}
+                <select name="system.partType" data-action="changeShipType" {{#if this.actor}} disabled{{/if}}>
+                    {{selectOptions (config "RTIM.voidship.partTypes") selected=this.system.partType labelAttr="display" localize=true}}
                 </select>
     </div>
 </div>
