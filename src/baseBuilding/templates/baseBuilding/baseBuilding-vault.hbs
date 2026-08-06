@@ -122,6 +122,7 @@
     <div class="sheet-list">
         <div class="list-header row-content">
             <div class="list-name">{{localize "IMPMAL.Protection"}}</div>
+            <div class="small"></div>
             <div class="small">{{localize "IMPMAL.Qty."}}</div>
             <div class="small">{{localize "IMPMAL.Enc."}}</div>
             <div class="tiny"></div>
@@ -134,6 +135,15 @@
                         <img src="{{this.img}}" class="rollable" data-action="useItem">
                         <a class="label" data-action="toggleSummary">{{this.name}}</a>
                     </div>
+
+                    {{#if this.system.uses}}
+                    <div class="small">
+                        {{this.system.uses.value}}
+                        {{#if this.system.uses.max}}
+                        / {{this.system.uses.max}}
+                        {{/if}}
+                    </div>
+                    {{/if}}
 
                     <a class="small prevent-context" data-action="stepProperty"
                        data-path="system.quantity">{{this.system.quantity}}</a>
@@ -156,6 +166,7 @@
     <div class="sheet-list">
         <div class="list-header row-content">
             <div class="list-name">{{localize "IMPMAL.Forcefield"}}</div>
+            <div class="small"></div>
             <div class="small">{{localize "IMPMAL.Qty."}}</div>
             <div class="small">{{localize "IMPMAL.Enc."}}</div>
             <div class="tiny"></div>
@@ -168,6 +179,15 @@
                         <img src="{{this.img}}" class="rollable" data-action="useItem">
                         <a class="label" data-action="toggleSummary">{{this.name}}</a>
                     </div>
+
+                    {{#if this.system.uses}}
+                    <div class="small">
+                        {{this.system.uses.value}}
+                        {{#if this.system.uses.max}}
+                        / {{this.system.uses.max}}
+                        {{/if}}
+                    </div>
+                    {{/if}}
 
                     <a class="small prevent-context" data-action="stepProperty"
                        data-path="system.quantity">{{this.system.quantity}}</a>
@@ -191,6 +211,7 @@
     <div class="sheet-list">
         <div class="list-header row-content">
             <div class="list-name">{{localize "IMPMAL.Equipment"}}</div>
+            <div class="small"></div>
             <div class="small">{{localize "IMPMAL.Qty."}}</div>
             <div class="small">{{localize "IMPMAL.Enc."}}</div>
             <div class="tiny"></div>
@@ -203,6 +224,15 @@
                         <img src="{{this.img}}" class="rollable" data-action="useItem">
                         <a class="label" data-action="toggleSummary">{{this.name}}</a>
                     </div>
+
+                    {{#if this.system.uses}}
+                    <div class="small">
+                        {{this.system.uses.value}}
+                        {{#if this.system.uses.max}}
+                        / {{this.system.uses.max}}
+                        {{/if}}
+                    </div>
+                    {{/if}}
 
                     <a class="small prevent-context" data-action="stepProperty"
                        data-path="system.quantity">{{this.system.quantity}}</a>
@@ -225,6 +255,7 @@
     <div class="sheet-list">
         <div class="list-header row-content">
             <div class="list-name">{{localize "IMPMAL.Augmetic"}}</div>
+            <div class="small"></div>
             <div class="small">{{localize "IMPMAL.Qty."}}</div>
             <div class="small">{{localize "IMPMAL.Enc."}}</div>
             <div class="tiny"></div>
@@ -237,6 +268,15 @@
                         <img src="{{this.img}}" class="rollable" data-action="useItem">
                         <a class="label" data-action="toggleSummary">{{this.name}}</a>
                     </div>
+
+                    {{#if this.system.uses}}
+                    <div class="small">
+                        {{this.system.uses.value}}
+                        {{#if this.system.uses.max}}
+                        / {{this.system.uses.max}}
+                        {{/if}}
+                    </div>
+                    {{/if}}
 
                     <a class="small prevent-context" data-action="stepProperty"
                        data-path="system.quantity">{{this.system.quantity}}</a>
