@@ -10,7 +10,7 @@ export default class BaseBuildingActorSheet extends IMActorSheet {
             scrollable: [''],
             template: 'modules/impmal-rtim/baseBuilding/templates/baseBuilding/baseBuilding-modules.hbs'
         },
-        equipment: { scrollable: [''], template: 'systems/impmal/templates/actor/tabs/actor-equipment.hbs' }
+        equipment: { scrollable: [''], template: 'modules/impmal-rtim/baseBuilding/templates/baseBuilding/baseBuilding-vault.hbs' }
     };
 
     static TABS = {
@@ -22,7 +22,7 @@ export default class BaseBuildingActorSheet extends IMActorSheet {
         equipment: {
             id: 'equipment',
             group: 'primary',
-            label: 'IMPMAL.Details'
+            label: 'impmal-rtim-base-building.base.vault'
         }
     };
 

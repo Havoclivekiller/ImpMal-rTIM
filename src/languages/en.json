@@ -19,7 +19,8 @@
       "totalLevels": "Total Levels",
       "totalLevelsLimit": "Total Levels Limit",
       "availableUpgradePoints": "Available Upgrade Points",
-      "spentUpgradePoints": "Spent Upgrade Points"
+      "spentUpgradePoints": "Spent Upgrade Points",
+      "vault":  "Vault"
     },
     "module": {
       "name": "Base Module",
