@@ -5,6 +5,7 @@
     "./languages/**",
     "./baseBuilding/**",
     "./voidcombat/**",
+    "./squad/**",
     "./settings/**",
     "./styles/**",
     "./module.json",
