@@ -3,7 +3,8 @@
     "Actor": {
       "impmal-rtim": {
         "baseBuilding": "Base",
-        "voidshipSheet": "Ship Sheet"
+        "voidshipSheet": "Ship Sheet",
+        "squad": "Squad"
       }
     },
     "Item": {
@@ -577,5 +578,27 @@
       "Label": "Movement Sound",
       "Hint": "Path to a movement sound, used when token is moving by button. The token must move at least 3 hexes for the sound to play."
     }
-  }
+  },
+
+  "IMPMAL_RTIM.Squad.Name": "Squad",
+  "IMPMAL_RTIM.Squad.Profile": "NPC profile",
+  "IMPMAL_RTIM.Squad.Members": "Members",
+  "IMPMAL_RTIM.Squad.AutoResizeToken": "Auto Resize Token on Squad Size Change",
+  "IMPMAL_RTIM.Squad.AddCritical": "Take 1 Critical Wound",
+  "IMPMAL_RTIM.Squad.BonusSL": "Test SL",
+  "IMPMAL_RTIM.Squad.BonusDamage": "Damage",
+  "IMPMAL_RTIM.Squad.BonusActions": "Actions",
+  "IMPMAL_RTIM.Squad.EffectiveSize": "Squad Size",
+  "IMPMAL_RTIM.Squad.EffectiveResolve": "Squad Resolve",
+  "IMPMAL_RTIM.Squad.DialogSL": "Squad SL",
+  "IMPMAL_RTIM.Squad.DialogDamage": "Squad Damage",
+  "IMPMAL_RTIM.Squad.ConditionDebuff": "Condition Debuff",
+  "IMPMAL_RTIM.Squad.Defeated": "No members remain. Increase the member count to restore this squad.",
+  "IMPMAL_RTIM.Squad.DamageResult": "{wounds} Wounds; {criticals} Critical Wounds; {lost} members lost; {members} members remain.",
+  "IMPMAL_RTIM.Squad.NotOwner": "You must own this squad to replace its NPC profile.",
+  "IMPMAL_RTIM.Squad.InvalidNPC": "Drop a normal NPC with the Troop or Elite role onto the squad.",
+  "IMPMAL_RTIM.Squad.NoSourcePermission": "You need Observer permission on the NPC to copy its profile.",
+  "IMPMAL_RTIM.Squad.ReplaceTitle": "Replace squad profile?",
+  "IMPMAL_RTIM.Squad.ReplaceHint": "Replace this squad's NPC profile, items, effects and prototype token? Its name and member count are kept. Wounds and Critical Wounds reset to zero.",
+  "IMPMAL_RTIM.Squad.Imported": "Copied {name} into the squad."
 }
