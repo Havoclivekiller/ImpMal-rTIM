@@ -1862,3 +1862,183 @@ body.impmal-theme .voidship
     height: 32px;
     width: 32px;
 }
+.impmal-rtim-squad .squad-summary {
+    container: squad-summary / inline-size;
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--color-border-light-primary);
+    border-radius: 6px;
+    background: color-mix(in srgb, currentColor 3%, transparent);
+}
+
+.impmal-rtim-squad .squad-profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.impmal-rtim-squad .squad-profile > strong {
+    font-size: 15px;
+    letter-spacing: 0.03em;
+}
+
+.impmal-rtim-squad .squad-source {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 3px 8px;
+    min-width: 0;
+    text-align: right;
+    font-size: 12px;
+}
+
+.impmal-rtim-squad .squad-source-label {
+    color: var(--color-text-secondary);
+    font-weight: normal;
+}
+
+.impmal-rtim-squad .squad-source-name {
+    overflow-wrap: anywhere;
+    font-weight: 600;
+}
+
+.impmal-rtim-squad .squad-fields {
+    display: grid;
+    grid-template-columns: minmax(130px, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.impmal-rtim-squad .squad-members {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.impmal-rtim-squad .squad-member-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.impmal-rtim-squad .squad-summary .squad-member-input {
+    flex: none;
+    width: 60px;
+    height: 34px;
+    margin: 0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.impmal-rtim-squad .squad-member-limit {
+    color: var(--color-text-secondary);
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.application.impmal.impmal-rtim-squad .squad-summary .squad-critical-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: auto;
+    min-height: 34px;
+    height: auto;
+    margin: 0;
+    padding: 6px 12px;
+    line-height: 1.2;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    background: transparent;
+    border: 1px solid var(--color-border-light-primary);
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+}
+
+.application.impmal.impmal-rtim-squad .squad-summary .squad-critical-button:hover {
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.application.impmal.impmal-rtim-squad .squad-summary .squad-critical-button:focus-visible {
+    outline: 2px solid var(--color-border-highlight);
+    outline-offset: 2px;
+}
+
+.impmal-rtim-squad .squad-critical-button > i {
+    margin: 0;
+}
+
+.impmal-rtim-squad .squad-bonuses {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.5fr) minmax(0, 1fr);
+    margin: 12px 0 0;
+    padding: 12px 0 0;
+    border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+}
+
+.impmal-rtim-squad .squad-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+    padding: 0 6px;
+    border-left: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+    text-align: center;
+}
+
+.impmal-rtim-squad .squad-stat:first-child {
+    border-left: 0;
+}
+
+.impmal-rtim-squad .squad-stat > dt {
+    color: var(--color-text-secondary);
+    font-size: 10px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.impmal-rtim-squad .squad-stat > dd {
+    order: -1;
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+}
+
+.impmal-rtim-squad .squad-stat-size > dd {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+@container squad-summary (max-width: 400px) {
+    .impmal-rtim-squad .squad-fields {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .impmal-rtim-squad .squad-bonuses {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 12px;
+    }
+
+    .impmal-rtim-squad .squad-stat:nth-child(4) {
+        border-left: 0;
+    }
+}
